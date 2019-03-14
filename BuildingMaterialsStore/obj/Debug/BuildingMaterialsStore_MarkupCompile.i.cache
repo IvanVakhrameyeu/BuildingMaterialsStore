@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\vanov\Documents\VSProjects\BuildingMaterialsStore\BuildingMaterialsStore\obj\Debug\
+C:\Users\vanov\Documents\GitHub\BuildingMaterialsStore\BuildingMaterialsStore\obj\Debug\
 BuildingMaterialsStore
 none
 false
 DEBUG;TRACE
-C:\Users\vanov\Documents\VSProjects\BuildingMaterialsStore\BuildingMaterialsStore\App.xaml
-2895210581
+C:\Users\vanov\Documents\GitHub\BuildingMaterialsStore\BuildingMaterialsStore\App.xaml
+41078345432
 
-20467500226
-16-155605414
-Views\MainWindow.xaml;Views\WindowAuthorization.xaml;
+16-1381210815
+162010209299
+Views\MainWindow.xaml;Views\Pages\Client.xaml;Views\Pages\MainStorage.xaml;Views\WindowAuthorization.xaml;
 
-True
+False
 

@@ -3,9 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:BuildingMaterialsStore.ViewModels"    
         xmlns:local="clr-namespace:BuildingMaterialsStore.Views"
         mc:Ignorable="d"
-        Title="WindowAuthorization" Height="160" Width="400">
+        Title="WindowAuthorization" Height="160" Width="410">
+    <Window.DataContext>
+        <vm:MainViewModel />
+    </Window.DataContext>
     <Grid>
         <Label Content="Логин" 
                  Height="30"
@@ -19,27 +23,27 @@
                  VerticalAlignment="Top"
                  Margin="0,50,0,0"/>
         <TextBox Height="30"
-                 Width="200"
+                 Width="195"
                  HorizontalAlignment="Right"
                  VerticalAlignment="Top"
                  Margin="0,0,0,0"/>
         <TextBox Height="30"
-                 Width="200"
+                 Width="195"
                  HorizontalAlignment="Right"
                  VerticalAlignment="Top"
                  Margin="0,50,0,0"/>
-        <Button Command="{Binding SignIn}"
+        <Button Name="SignIn"
                 Content="Войти"
                 Height="30"
                 Width="195"
                 HorizontalAlignment="Left"
-                VerticalAlignment="Bottom"/>
-        <Button Command="{Binding Exit}"
+                VerticalAlignment="Bottom" Click="SignIn_Click"/>
+        <Button Name="Exit"
                 Content="Выйти"
                 Height="30"
                 Width="195"
                 HorizontalAlignment="Right"
-                VerticalAlignment="Bottom"/>
+                VerticalAlignment="Bottom" Click="Exit_Click"/>
 
     </Grid>
 </Window>

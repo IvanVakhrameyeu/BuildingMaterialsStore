@@ -24,10 +24,6 @@ C:\Users\vanov\Documents\VSProjects\BuildingMaterialsStore\BuildingMaterialsStor
 C:\Users\vanov\Documents\GitHub\BuildingMaterialsStore\BuildingMaterialsStore\bin\Debug\BuildingMaterialsStore.exe.config
 C:\Users\vanov\Documents\GitHub\BuildingMaterialsStore\BuildingMaterialsStore\bin\Debug\BuildingMaterialsStore.exe
 C:\Users\vanov\Documents\GitHub\BuildingMaterialsStore\BuildingMaterialsStore\bin\Debug\BuildingMaterialsStore.pdb
-C:\Users\vanov\Documents\GitHub\BuildingMaterialsStore\BuildingMaterialsStore\bin\Debug\EntityFramework.dll
-C:\Users\vanov\Documents\GitHub\BuildingMaterialsStore\BuildingMaterialsStore\bin\Debug\EntityFramework.SqlServer.dll
-C:\Users\vanov\Documents\GitHub\BuildingMaterialsStore\BuildingMaterialsStore\bin\Debug\EntityFramework.xml
-C:\Users\vanov\Documents\GitHub\BuildingMaterialsStore\BuildingMaterialsStore\bin\Debug\EntityFramework.SqlServer.xml
 C:\Users\vanov\Documents\GitHub\BuildingMaterialsStore\BuildingMaterialsStore\obj\Debug\BuildingMaterialsStore.csprojAssemblyReference.cache
 C:\Users\vanov\Documents\GitHub\BuildingMaterialsStore\BuildingMaterialsStore\obj\Debug\Views\MainWindow.g.cs
 C:\Users\vanov\Documents\GitHub\BuildingMaterialsStore\BuildingMaterialsStore\obj\Debug\Views\WindowAuthorization.g.cs
@@ -44,3 +40,11 @@ C:\Users\vanov\Documents\GitHub\BuildingMaterialsStore\BuildingMaterialsStore\ob
 C:\Users\vanov\Documents\GitHub\BuildingMaterialsStore\BuildingMaterialsStore\obj\Debug\BuildingMaterialsStore.csproj.CopyComplete
 C:\Users\vanov\Documents\GitHub\BuildingMaterialsStore\BuildingMaterialsStore\obj\Debug\BuildingMaterialsStore.exe
 C:\Users\vanov\Documents\GitHub\BuildingMaterialsStore\BuildingMaterialsStore\obj\Debug\BuildingMaterialsStore.pdb
+C:\Users\vanov\Documents\GitHub\BuildingMaterialsStore\BuildingMaterialsStore\bin\Debug\MaterialDesignColors.dll
+C:\Users\vanov\Documents\GitHub\BuildingMaterialsStore\BuildingMaterialsStore\bin\Debug\MaterialDesignThemes.Wpf.dll
+C:\Users\vanov\Documents\GitHub\BuildingMaterialsStore\BuildingMaterialsStore\bin\Debug\MaterialDesignThemes.Wpf.pdb
+C:\Users\vanov\Documents\GitHub\BuildingMaterialsStore\BuildingMaterialsStore\bin\Debug\MaterialDesignThemes.Wpf.xml
+C:\Users\vanov\Documents\GitHub\BuildingMaterialsStore\BuildingMaterialsStore\obj\Debug\Views\Pages\MainStorage.g.cs
+C:\Users\vanov\Documents\GitHub\BuildingMaterialsStore\BuildingMaterialsStore\obj\Debug\Views\Pages\MainStorage.baml
+C:\Users\vanov\Documents\GitHub\BuildingMaterialsStore\BuildingMaterialsStore\obj\Debug\Views\Pages\Client.g.cs
+C:\Users\vanov\Documents\GitHub\BuildingMaterialsStore\BuildingMaterialsStore\obj\Debug\Views\Pages\Client.baml
