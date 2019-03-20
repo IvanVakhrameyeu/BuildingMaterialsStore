@@ -77,7 +77,8 @@
                    DockPanel.Dock="Left"
                    >
                 <StackPanel>
-                <ListView VerticalAlignment="Center"                          
+                <ListView VerticalAlignment="Center"  
+                          Margin="0 70 0 0"
                           Background="Black"
                           HorizontalAlignment="Center"
                           SelectedIndex="{Binding SeletedIndex}"
