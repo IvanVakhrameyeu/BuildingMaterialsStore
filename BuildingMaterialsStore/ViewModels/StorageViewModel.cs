@@ -15,7 +15,7 @@ using System.Windows.Input;
 
 namespace BuildingMaterialsStore.ViewModels
 {
-    class StorageViewModel : INotifyPropertyChanged
+    class StorageViewModel : ViewModel
     {
         static String connectionString = @"Data Source=DESKTOP-R50QS4G;Initial Catalog=Storedb;Integrated Security=True";
         SqlConnection con;
@@ -97,9 +97,21 @@ namespace BuildingMaterialsStore.ViewModels
         private void OnAddCommandExecuted(object o)
         {
             Purchases pr = new Purchases();
-            new WindowAddPurchase(SelectItemDataGrid.NameCategory, SelectItemDataGrid.Name, SelectItemDataGrid.Description, SelectItemDataGrid.Price,pr).ShowDialog();
-            if(pr!=null && purchases!=null)
-            purchases.Add(pr);
+            pr.idstorage = SelectItemDataGrid.idStorage;
+            //pr.storage = new Storage();
+            //pr.storage.NameCategory= SelectItemDataGrid.NameCategory;
+            //pr.storage.Name= SelectItemDataGrid.Name;
+            //pr.storage.Price= SelectItemDataGrid.Price;
+            //pr.storage.idStorage= SelectItemDataGrid.idStorage;
+            //pr.storage.UnitName= SelectItemDataGrid.UnitName;
+            //pr.storage.Description= SelectItemDataGrid.Description;
+
+            new WindowAddPurchase(pr, SelectItemDataGrid.NameCategory, SelectItemDataGrid.Name, SelectItemDataGrid.Description, SelectItemDataGrid.Price).ShowDialog();
+            if (pr != null && purchases != null)
+            {
+                purchases.Add(pr);
+                MessageBox.Show(purchases.Count.ToString());
+            }
         }
         private void OnAddPurchaseCommandExecuted(object o)
         {
@@ -143,15 +155,10 @@ namespace BuildingMaterialsStore.ViewModels
             return c.Description.ToLower().Contains(Text.ToLower());
         }
         private void Filter()
-        {
-            // try
-            // {
-            // при выборе из пункта справа, всё крашится
+        {            
             if (SelectItem != null && Text == null) { view.Filter = o => FilterComboBox(o); return; }
             if (Text != null && SelectItem == null) { view.Filter = o => FilterTextBox(o); return; }
             if (Text != null && SelectItem != null) { view.Filter = o => FilterComboBox(o) && FilterTextBox(o); return; }
-            //}
-            // catch { }
         }
         public void FillList()
         {
@@ -293,18 +300,5 @@ namespace BuildingMaterialsStore.ViewModels
                 customers.Add(dr[0].ToString() + " " + dr[1].ToString());
             }
         }
-        #region INotifyPropertyChanged Members
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void OnPropertyChanged(string propertyName)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-        #endregion
-
     }
 }

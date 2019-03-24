@@ -73,15 +73,18 @@
                      Text="{Binding CountPurchases,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"                 
                      Margin="1, 0 ,0, 0"/>
             <Label DockPanel.Dock="Top" Content="Сумма"/>
-            <TextBlock DockPanel.Dock="Top"
-                          Text="{Binding TotalCost}"
+            <Label DockPanel.Dock="Top"
+                    FontSize="15"
+                      Height="30"
+                         Content="{Binding TotalCost,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"                 
+                
                         >                
-            </TextBlock>
+            </Label>
             <Button DockPanel.Dock="Top"
                     VerticalAlignment="Bottom"
                     Height="30"
                     Content="Принять"
-                    Command="{Binding Accept}"
+                    Command="{Binding AddCommand}"
                    />
 
         </DockPanel>

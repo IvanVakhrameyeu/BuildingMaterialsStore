@@ -16,83 +16,39 @@ namespace BuildingMaterialsStore.ViewModels
 {
     class PurchasesViewModel : ViewModel
     {
-        static String connectionString = @"Data Source=DESKTOP-R50QS4G;Initial Catalog=Storedb;Integrated Security=True";
-        SqlConnection con;
-        private SqlCommand com;
-        SqlCommand cmd;
-        SqlDataAdapter adapter;
-        DataSet ds;
+        //static String connectionString = @"Data Source=DESKTOP-R50QS4G;Initial Catalog=Storedb;Integrated Security=True";
+        //SqlConnection con;
+        //private SqlCommand com;
+        //SqlCommand cmd;
+        //SqlDataAdapter adapter;
+        //DataSet ds;
         public ObservableCollection<Purchases> purchases;
         public ICollectionView view { get; set; }
-        private string _nameCategory = null;
-        private string _name = null;
-        private string _unitName = null;
-        private int _countPurchases = 0;
-        private double _price = 0;
-        private double _amountPrice = 0;
-        private string _description = null;
-        private string _text;
-        public string Text // конечная сумма
+        private Purchases _selectItemDataGrid = null;
+        public Purchases SelectItemDataGrid
         {
-            get { return _text; }
+            get { return _selectItemDataGrid; }
             set
             {
-                if (_text == value) return;
-                _text = value;
-                if (_text == null) return;
-                Total();
-            }
-        }
-        public string NameCategory
-        {
-            get { return _nameCategory; }
-            set
-            {
-                _nameCategory = value;
-            }
-        }
-        public string Name
-        {
-            get { return _name; }
-            set
-            {
-                _name = value;
-            }
-        }
-        public string UnitName
-        {
-            get { return _unitName; }
-            set
-            {
-                _unitName = value;
-            }
-        }
-        public int CountPurchases
-        {
-            get { return _countPurchases; }
-            set { _countPurchases = value; }
-        }
-        public double Price
-        {
-            get { return _price; }
-            set { _price = value; }
-        }
-        public double AmountPrice
-        {
-            get { return _amountPrice; }
-            set { _amountPrice = value; }
-        }
-        public string Description
-        {
-            get { return _description; }
-            set { _description = value; }
-        }
+                if (_selectItemDataGrid == value)
+                    return;
 
+                _selectItemDataGrid = value;
+            }
+        }
         public ICommand QuitAplicationCommand { get; }
         public ICommand FinishCommand { get; }
-        public PurchasesViewModel(List<Purchases> purchases)
+        private double _inTotal = 0;
+        public double InTotal
+        {
+            get { return _inTotal; }
+            set { _inTotal = value; }
+        }
+        public PurchasesViewModel(List<Purchases> InputPurchases)
         {
             QuitAplicationCommand = new DelegateCommand(CloseExcute);
+            MessageBox.Show(InputPurchases[0].idstorage.ToString());
+            FillListPurchases(InputPurchases);
             //FinishCommand = new DelegateCommand(CloseExcute);
             //  ShoppingBasket = new DelegateCommand(ChangePage, OnClearFilterCommandCanExecuted);
             //this.purchases = purchases;
@@ -108,32 +64,34 @@ namespace BuildingMaterialsStore.ViewModels
             return true;
             // return !string.IsNullOrEmpty(SelectItem) || !string.IsNullOrEmpty(Text);
         }
-        private void Total()
-        {
-
-
-        }
-        public void FillListPurchases(List<Purchases> purchases2)
+        
+        public void FillListPurchases(List<Purchases> InputPurchases)
         {
             try
             {
-                //foreach (Purchases dr in purchases)
-                //{
-                //    purchases.Add(new Purchases
-                //    {
-                //        Count = dr.Count,
-                //        storage = (new Storage
-                //        {
-                //            idStorage = dr.storage.idStorage,
-                //            NameCategory = dr.storage.NameCategory,
-                //            UnitName = dr.storage.UnitName,
-                //            Name = dr.storage.Name,
-                //            Price = dr.storage.Price,
-                //            Description = dr.storage.Description
-                //        }),
-                //        Total = (dr.Count*dr.storage.Price)
-                //    });
-                //}
+                if (purchases == null)
+                    purchases = new ObservableCollection<Purchases>();
+
+                foreach (Purchases dr in InputPurchases)
+                {
+                    purchases.Add(new Purchases
+                    {
+                        idstorage = dr.idstorage,
+                        Count = dr.Count,
+                        //storage = (new Storage
+                        //{
+                        //    idStorage = dr.storage.idStorage,
+                        //    NameCategory = dr.storage.NameCategory,
+                        //    UnitName = dr.storage.UnitName,
+                        //    Name = dr.storage.Name,
+                        //    Price = dr.storage.Price,
+                        //    Description = dr.storage.Description
+                        //}),
+                        Total = dr.Total// (dr.Count * dr.storage.Price)
+                    });
+                    InTotal += dr.Total;
+                }
+                view = CollectionViewSource.GetDefaultView(purchases);
             }
             catch (Exception ex)
             {
@@ -144,7 +102,7 @@ namespace BuildingMaterialsStore.ViewModels
         {
             foreach (Window item in Application.Current.Windows)
             {
-                if (item.ToString() == "BuildingMaterialsStore.Views.WindowAddPurchase")
+                if (item.ToString() == "BuildingMaterialsStore.Views.WindowCustomerPurchases")
                     item.Close();
             }
         }

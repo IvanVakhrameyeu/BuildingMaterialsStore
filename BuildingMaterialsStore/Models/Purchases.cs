@@ -8,7 +8,7 @@ namespace BuildingMaterialsStore.Models
 {
     public class Purchases
     {
-        public Storage storage { get; set; }
+        public int idstorage { get; set; }
         public int Count { get; set; }
         public double Total { get; set; }
     }

@@ -18,7 +18,10 @@ namespace BuildingMaterialsStore.ViewModels
         private string _name = null;
         private string _description = null;
         private double _price = 0;
-      
+        private double _totalCost = 1;
+        
+
+
         private Purchases purchases;
         public string Name
         {
@@ -37,11 +40,16 @@ namespace BuildingMaterialsStore.ViewModels
         {
             get { return _countPurchases; }
             set {
-
-                if (_countPurchases == value) return;
                 _countPurchases = value;
-             //   if (_countPurchases == null) return;
-                Total();
+                 Total();
+                //Change();
+            }
+        }
+        public double TotalCost
+        {
+            get { return _totalCost; }
+            set {
+                _totalCost = value;
             }
         }
         public double Price
@@ -57,28 +65,32 @@ namespace BuildingMaterialsStore.ViewModels
                 _currentSection = value;
             }
         }
-      
 
+
+        //public delegate void ChangeCountPurchases();
+        //public event ChangeCountPurchases Change;
+
+        public ICollectionView view { get; set; }
         public ICommand QuitAplicationCommand { get; }
         public ICommand AddCommand { get; }
-        
 
-        public AddWindowModel(string section, string name, string description,double price, Purchases purchases)
+        public AddWindowModel(Purchases purchases,string NameCategory, string Name, string Description, double Price)
         {
-            CurrentSection = section;
-            Name = name;
-            Description = description;
-            Price = price;
+            this.CurrentSection = NameCategory;
+            this.Name = Name;
+            this.Description = Description;
+            this.Price = Price;
+            CountPurchases = 1;
             QuitAplicationCommand = new DelegateCommand(CloseExcute);
             AddCommand = new DelegateCommand(Add);
             this.purchases = purchases;
+            OnPropertyChanged("CountPurchases");
+            OnPropertyChanged("TotalCost");
+            //Change += Total;
         }
         private void Total()
         {
-            //if(int.TryParse(CountPurchases,out int n))
-            //{
-
-            //}
+                TotalCost = Convert.ToDouble(CountPurchases) * Price;
         }
         private void Add(object t)
         {

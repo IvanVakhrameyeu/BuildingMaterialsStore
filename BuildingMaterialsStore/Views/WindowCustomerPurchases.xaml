@@ -44,33 +44,18 @@
                 </DataGrid.Effect>
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Width="70">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button 
-                                Background="#FFC200"
-                                BorderBrush="#FFC200"
-                                Command="{Binding  Path=DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
-                              >
-                                    <materialDesign:PackIcon Foreground="White" Kind="Delete"/>
-                                </Button>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
+                       
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="Id"  Visibility="Hidden" Binding="{Binding Path='idStorage'}" IsReadOnly="True"/>
-                    <DataGridTextColumn Header="Категория" Binding="{Binding Path='NameCategory'}" IsReadOnly="True" />
-                    <DataGridTextColumn Header="Название" Binding="{Binding Path='Name'}" IsReadOnly="True" />
-                    <DataGridTextColumn Header="Мера" Binding="{Binding Path='UnitName'}" IsReadOnly="True" />
-                    <DataGridTextColumn Header="Количество" Binding="{Binding Path='CountPurchases'}" IsReadOnly="True" />
-                    <DataGridTextColumn Header="Цена"  Binding="{Binding Path='Price'}" IsReadOnly="True" />
-                    <DataGridTextColumn Header="Сумма"  Binding="{Binding Path='AmountPrice'}" IsReadOnly="True" />
-                    <DataGridTextColumn Header="Описание"  Binding="{Binding Path='Description'}" IsReadOnly="True"/>
-                </DataGrid.Columns>
+                    <DataGridTextColumn Header="айди записи" Visibility="Hidden"  Binding="{Binding Path='idstorage'}" IsReadOnly="True" />
+                    <DataGridTextColumn Header="Количество"  Binding="{Binding Path='Count'}" IsReadOnly="True" />
+                    <DataGridTextColumn Header="Сумма"  Binding="{Binding Path='Total'}" IsReadOnly="True" />
+                 </DataGrid.Columns>
             </DataGrid>
         </DockPanel>
         <DockPanel DockPanel.Dock="Top">
             <TextBlock>
                 <Run Text="Итого"></Run>
-                <Run Text="{Binding Path='Total'}" ></Run>
+                <Run Text="{Binding Path='InTotal'}" ></Run>
             </TextBlock>
         </DockPanel>
     </DockPanel>
