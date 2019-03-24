@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\Users\vanov\Documents\GitHub\BuildingMaterialsStore\BuildingMaterialsStore\App.xaml
-41078345432
+5-1939581722
 
-16-1381210815
+21-408445569
 162010209299
-Views\MainWindow.xaml;Views\Pages\Client.xaml;Views\Pages\MainStorage.xaml;Views\WindowAuthorization.xaml;
+Views\MainWindow.xaml;Views\Pages\MainStorage.xaml;Views\WindowAddPurchase.xaml;Views\WindowAuthorization.xaml;Views\WindowCustomerPurchases.xaml;
 
-False
+True
 

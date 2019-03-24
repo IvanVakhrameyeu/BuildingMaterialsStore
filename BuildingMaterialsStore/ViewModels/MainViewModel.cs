@@ -13,7 +13,7 @@ using System.Windows.Input;
 
 namespace BuildingMaterialsStore.ViewModels
 {
-    class MainViewModel : INotifyPropertyChanged
+    class MainViewModel : ViewModel
     {
         public ICommand QuitAplicationCommand { get; } = new DelegateCommand(p => Application.Current.Shutdown());
         private WindowState _currentSate;
@@ -50,6 +50,7 @@ namespace BuildingMaterialsStore.ViewModels
         private Page HardwareFastenersPage;
         private Page OvenMaterialsPage;
         private Page GardenPage;
+        //private Page CustomerPurchases;
         public MainViewModel()
         {
             MainStoragePage = new MainStorage("Главная");
@@ -61,18 +62,12 @@ namespace BuildingMaterialsStore.ViewModels
             HardwareFastenersPage = new MainStorage("Метизы и крепеж");
             OvenMaterialsPage = new MainStorage("Печные материалы");
             GardenPage = new MainStorage("Сад и огород");
+            //CustomerPurchases = new PurchasesPage("Корзина");
+
             CurrentPage = MainStoragePage;
             WindowStateCommand = new DelegateCommand(OnCurrentWindowState);
         }
-        #region обработчик нажатия кнопок
-        public event PropertyChangedEventHandler PropertyChanged;
-                       
-        public void OnPropertyChanged([CallerMemberName] string prop = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
-        }
-
-        #endregion
+        
 
 
         private int _selectedIndex = -1;

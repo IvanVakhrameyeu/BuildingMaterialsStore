@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BuildingMaterialsStore.Models
 {
-    class Storage
+    public class Storage
     {
         public int idStorage { get; set; }
         public string NameCategory { get; set; }

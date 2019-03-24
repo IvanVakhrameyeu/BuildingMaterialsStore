@@ -46,5 +46,7 @@ C:\Users\vanov\Documents\GitHub\BuildingMaterialsStore\BuildingMaterialsStore\bi
 C:\Users\vanov\Documents\GitHub\BuildingMaterialsStore\BuildingMaterialsStore\bin\Debug\MaterialDesignThemes.Wpf.xml
 C:\Users\vanov\Documents\GitHub\BuildingMaterialsStore\BuildingMaterialsStore\obj\Debug\Views\Pages\MainStorage.g.cs
 C:\Users\vanov\Documents\GitHub\BuildingMaterialsStore\BuildingMaterialsStore\obj\Debug\Views\Pages\MainStorage.baml
-C:\Users\vanov\Documents\GitHub\BuildingMaterialsStore\BuildingMaterialsStore\obj\Debug\Views\Pages\Client.g.cs
-C:\Users\vanov\Documents\GitHub\BuildingMaterialsStore\BuildingMaterialsStore\obj\Debug\Views\Pages\Client.baml
+C:\Users\vanov\Documents\GitHub\BuildingMaterialsStore\BuildingMaterialsStore\obj\Debug\Views\WindowAddPurchase.g.cs
+C:\Users\vanov\Documents\GitHub\BuildingMaterialsStore\BuildingMaterialsStore\obj\Debug\Views\WindowAddPurchase.baml
+C:\Users\vanov\Documents\GitHub\BuildingMaterialsStore\BuildingMaterialsStore\obj\Debug\Views\WindowCustomerPurchases.g.cs
+C:\Users\vanov\Documents\GitHub\BuildingMaterialsStore\BuildingMaterialsStore\obj\Debug\Views\WindowCustomerPurchases.baml

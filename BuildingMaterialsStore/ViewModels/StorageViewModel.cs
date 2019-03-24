@@ -1,4 +1,5 @@
 ﻿using BuildingMaterialsStore.Models;
+using BuildingMaterialsStore.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -15,181 +16,295 @@ using System.Windows.Input;
 namespace BuildingMaterialsStore.ViewModels
 {
     class StorageViewModel : INotifyPropertyChanged
-    {   
-            static String connectionString = @"Data Source=DESKTOP-R50QS4G;Initial Catalog=Storedb;Integrated Security=True";
-            SqlConnection con;
-            SqlCommand cmd;
-            SqlDataAdapter adapter;
-            DataSet ds;
-
-            private string _selectItem = null;
-            private string _text = null;
-            public ICollectionView view { get; set; }
-            public ICommand ClearFilterCommand { get; }
-
-            public ObservableCollection<Storage> storages { get; set; }
-            public StorageViewModel(string section)
+    {
+        static String connectionString = @"Data Source=DESKTOP-R50QS4G;Initial Catalog=Storedb;Integrated Security=True";
+        SqlConnection con;
+        private SqlCommand com;
+        SqlCommand cmd;
+        SqlDataAdapter adapter;
+        DataSet ds;
+        private List<Purchases> purchases = null;
+        private string _section;
+        private string _selectItem = null;
+        private string _selectCustomer = null;
+        private string _text = null;
+        public ICollectionView view { get; set; }
+        public ICommand ClearFilterCommand { get; }
+        public ICommand AddCommand { get; }
+        public ICommand ShoppingBasket { get; }
+        public List<String> names { get; set; }
+        public List<String> customers { get; set; }
+        public ObservableCollection<Storage> storages { get; set; }
+        public string CurrentSection
+        {
+            get { return _section; }
+            set
             {
-                ClearFilterCommand = new DelegateCommand(OnClearFilterCommandExecuted, OnClearFilterCommandCanExecuted);
+                if (_section == null)
+                    _section = value;
+            }
+        }
+        public string SelectItem
+        {
+            get { return _selectItem; }
+            set
+            {
+                if (_selectItem == value) return;
+                _selectItem = value;
+                Filter();
+            }
+        }
+        public string SelectCustomer
+        {
+            get { return _selectCustomer; }
+            set
+            {
+                if (_selectCustomer == value) return;
+                _selectCustomer = value;
+                purchases = new List<Purchases>();
+            }
+        }
+        public string Text
+        {
+            get { return _text; }
+            set
+            {
+                if (_text == value) return;
+                _text = value;
+                if (_text == null) return;
+                Filter();
+            }
+        }
+        private Storage _selectItemDataGrid = null;
+        public Storage SelectItemDataGrid
+        {
+            get { return _selectItemDataGrid; }
+            set
+            {
+                if (_selectItemDataGrid == value)
+                    return;
 
-                switch (section)
+                _selectItemDataGrid = value;
+            }
+        }
+        public StorageViewModel(string section) 
+        {
+            ClearFilterCommand = new DelegateCommand(OnClearFilterCommandExecuted, OnClearFilterCommandCanExecuted);
+            AddCommand = new DelegateCommand(OnAddCommandExecuted);
+            ShoppingBasket = new DelegateCommand(OnAddPurchaseCommandExecuted);
+            asyncMainMethod(section);
+        }
+        private void OnAddCommandExecuted(object o)
+        {
+            Purchases pr = new Purchases();
+            new WindowAddPurchase(SelectItemDataGrid.NameCategory, SelectItemDataGrid.Name, SelectItemDataGrid.Description, SelectItemDataGrid.Price,pr).ShowDialog();
+            if(pr!=null && purchases!=null)
+            purchases.Add(pr);
+        }
+        private void OnAddPurchaseCommandExecuted(object o)
+        {
+            new WindowCustomerPurchases(purchases).ShowDialog();
+        }
+        async private void asyncMainMethod(string section)
+        {
+            CurrentSection = section;
+            switch (section)
+            {
+                case "Главная": FillList(); break;
+                default:
+                    List(section);
+                    break;
+            }
+            await Task.Run(()=> FillListName());
+            await Task.Run(()=> FillListCustomer());
+        }
+        
+        private void OnClearFilterCommandExecuted(object Select)
+        {
+            SelectItem = null;
+            Text = null;
+            OnPropertyChanged("SelectItem");
+            OnPropertyChanged("Text");
+            view.Filter = null;
+        }
+        private bool OnClearFilterCommandCanExecuted(object Select)
+        {
+            return !string.IsNullOrEmpty(SelectItem) || !string.IsNullOrEmpty(Text);
+        }
+
+        private  bool FilterComboBox(object o)
+        {
+            Storage c = o as Storage;
+            return c.Name.ToLowerInvariant().Contains(SelectItem.ToLower());
+        }
+        private bool FilterTextBox(object o)
+        {
+            Storage c = o as Storage;
+            return c.Description.ToLower().Contains(Text.ToLower());
+        }
+        private void Filter()
+        {
+            // try
+            // {
+            // при выборе из пункта справа, всё крашится
+            if (SelectItem != null && Text == null) { view.Filter = o => FilterComboBox(o); return; }
+            if (Text != null && SelectItem == null) { view.Filter = o => FilterTextBox(o); return; }
+            if (Text != null && SelectItem != null) { view.Filter = o => FilterComboBox(o) && FilterTextBox(o); return; }
+            //}
+            // catch { }
+        }
+        public void FillList()
+        {
+            try
+            {
+                con = new SqlConnection(connectionString);
+                con.Open();
+                cmd = new SqlCommand("select Storage.StorageID, Category.NameCategory, Unit.UnitName, Storage.[Name], Storage.[Count], Storage.[Description], Storage.Price from Storage " +
+                    "join Unit on (Storage.UnitID=Unit.UnitID) " +
+                    "join Category on(Storage.CategoryID = Category.CategoryID)", con);
+                adapter = new SqlDataAdapter(cmd);
+                ds = new DataSet();
+                adapter.Fill(ds, "Storedb");
+
+                if (storages == null)
+                    storages = new ObservableCollection<Storage>();
+
+                foreach (DataRow dr in ds.Tables[0].Rows)
                 {
-                    case "Главная": FillList(); break;
-                    //case "Клиент": break;
-                default: List(section); break;
-                }
-            }
-            public string SelectItem
-            {
-                get { return _selectItem; }
-                set
-                {
-                    if (_selectItem == value) return;
-                    _selectItem = value;
-                    Filter();
-                }
-            }
-
-            public string Text
-            {
-                get { return _text; }
-                set
-                {
-                    if (_text == value) return;
-                    _text = value;
-                    if (_text == null) return;
-                    Filter();
-                }
-            }
-            private void OnClearFilterCommandExecuted(object Select)
-            {
-                SelectItem = null;
-                Text = null;
-                OnPropertyChanged("SelectItem");
-                OnPropertyChanged("Text");
-                view.Filter = null;
-            }
-            private bool OnClearFilterCommandCanExecuted(object Select)
-            {
-                return !string.IsNullOrEmpty(SelectItem);
-            }
-
-            private bool FilterComboBox(object o)
-            {
-                Storage c = o as Storage;
-                return c.Name.Contains(SelectItem);
-            }
-            private bool FilterTextBox(object o)
-            {
-                Storage c = o as Storage;
-                return c.NameCategory.Contains(Text);
-            }
-            private void Filter()
-            {
-                if (SelectItem == null) { view.Filter = o => FilterTextBox(o); return; }
-                if (Text == null) { view.Filter = o => FilterComboBox(o); return; }
-                if (Text != null && SelectItem != null) { view.Filter = o => FilterComboBox(o) && FilterTextBox(o); return; }
-            }
-            public void FillList()
-            {
-                    try
+                    storages.Add(new Storage
                     {
-                        con = new SqlConnection(connectionString);
-                        con.Open();
-                        cmd = new SqlCommand("select Storage.StorageID, Category.NameCategory, Unit.UnitName, Storage.[Name], Storage.[Count], Storage.[Description], Storage.Price from Storage " +
-                            "join Unit on (Storage.UnitID=Unit.UnitID) " +
-                            "join Category on(Storage.CategoryID = Category.CategoryID)", con);
-                        adapter = new SqlDataAdapter(cmd);
-                        ds = new DataSet();
-                        adapter.Fill(ds, "Storedb");
-
-                        if (storages == null)
-                        storages = new ObservableCollection<Storage>();
-
-                        foreach (DataRow dr in ds.Tables[0].Rows)
-                        {
-                            storages.Add(new Storage
-                            {
-                                idStorage = Convert.ToInt32(dr[0].ToString()),
-                                NameCategory = dr[1].ToString(),
-                                UnitName = dr[2].ToString(),
-                                Name = dr[3].ToString(),
-                                Count = Convert.ToByte(dr[4].ToString()),
-                                Description = (dr[5].ToString()),
-                                Price = Convert.ToDouble(dr[6].ToString())
-                            });
-                    }
-                        view = CollectionViewSource.GetDefaultView(storages);
-
-                    }
-                    catch (Exception ex)
-                    {
-
-                    }
-                    finally
-                    {
-                        ds = null;
-                        adapter.Dispose();
-                        con.Close();
-                        con.Dispose();
-                    }
+                        idStorage = Convert.ToInt32(dr[0].ToString()),
+                        NameCategory = dr[1].ToString(),
+                        UnitName = dr[2].ToString(),
+                        Name = dr[3].ToString(),
+                        Count = Convert.ToByte(dr[4].ToString()),
+                        Description = (dr[5].ToString()),
+                        Price = Convert.ToDouble(dr[6].ToString())
+                    });
+                }
+                view = CollectionViewSource.GetDefaultView(storages);
             }
-            public void List(string Category)
+            catch (Exception ex)
             {
-                try
+
+            }
+            finally
+            {
+                ds = null;
+                adapter.Dispose();
+                con.Close();
+                con.Dispose();
+            }
+        }
+        public void List(string Category)
+        {
+            try
+            {
+                con = new SqlConnection(connectionString);
+                con.Open();
+                cmd = new SqlCommand("select Storage.StorageID, Category.NameCategory, Unit.UnitName, Storage.[Name], Storage.[Count], Storage.[Description], Storage.Price from Storage " +
+                    "join Unit on (Storage.UnitID=Unit.UnitID) " +
+                    "join Category on(Storage.CategoryID = Category.CategoryID)" +
+                    "where Category.NameCategory='" + Category + "'", con);
+                adapter = new SqlDataAdapter(cmd);
+                ds = new DataSet();
+                adapter.Fill(ds, "Storedb");
+
+                if (storages == null)
+                    storages = new ObservableCollection<Storage>();
+
+                foreach (DataRow dr in ds.Tables[0].Rows)
                 {
-                    con = new SqlConnection(connectionString);
-                    con.Open();
-                    cmd = new SqlCommand("select Storage.StorageID, Category.NameCategory, Unit.UnitName, Storage.[Name], Storage.[Count], Storage.[Description], Storage.Price from Storage " +
-                        "join Unit on (Storage.UnitID=Unit.UnitID) " +
-                        "join Category on(Storage.CategoryID = Category.CategoryID)" +
-                        "where Category.NameCategory='"+ Category +"'", con);
-                    adapter = new SqlDataAdapter(cmd);
-                    ds = new DataSet();
-                    adapter.Fill(ds, "Storedb");
-
-                    if (storages == null)
-                        storages = new ObservableCollection<Storage>();
-
-                    foreach (DataRow dr in ds.Tables[0].Rows)
+                    storages.Add(new Storage
                     {
-                        storages.Add(new Storage
-                        {
-                            idStorage = Convert.ToInt32(dr[0].ToString()),
-                            NameCategory = dr[1].ToString(),
-                            UnitName = dr[2].ToString(),
-                            Name = dr[3].ToString(),
-                            Count = Convert.ToByte(dr[4].ToString()),
-                            Description = (dr[5].ToString()),
-                            Price = Convert.ToDouble(dr[6].ToString())
-                        });
+                        idStorage = Convert.ToInt32(dr[0].ToString()),
+                        NameCategory = dr[1].ToString(),
+                        UnitName = dr[2].ToString(),
+                        Name = dr[3].ToString(),
+                        Count = Convert.ToByte(dr[4].ToString()),
+                        Description = (dr[5].ToString()),
+                        Price = Convert.ToDouble(dr[6].ToString())
+                    });
+                }
+                view = CollectionViewSource.GetDefaultView(storages);
+            }
+            catch (Exception ex)
+            {
+
+            }
+            finally
+            {
+                ds = null;
+                adapter.Dispose();
+                con.Close();
+                con.Dispose();
+            }
+        }
+        private void FillListName()
+        {
+            DataTable dt = new DataTable();
+            using (con = new SqlConnection(connectionString))
+            {
+                con.Open();
+                if (CurrentSection != "Главная")
+                {
+                    using (com = new SqlCommand("select distinct [Name] from Storage  where CategoryID = (select CategoryID from Category where NameCategory = '" + CurrentSection + "')", con))
+                    {
+                        dt.Load(com.ExecuteReader());
                     }
                 }
-                catch (Exception ex)
+                else
                 {
-
+                    using (com = new SqlCommand("select distinct [Name] from Storage", con))
+                    {
+                        dt.Load(com.ExecuteReader());
+                    }
                 }
-                finally
-                {
-                    ds = null;
-                    adapter.Dispose();
-                    con.Close();
-                    con.Dispose();
-                }
+                con.Close();
             }
 
+            if (names == null)
+                names = new List<String>();
+
+            foreach (DataRow dr in dt.Rows)
+            {
+                names.Add(dr[0].ToString());
+            }
+        }
+        private void FillListCustomer()
+        {
+            DataTable dt = new DataTable();
+            using (con = new SqlConnection(connectionString))
+            {
+                con.Open();
+                
+                    using (com = new SqlCommand("select distinct CustLastName, CustFirstName from Customer", con))
+                    {
+                        dt.Load(com.ExecuteReader());
+                    }
+                con.Close();
+            }
+
+            if (customers == null)
+                customers = new List<String>();
+
+            foreach (DataRow dr in dt.Rows)
+            {
+                customers.Add(dr[0].ToString() + " " + dr[1].ToString());
+            }
+        }
         #region INotifyPropertyChanged Members
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-            private void OnPropertyChanged(string propertyName)
+        private void OnPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
             {
-                if (PropertyChanged != null)
-                {
-                    PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-                }
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
-            #endregion
-     
-}
+        }
+        #endregion
+
+    }
 }

@@ -60,30 +60,29 @@ CategoryID  int not null identity primary key,
 NameCategory varchar(20) not null,
 )
 
-select Storage.StorageID, Category.NameCategory, Unit.UnitName, Storage.[Name], 
-Storage.[Count], Storage.[Description], Storage.Price from Storage
-                        join Unit on (Storage.UnitID=Unit.UnitID)
-						join Category on (Storage.CategoryID=Category.CategoryID)
 ----------— À¿ƒ-----------
 create table Storage
 (
 StorageID  int not null identity primary key,
 CategoryID int null foreign key references Category(CategoryID),
 UnitID int null foreign key references Unit(UnitID),
-[Name] varchar(20) not null,
+[Name] varchar(100) not null,
 [Count] tinyint not null,
-[Description] varchar(200) not null,
+[Description] varchar(350) not null,
 Price float not null,
 )
 ----------Ã¿√¿«»Õ-----------
 create table Store
 (
-StorageID int not null identity primary key,
+StoreID int not null identity primary key,
 EmployeeID int null foreign key references Employee(EmployeeID),
 CustomerID int null foreign key references Customer(CustomerID),
+StorageID int null foreign key references Storage(StorageID),
 [Count] tinyint not null,
 TotalPrice float not null,
 )
+----------------œŒ ”œ »---------
+
 ----------------- ------------------------
 insert Access(AccessName) 
 values
