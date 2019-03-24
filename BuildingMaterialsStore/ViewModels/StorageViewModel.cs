@@ -98,13 +98,6 @@ namespace BuildingMaterialsStore.ViewModels
         {
             Purchases pr = new Purchases();
             pr.idstorage = SelectItemDataGrid.idStorage;
-            //pr.storage = new Storage();
-            //pr.storage.NameCategory= SelectItemDataGrid.NameCategory;
-            //pr.storage.Name= SelectItemDataGrid.Name;
-            //pr.storage.Price= SelectItemDataGrid.Price;
-            //pr.storage.idStorage= SelectItemDataGrid.idStorage;
-            //pr.storage.UnitName= SelectItemDataGrid.UnitName;
-            //pr.storage.Description= SelectItemDataGrid.Description;
 
             new WindowAddPurchase(pr, SelectItemDataGrid.NameCategory, SelectItemDataGrid.Name, SelectItemDataGrid.Description, SelectItemDataGrid.Price).ShowDialog();
             if (pr != null && purchases != null)

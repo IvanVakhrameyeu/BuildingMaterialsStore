@@ -37,7 +37,7 @@ namespace BuildingMaterialsStore.ViewModels
             }
         }
         public ICommand QuitAplicationCommand { get; }
-        public ICommand FinishCommand { get; }
+        //public ICommand FinishCommand { get; }
         private double _inTotal = 0;
         public double InTotal
         {
@@ -47,16 +47,10 @@ namespace BuildingMaterialsStore.ViewModels
         public PurchasesViewModel(List<Purchases> InputPurchases)
         {
             QuitAplicationCommand = new DelegateCommand(CloseExcute);
+            if (InputPurchases.Count <=0) return;
             MessageBox.Show(InputPurchases[0].idstorage.ToString());
             FillListPurchases(InputPurchases);
-            //FinishCommand = new DelegateCommand(CloseExcute);
-            //  ShoppingBasket = new DelegateCommand(ChangePage, OnClearFilterCommandCanExecuted);
-            //this.purchases = purchases;
-            //foreach (Purchases pr in purchases)
-            //{
-            //    this.purchases.Add(pr);
-            //}
-            //FillListPurchases();
+            
 
         }
         private bool OnClearFilterCommandCanExecuted(object Select)
@@ -78,16 +72,7 @@ namespace BuildingMaterialsStore.ViewModels
                     {
                         idstorage = dr.idstorage,
                         Count = dr.Count,
-                        //storage = (new Storage
-                        //{
-                        //    idStorage = dr.storage.idStorage,
-                        //    NameCategory = dr.storage.NameCategory,
-                        //    UnitName = dr.storage.UnitName,
-                        //    Name = dr.storage.Name,
-                        //    Price = dr.storage.Price,
-                        //    Description = dr.storage.Description
-                        //}),
-                        Total = dr.Total// (dr.Count * dr.storage.Price)
+                        Total = dr.Total
                     });
                     InTotal += dr.Total;
                 }
