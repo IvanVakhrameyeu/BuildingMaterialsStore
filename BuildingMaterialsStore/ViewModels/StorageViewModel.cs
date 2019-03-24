@@ -23,7 +23,7 @@ namespace BuildingMaterialsStore.ViewModels
         SqlCommand cmd;
         SqlDataAdapter adapter;
         DataSet ds;
-        private List<Purchases> purchases = null;
+        private List<Purchases> purchases { get; set; } = null;
         private string _section;
         private string _selectItem = null;
         private string _selectCustomer = null;
@@ -98,6 +98,9 @@ namespace BuildingMaterialsStore.ViewModels
         {
             Purchases pr = new Purchases();
             pr.idstorage = SelectItemDataGrid.idStorage;
+
+            if (purchases == null)
+                purchases = new List<Purchases>();
 
             new WindowAddPurchase(pr, SelectItemDataGrid.NameCategory, SelectItemDataGrid.Name, SelectItemDataGrid.Description, SelectItemDataGrid.Price).ShowDialog();
             if (pr != null && purchases != null)

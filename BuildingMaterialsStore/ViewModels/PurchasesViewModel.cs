@@ -45,7 +45,7 @@ namespace BuildingMaterialsStore.ViewModels
             set { _inTotal = value; }
         }
         public PurchasesViewModel(List<Purchases> InputPurchases)
-        {
+        {//откуда ты пердаешь лист
             QuitAplicationCommand = new DelegateCommand(CloseExcute);
             if (InputPurchases.Count <=0) return;
             MessageBox.Show(InputPurchases[0].idstorage.ToString());
@@ -69,7 +69,7 @@ namespace BuildingMaterialsStore.ViewModels
                 foreach (Purchases dr in InputPurchases)
                 {
                     purchases.Add(new Purchases
-                    {
+                    {//ты здесь строку выбранную получаешь?из грида?
                         idstorage = dr.idstorage,
                         Count = dr.Count,
                         Total = dr.Total
