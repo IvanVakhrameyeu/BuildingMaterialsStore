@@ -102,7 +102,13 @@ namespace BuildingMaterialsStore.ViewModels
                         com.Parameters.AddWithValue("@StorageID", SqlDbType.Int).Value = StorageID;
                         com.Parameters.AddWithValue("@Count", SqlDbType.TinyInt).Value = Count;
                         com.Parameters.AddWithValue("@TotalPrice", SqlDbType.Float).Value = TotalPrice;
+<<<<<<< HEAD
                         com.ExecuteReader();
+=======
+                        // DataTable dt = new DataTable();
+                        com.ExecuteReader();
+                        // i = (int)dt.Rows[0][0];
+>>>>>>> 8ea5837db3f8246a15f9bfe5c1e2fa9e29828d2f
                     }
                     con.Close();
                 }
