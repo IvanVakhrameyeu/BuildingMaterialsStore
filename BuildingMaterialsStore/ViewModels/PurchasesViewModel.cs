@@ -103,7 +103,7 @@ namespace BuildingMaterialsStore.ViewModels
                         com.Parameters.AddWithValue("@Count", SqlDbType.TinyInt).Value = Count;
                         com.Parameters.AddWithValue("@TotalPrice", SqlDbType.Float).Value = TotalPrice;
                         // DataTable dt = new DataTable();
-                        // dt.Load(com.ExecuteReader());
+                        com.ExecuteReader();
                         // i = (int)dt.Rows[0][0];
                     }
                     con.Close();
