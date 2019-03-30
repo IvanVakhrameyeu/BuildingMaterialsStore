@@ -89,12 +89,12 @@ namespace BuildingMaterialsStore.ViewModels
         {            
             try
             {
-                //string insert= "INSERT INTO Store(EmployeeID, CustomerID, StorageID, [Count], TotalPrice) " +
-                //        "VALUES (@EmployeeID, @CustomerID, @StorageID, @[Count], @TotalPrice)";                            
+                string insert= "INSERT INTO Store(EmployeeID, CustomerID, StorageID, [Count], TotalPrice) " +
+                        "VALUES (@EmployeeID, @CustomerID, @StorageID, @[Count], @TotalPrice)";                            
                 using (con = new SqlConnection(connectionString))
                 {
                     con.Open();
-                    using (com = new SqlCommand("InputStore", con))
+                    using (com = new SqlCommand(insert, con))
                     {
                         com.CommandType = CommandType.StoredProcedure;
                         com.Parameters.AddWithValue("@EmployeeID", SqlDbType.Int).Value = EmployeeID;
@@ -102,9 +102,7 @@ namespace BuildingMaterialsStore.ViewModels
                         com.Parameters.AddWithValue("@StorageID", SqlDbType.Int).Value = StorageID;
                         com.Parameters.AddWithValue("@Count", SqlDbType.TinyInt).Value = Count;
                         com.Parameters.AddWithValue("@TotalPrice", SqlDbType.Float).Value = TotalPrice;
-                        // DataTable dt = new DataTable();
-                        // dt.Load(com.ExecuteReader());
-                        // i = (int)dt.Rows[0][0];
+                        com.ExecuteReader();
                     }
                     con.Close();
                 }
