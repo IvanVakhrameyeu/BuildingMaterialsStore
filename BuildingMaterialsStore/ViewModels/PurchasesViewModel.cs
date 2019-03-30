@@ -61,17 +61,17 @@ namespace BuildingMaterialsStore.ViewModels
         {
             foreach (Purchases dr in delList)
             {
-                //  add(Purchases.idEmployee, dr.idCustomer, dr.idstorage,dr.Count,dr.Total);   // твой код
-                outPutdb("exec InputStore @EmployeeID="+Purchases.idEmployee.ToString() + ", " +   // мой старый код
-                    "@CustomerID="+ dr.idCustomer.ToString() + ", " +
-                    "@StorageID=" + dr.storage.idStorage.ToString() + ", " +
-                    "@Count=" + dr.Count.ToString() + ", " +
-                    "@TotalPrice=" + dr.Total.ToString() +"");
+                  add(Purchases.idEmployee, dr.idCustomer, dr.idstorage,dr.Count,dr.Total);   // твой код
+                //outPutdb("exec InputStore @EmployeeID="+Purchases.idEmployee.ToString() + ", " +   // мой старый код
+                //    "@CustomerID="+ dr.idCustomer.ToString() + ", " +
+                //    "@StorageID=" + dr.storage.idStorage.ToString() + ", " +
+                //    "@Count=" + dr.Count.ToString() + ", " +
+                //    "@TotalPrice=" + dr.Total.ToString() +"");
                 MessageBox.Show(dr.idPurchases.ToString());
             }
             End();
         }
-        public DataSet outPutdb(string sql) // вывод из бд
+        public void outPutdb(string sql) // вывод из бд
         {
             using (con = new SqlConnection(connectionString))
             {
@@ -79,10 +79,10 @@ namespace BuildingMaterialsStore.ViewModels
                 // Создаем объект DataAdapter (отправляет запрос на бд)
                 adapter = new SqlDataAdapter(sql, con);
                 // Создаем объект Dataset (представление о таблице)
-                DataSet ds = new DataSet();
+               // DataSet ds = new DataSet();
                 // Заполняем Dataset
-                adapter.Fill(ds);
-                return ds;
+               // adapter.Fill(ds);
+               // return ds;
             }
         }
         private void add(int EmployeeID, int CustomerID, int StorageID, int Count, double TotalPrice)
