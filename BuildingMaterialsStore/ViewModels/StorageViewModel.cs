@@ -17,7 +17,7 @@ namespace BuildingMaterialsStore.ViewModels
 {
     class StorageViewModel : ViewModel
     {
-        static String connectionString = @"Data Source=DESKTOP-R50QS4G;Initial Catalog=Storedb;Integrated Security=True";
+        static String connectionString = @"Data Source=DESKTOP-R50QS4G;Initial Catalog=storedb;Integrated Security=True";
         SqlConnection con;
         private SqlCommand com;
         SqlCommand cmd;
@@ -97,21 +97,35 @@ namespace BuildingMaterialsStore.ViewModels
         private void OnAddCommandExecuted(object o)
         {
             Purchases pr = new Purchases();
+            pr.storage = new Storage();
             pr.idstorage = SelectItemDataGrid.idStorage;
 
             if (purchases == null)
-                purchases = new List<Purchases>();
+            {
+                purchases = new List<Purchases>();                
+            }
+            if(purchases.Count<=0)
+            pr.idPurchases = 1;
+            else
+            pr.idPurchases = purchases.Count+1;
+            pr.storage.idStorage = SelectItemDataGrid.idStorage;
+            pr.storage.NameCategory = SelectItemDataGrid.NameCategory;
+            pr.storage.Name = SelectItemDataGrid.Name;
+            pr.storage.Price = SelectItemDataGrid.Price;
+            pr.storage.UnitName = SelectItemDataGrid.UnitName;
+            pr.storage.Description = SelectItemDataGrid.Description;
 
             new WindowAddPurchase(pr, SelectItemDataGrid.NameCategory, SelectItemDataGrid.Name, SelectItemDataGrid.Description, SelectItemDataGrid.Price).ShowDialog();
             if (pr != null && purchases != null)
             {
+                if(!(pr.Count<=0))
                 purchases.Add(pr);
-                MessageBox.Show(purchases.Count.ToString());
             }
+            
         }
         private void OnAddPurchaseCommandExecuted(object o)
         {
-            new WindowCustomerPurchases(purchases).ShowDialog();
+             new WindowCustomerPurchases(purchases).ShowDialog();
         }
         async private void asyncMainMethod(string section)
         {
@@ -139,7 +153,6 @@ namespace BuildingMaterialsStore.ViewModels
         {
             return !string.IsNullOrEmpty(SelectItem) || !string.IsNullOrEmpty(Text);
         }
-
         private  bool FilterComboBox(object o)
         {
             Storage c = o as Storage;
