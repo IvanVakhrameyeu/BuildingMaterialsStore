@@ -5,9 +5,6 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -61,13 +58,12 @@ namespace BuildingMaterialsStore.ViewModels
         {
             foreach (Purchases dr in delList)
             {
-                  add(Purchases.idEmployee, dr.idCustomer, dr.idstorage,dr.Count,dr.Total);   // твой код
+                add(Purchases.idEmployee, dr.idCustomer, dr.idstorage, dr.Count, dr.Total);   // твой код
                 //outPutdb("exec InputStore @EmployeeID="+Purchases.idEmployee.ToString() + ", " +   // мой старый код
                 //    "@CustomerID="+ dr.idCustomer.ToString() + ", " +
                 //    "@StorageID=" + dr.storage.idStorage.ToString() + ", " +
                 //    "@Count=" + dr.Count.ToString() + ", " +
                 //    "@TotalPrice=" + dr.Total.ToString() +"");
-                MessageBox.Show(dr.idPurchases.ToString());
             }
             End();
         }
@@ -79,40 +75,35 @@ namespace BuildingMaterialsStore.ViewModels
                 // Создаем объект DataAdapter (отправляет запрос на бд)
                 adapter = new SqlDataAdapter(sql, con);
                 // Создаем объект Dataset (представление о таблице)
-               // DataSet ds = new DataSet();
+                // DataSet ds = new DataSet();
                 // Заполняем Dataset
-               // adapter.Fill(ds);
-               // return ds;
+                // adapter.Fill(ds);
+                // return ds;
             }
         }
         private void add(int EmployeeID, int CustomerID, int StorageID, int Count, double TotalPrice)
-        {            
-            try
+        {
+
+            //string insert= "INSERT INTO Store(EmployeeID, CustomerID, StorageID, [Count], TotalPrice) " +
+            //        "VALUES (@EmployeeID, @CustomerID, @StorageID, @[Count], @TotalPrice)";                            
+            using (con = new SqlConnection(connectionString))
             {
-                string insert= "INSERT INTO Store(EmployeeID, CustomerID, StorageID, [Count], TotalPrice) " +
-                        "VALUES (@EmployeeID, @CustomerID, @StorageID, @[Count], @TotalPrice)";                            
-                using (con = new SqlConnection(connectionString))
+                con.Open();
+                using (com = new SqlCommand("InputStore", con))
                 {
-                    con.Open();
-                    using (com = new SqlCommand(insert, con))
-                    {
-                        com.CommandType = CommandType.StoredProcedure;
-                        com.Parameters.AddWithValue("@EmployeeID", SqlDbType.Int).Value = EmployeeID;
-                        com.Parameters.AddWithValue("@CustomerID", SqlDbType.Int).Value = CustomerID;
-                        com.Parameters.AddWithValue("@StorageID", SqlDbType.Int).Value = StorageID;
-                        com.Parameters.AddWithValue("@Count", SqlDbType.TinyInt).Value = Count;
-                        com.Parameters.AddWithValue("@TotalPrice", SqlDbType.Float).Value = TotalPrice;
-<<<<<<< HEAD
-                        com.ExecuteReader();
-=======
-                        // DataTable dt = new DataTable();
-                        com.ExecuteReader();
-                        // i = (int)dt.Rows[0][0];
->>>>>>> 8ea5837db3f8246a15f9bfe5c1e2fa9e29828d2f
-                    }
-                    con.Close();
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.Parameters.AddWithValue("@EmployeeID", SqlDbType.Int).Value = EmployeeID;
+                    com.Parameters.AddWithValue("@CustomerID", SqlDbType.Int).Value = CustomerID;
+                    com.Parameters.AddWithValue("@StorageID", SqlDbType.Int).Value = StorageID;
+                    com.Parameters.AddWithValue("@Count", SqlDbType.TinyInt).Value = Count;
+                    com.Parameters.AddWithValue("@TotalPrice", SqlDbType.Float).Value = TotalPrice;
+                    com.Parameters.AddWithValue("@PurchaseDay", SqlDbType.Float).Value = DateTime.Now;
+                    MessageBox.Show("вставка успешна");
+                    com.ExecuteNonQuery();
                 }
+                con.Close();
             }
+            /*}
             catch (Exception ex)
             {
 
@@ -123,13 +114,13 @@ namespace BuildingMaterialsStore.ViewModels
                 //adapter.Dispose();
                 con.Close();
                 con.Dispose();
-            }
+            }*/
         }
         private void End()
         {
-            delList.RemoveRange(0,delList.Count);
-            for(int i=0;i< purchases.Count;i++)
-            purchases.RemoveAt(0);
+            delList.RemoveRange(0, delList.Count);
+            for (int i = 0; i < purchases.Count; i++)
+                purchases.RemoveAt(0);
             foreach (Window item in Application.Current.Windows)
             {
                 if (item.ToString() == "BuildingMaterialsStore.Views.WindowCustomerPurchases")
@@ -137,16 +128,16 @@ namespace BuildingMaterialsStore.ViewModels
             }
         }
         private void OnDeleteCommandExecuted(object o)
-        {            
+        {
             delList.Remove(SelectItemDataGrid);
             purchases.Remove(SelectItemDataGrid);
             Total();
-        }       
+        }
         private void Total()
         {
             InTotal = 0;
             foreach (Purchases dr in purchases)
-            {                
+            {
                 InTotal += dr.Total;
             }
             OnPropertyChanged("InTotal");

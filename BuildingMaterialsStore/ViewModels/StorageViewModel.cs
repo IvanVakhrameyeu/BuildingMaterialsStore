@@ -6,8 +6,6 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
@@ -87,7 +85,7 @@ namespace BuildingMaterialsStore.ViewModels
                 _selectItemDataGrid = value;
             }
         }
-        public StorageViewModel(string section) 
+        public StorageViewModel(string section)
         {
             ClearFilterCommand = new DelegateCommand(OnClearFilterCommandExecuted, OnClearFilterCommandCanExecuted);
             AddCommand = new DelegateCommand(OnAddCommandExecuted);
@@ -96,19 +94,26 @@ namespace BuildingMaterialsStore.ViewModels
         }
         private void OnAddCommandExecuted(object o)
         {
+            //MessageBox.Show(SelectCustomer.Split()[0] + "  d  " + SelectCustomer.Split()[1]);
             Purchases pr = new Purchases();
             pr.storage = new Storage();
             pr.idstorage = SelectItemDataGrid.idStorage;
 
             if (purchases == null)
             {
-                purchases = new List<Purchases>();                
+                purchases = new List<Purchases>();
             }
-            if(purchases.Count<=0)
-            pr.idPurchases = 1;
+            if (purchases.Count <= 0)
+                pr.idPurchases = 1;
             else
-            pr.idPurchases = purchases.Count+1;
+                pr.idPurchases = purchases.Count + 1;
             pr.storage.idStorage = SelectItemDataGrid.idStorage;
+            pr.idCustomer = findCustomer();
+            if (pr.idCustomer == 0)
+            {
+                MessageBox.Show("Выберите покупателя");
+                return;
+            }
             pr.storage.NameCategory = SelectItemDataGrid.NameCategory;
             pr.storage.Name = SelectItemDataGrid.Name;
             pr.storage.Price = SelectItemDataGrid.Price;
@@ -118,14 +123,42 @@ namespace BuildingMaterialsStore.ViewModels
             new WindowAddPurchase(pr, SelectItemDataGrid.NameCategory, SelectItemDataGrid.Name, SelectItemDataGrid.Description, SelectItemDataGrid.Price).ShowDialog();
             if (pr != null && purchases != null)
             {
-                if(!(pr.Count<=0))
-                purchases.Add(pr);
+                if (!(pr.Count <= 0))
+                    purchases.Add(pr);
             }
-            
+        }
+        private int findCustomer()
+        {
+            int idCustomer = 0;
+            try
+            {
+                con = new SqlConnection(connectionString);
+                con.Open();
+                cmd = new SqlCommand("select Customer.CustomerID from Customer " +
+                    "where Customer.CustLastName like'%" + SelectCustomer.Split()[0] + "%' AND " +
+                    "Customer.CustFirstName like '%" + SelectCustomer.Split()[1] + "%'", con);
+                adapter = new SqlDataAdapter(cmd);
+                ds = new DataSet();
+                adapter.Fill(ds, "Storedb");
+
+                idCustomer = Convert.ToInt32(ds.Tables[0].DefaultView[0].Row[0]);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                ds = null;
+                adapter.Dispose();
+                con.Close();
+                con.Dispose();
+            }
+            return idCustomer;
         }
         private void OnAddPurchaseCommandExecuted(object o)
         {
-             new WindowCustomerPurchases(purchases).ShowDialog();
+            new WindowCustomerPurchases(purchases).ShowDialog();
         }
         async private void asyncMainMethod(string section)
         {
@@ -137,10 +170,10 @@ namespace BuildingMaterialsStore.ViewModels
                     List(section);
                     break;
             }
-            await Task.Run(()=> FillListName());
-            await Task.Run(()=> FillListCustomer());
+            await Task.Run(() => FillListName());
+            await Task.Run(() => FillListCustomer());
         }
-        
+
         private void OnClearFilterCommandExecuted(object Select)
         {
             SelectItem = null;
@@ -153,7 +186,7 @@ namespace BuildingMaterialsStore.ViewModels
         {
             return !string.IsNullOrEmpty(SelectItem) || !string.IsNullOrEmpty(Text);
         }
-        private  bool FilterComboBox(object o)
+        private bool FilterComboBox(object o)
         {
             Storage c = o as Storage;
             return c.Name.ToLowerInvariant().Contains(SelectItem.ToLower());
@@ -164,7 +197,7 @@ namespace BuildingMaterialsStore.ViewModels
             return c.Description.ToLower().Contains(Text.ToLower());
         }
         private void Filter()
-        {            
+        {
             if (SelectItem != null && Text == null) { view.Filter = o => FilterComboBox(o); return; }
             if (Text != null && SelectItem == null) { view.Filter = o => FilterTextBox(o); return; }
             if (Text != null && SelectItem != null) { view.Filter = o => FilterComboBox(o) && FilterTextBox(o); return; }
@@ -293,11 +326,11 @@ namespace BuildingMaterialsStore.ViewModels
             using (con = new SqlConnection(connectionString))
             {
                 con.Open();
-                
-                    using (com = new SqlCommand("select distinct CustLastName, CustFirstName from Customer", con))
-                    {
-                        dt.Load(com.ExecuteReader());
-                    }
+
+                using (com = new SqlCommand("select distinct CustLastName, CustFirstName from Customer", con))
+                {
+                    dt.Load(com.ExecuteReader());
+                }
                 con.Close();
             }
 

@@ -71,7 +71,7 @@ UnitID int null foreign key references Unit(UnitID),
 [Description] varchar(350) not null,
 Price float not null,
 )
-----------МАГАЗИН-----------
+----------ПОКУПКИ-----------
 create table Store
 (
 StoreID int not null identity primary key,
@@ -80,24 +80,29 @@ CustomerID int null foreign key references Customer(CustomerID),
 StorageID int null foreign key references Storage(StorageID),
 [Count] tinyint not null,
 TotalPrice float not null,
+PurchaseDay Date not null,
 )
+
 -------------------------ПРОЦЕДУРЫ
 --------------ДОБАВЛЕНИЕ ПОКУПКИ
+drop proc InputStore
 go
 create procedure InputStore 
 @EmployeeID int,
 @CustomerID int,
 @StorageID int,
 @Count int,
-@TotalPrice int
+@TotalPrice float,
+@PurchaseDay Date
 AS
 begin
-INSERT INTO Store(EmployeeID, CustomerID, StorageID, [Count], TotalPrice)
-                    VALUES (@EmployeeID, @CustomerID, @StorageID, @Count, @TotalPrice)
+INSERT INTO Store(EmployeeID, CustomerID, StorageID, [Count], TotalPrice, PurchaseDay)
+                    VALUES (@EmployeeID, @CustomerID, @StorageID, @Count, @TotalPrice, @PurchaseDay)
 					
 end
 go
 
+select GETDATE()
 --exec InputStore @EmployeeID=3, @CustomerID=3, @StorageID=3, @Count=3, @TotalPrice=3
 ----------------- ------------------------
 insert Access(AccessName) 
@@ -279,3 +284,5 @@ values
 ---------------------------ТРИГЕРЫ
 ---------Триггер на подсчет TotalPrice (Store)
 ---------Триггер на проверку при покупки, что бы на складе было достаточно материалов
+
+
