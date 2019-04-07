@@ -8,6 +8,5 @@ namespace BuildingMaterialsStore.Views
             InitializeComponent();
         }
         private void DockPanel_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) => DragMove();
-
     }
 }

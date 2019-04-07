@@ -1,32 +1,17 @@
 ﻿using BuildingMaterialsStore.Models;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace BuildingMaterialsStore.Views
 {
-    /// <summary>
-    /// Логика взаимодействия для WindowAuthorization.xaml
-    /// </summary>
     public partial class WindowAuthorization : Window
     {
         public WindowAuthorization()
         {
             InitializeComponent();
         }
-
         private void SignIn_Click(object sender, RoutedEventArgs e)
         {
             string connectionString = @"Data Source=DESKTOP-R50QS4G;Initial Catalog=storedb;Integrated Security=True";
@@ -34,7 +19,6 @@ namespace BuildingMaterialsStore.Views
             SqlCommand cmd;
             SqlDataAdapter adapter;
             DataSet ds;
-
             con = new SqlConnection(connectionString);
             con.Open();
             cmd = new SqlCommand("select Users.UsersID, AccessName, [Login], [Password], EmployeeID, EmpFirstName, EmpLastName, EmpPatronymic " +
@@ -63,10 +47,8 @@ namespace BuildingMaterialsStore.Views
             adapter.Dispose();
             con.Close();
             con.Dispose();
-
             Close();
         }
-
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
             Close();

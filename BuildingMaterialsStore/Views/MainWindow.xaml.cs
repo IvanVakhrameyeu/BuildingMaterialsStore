@@ -23,10 +23,8 @@ namespace BuildingMaterialsStore
                 {
                     Close();
                 }
-
             }
         }
         private void DockPanel_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) => DragMove();
-
     }
 }
