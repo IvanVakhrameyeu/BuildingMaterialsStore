@@ -19,9 +19,6 @@ namespace BuildingMaterialsStore.ViewModels
         private string _description = null;
         private double _price = 0;
         private double _totalCost = 1;
-
-
-
         private Purchases purchases;
         public string Name
         {
@@ -66,11 +63,9 @@ namespace BuildingMaterialsStore.ViewModels
                 _currentSection = value;
             }
         }
-
         public ICollectionView view { get; set; }
         public ICommand QuitAplicationCommand { get; }
         public ICommand AddCommand { get; }
-
         public AddWindowModel(Purchases purchases, string NameCategory, string Name, string Description, double Price)
         {
             this.CurrentSection = NameCategory;

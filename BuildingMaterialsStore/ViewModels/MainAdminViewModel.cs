@@ -39,24 +39,21 @@ namespace BuildingMaterialsStore.ViewModels
         {
             CurrentWindowState = WindowState.Minimized;
         }
-        private Page MainStoragePage;
         private Page CustomersPage;
         private Page EmployeePage;
         private Page StoragePage;
         public MainAdminViewModel()
         {
-            MainStoragePage = new MainAdminPage("Работники");
-            CustomersPage = new MainStorage("Отделочные материалы");
-            EmployeePage = new MainStorage("Общестроительные");
-            StoragePage = new MainStorage("Кровельные материалы");
+            EmployeePage = new MainAdminPage("Работники");
+            CustomersPage = new CustomerPage ("Покупатели");
+           // EmployeePage = new MainStorage("Общестроительные");
+            //StoragePage = new MainStorage("Кровельные материалы");
             //FacadeMaterialsPage = new MainStorage("Фасадные материалы");
 
-            CurrentPage = MainStoragePage;
+            CurrentPage = EmployeePage;
             WindowStateCommand = new DelegateCommand(OnCurrentWindowState);
         }
-
-
-
+        
         private int _selectedIndex = -1;
         public int SeletedIndex
         {
@@ -75,10 +72,10 @@ namespace BuildingMaterialsStore.ViewModels
         {
             switch (i)
             {
-                case 0: { CurrentPage = MainStoragePage; break; }
+                case 0: { CurrentPage = EmployeePage; break; }
                 case 1: { CurrentPage = CustomersPage; break; }
-                case 2: { CurrentPage = EmployeePage; break; }
-                case 3: { CurrentPage = StoragePage; break; }
+                //case 2: { CurrentPage = EmployeePage; break; }
+                //case 3: { CurrentPage = StoragePage; break; }
                 default: { CurrentPage = null; break; }
             }
         }

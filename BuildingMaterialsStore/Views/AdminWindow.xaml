@@ -131,26 +131,67 @@
                                                Margin="0,0,0,0"
                                                TextWrapping="Wrap">Отчеты</TextBlock>
                         </DockPanel >
-                    </ListViewItem>
-                    <ListViewItem HorizontalContentAlignment="Left"
-                                          FontSize="20"
-                                          Width="230"
-                                          Margin="0">
-                        <DockPanel VerticalAlignment="Center">
-                            <materialDesign:PackIcon 
-                                                             Height="25"
-                                                             VerticalAlignment="Center"
-                                                             Width="25"
-                                                             />
-                            <TextBlock Foreground="White"
-                                               Margin="0,0,0,0"
-                                               TextWrapping="Wrap">Справка</TextBlock>
-                        </DockPanel >
-                    </ListViewItem>
+                    </ListViewItem>                   
                 </ListView>
             </StackPanel>
         </DockPanel>
+        <DockPanel DockPanel.Dock="Top"
+                   MouseDown="DockPanel_MouseDown"
+                   VerticalAlignment="Top"
+                   Background="#F8F8F8"
+                   >
+            <Border BorderThickness="0 0 0 1"
+                    BorderBrush="#CACACA"                    
+                    >
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Right"
+                            >
+                    <Border BorderThickness="1 0 0 0"
+                            BorderBrush="#CACACA"
+                            >
 
+                    </Border>
+                    <Button Height="30"
+                            Width="30"
+                            Command="{Binding WindowStateCommand}"
+                            Style="{StaticResource MyButtonStyleTreiAndHelp}"
+                            >
+
+                        <TextBlock Text="_"  
+                                   FontSize="30"
+                                   
+                                   VerticalAlignment="Bottom"
+                                   HorizontalAlignment="Center"
+                                   />
+                    </Button>
+                    <Button Height="30"
+                            Width="30"
+                            Style="{StaticResource MyButtonStyleTreiAndHelp}"
+                            >
+                        <materialDesign:PackIcon Kind="QuestionMark"
+                                                 Height="20"
+                                                 Width="20"
+                                                 Margin="0"
+                                                 VerticalAlignment="Center"
+                                                 HorizontalAlignment="Center"
+                                                 />
+                    </Button>
+                    <Button Height="30"
+                            Width="30"
+                            Command="{Binding QuitAplicationCommand}"
+                            Style="{StaticResource MyButtonStyleClose}"
+                            >
+                        <materialDesign:PackIcon Kind="Close"
+                                                 Height="20"
+                                                 Width="20"
+                                                 Margin="0"
+                                                 VerticalAlignment="Center"
+                                                 HorizontalAlignment="Center"
+                                                 />
+                    </Button>
+                </StackPanel>
+            </Border>
+        </DockPanel>
         <DockPanel Background="#F8F8F8" 
                    >
             <Frame 

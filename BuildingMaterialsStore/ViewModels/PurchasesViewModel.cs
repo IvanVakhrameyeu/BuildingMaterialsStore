@@ -49,10 +49,8 @@ namespace BuildingMaterialsStore.ViewModels
             if (InputPurchases.Count <= 0) return;
             FillListPurchases(InputPurchases);
             delList = InputPurchases;
-
-
         }
-        private void AddInDB(object o) // вот тут я нажимаю
+        private void AddInDB(object o)
         {
             foreach (Purchases dr in delList)
             {
@@ -118,7 +116,7 @@ namespace BuildingMaterialsStore.ViewModels
             }
             OnPropertyChanged("InTotal");
         }
-        public void FillListPurchases(List<Purchases> InputPurchases)
+        private void FillListPurchases(List<Purchases> InputPurchases)
         {
             try
             {
@@ -142,7 +140,7 @@ namespace BuildingMaterialsStore.ViewModels
             }
             catch (Exception ex)
             {
-
+                MessageBox.Show(ex.Message);
             }
         }
         private void CloseExcute(object t)

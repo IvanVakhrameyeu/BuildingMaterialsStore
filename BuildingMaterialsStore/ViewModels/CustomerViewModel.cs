@@ -1,16 +1,20 @@
 ﻿using BuildingMaterialsStore.Models;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 
 namespace BuildingMaterialsStore.ViewModels
 {
-    class EmployeeViewModel : ViewModel
+    class CustomerViewModel
     {
         static String connectionString = @"Data Source=DESKTOP-R50QS4G;Initial Catalog=storedb;Integrated Security=True";
         SqlConnection con;
@@ -20,8 +24,8 @@ namespace BuildingMaterialsStore.ViewModels
         private string _section;
         private string _selectCustomer = null;
         public ICollectionView view { get; set; }
-        public ICommand DelCommand { get; }
-        public ObservableCollection<Employee> employee { get; set; }
+        //public ICommand DelCommand { get; }
+        public ObservableCollection<Customer> customer { get; set; }
         public string CurrentSection
         {
             get { return _section; }
@@ -31,7 +35,6 @@ namespace BuildingMaterialsStore.ViewModels
                     _section = value;
             }
         }
-
         public string SelectCustomer
         {
             get { return _selectCustomer; }
@@ -54,9 +57,9 @@ namespace BuildingMaterialsStore.ViewModels
                 _selectItemDataGrid = value;
             }
         }
-        public EmployeeViewModel(string section)
+        public CustomerViewModel(string section)
         {
-            DelCommand = new DelegateCommand(OnDeleteCommandExecuted);
+         //   DelCommand = new DelegateCommand(OnDeleteCommandExecuted);
             asyncMainMethod(section);
         }
         private void asyncMainMethod(string section)
@@ -64,66 +67,63 @@ namespace BuildingMaterialsStore.ViewModels
             CurrentSection = section;
             FillList();
         }
-        private void OnDeleteCommandExecuted(object o)
-        {
-            try
-            {
-                con = new SqlConnection(connectionString);
-                con.Open();
-                cmd = new SqlCommand("update Employee " +
-                    "set UsersID = null " +
-                    "where EmployeeID = "+ SelectItemDataGrid.idEmployee, con);
-                adapter = new SqlDataAdapter(cmd);
-                ds = new DataSet();
-                adapter.Fill(ds, "storedb");
-                employee.Remove(SelectItemDataGrid);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                ds = null;
-                adapter.Dispose();
-                con.Close();
-                con.Dispose();
-            }
-        }
+        //private void OnDeleteCommandExecuted(object o)
+        //{
+        //    try
+        //    {
+        //        con = new SqlConnection(connectionString);
+        //        con.Open();
+        //        cmd = new SqlCommand("update Employee " +
+        //            "set UsersID = null " +
+        //            "where EmployeeID = " + SelectItemDataGrid.idEmployee, con);
+        //        adapter = new SqlDataAdapter(cmd);
+        //        ds = new DataSet();
+        //        adapter.Fill(ds, "storedb");
+        //        employee.Remove(SelectItemDataGrid);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show(ex.Message);
+        //    }
+        //    finally
+        //    {
+        //        ds = null;
+        //        adapter.Dispose();
+        //        con.Close();
+        //        con.Dispose();
+        //    }
+        //}
         public void FillList()
         {
             try
             {
                 con = new SqlConnection(connectionString);
                 con.Open();
-                cmd = new SqlCommand("select EmployeeID, EmpLastName, EmpFirstName, EmpPatronymic, Sex, EmpDateOfBirth, EmpAddress, " +
-                    "EmpPhoneNumber, Position, Experience " +
-                    "from Employee " +
-                    "where UsersID is not null", con);
+                cmd = new SqlCommand("select CustomerID, CustLastName, CustFirstName, CustPatronymic, Sex, CustDateOfBirth, CustAddress, " +
+                    "CustPhoneNumber " +
+                    "from Customer ", con);
                 adapter = new SqlDataAdapter(cmd);
                 ds = new DataSet();
                 adapter.Fill(ds, "storedb");
 
-                if (employee == null)
-                    employee = new ObservableCollection<Employee>();
+                if (customer == null)
+                    customer = new ObservableCollection<Customer>();
 
                 foreach (DataRow dr in ds.Tables[0].Rows)
                 {
-                    employee.Add(new Employee
+                    customer.Add(new Customer
                     {
-                        idEmployee = Convert.ToInt32(dr[0].ToString()),
-                        EmpLastName = dr[1].ToString(),
-                        EmpFirstName = (dr[2].ToString()),
-                        EmpPatronymic = (dr[3].ToString()),
+                        idCustomer = Convert.ToInt32(dr[0].ToString()),
+                        CustLastName = dr[1].ToString(),
+                        CustFirstName = (dr[2].ToString()),
+                        CustPatronymic = (dr[3].ToString()),
                         Sex = (dr[4].ToString()),
-                        EmpDateOfBirth = Convert.ToDateTime(dr[5].ToString()),
-                        EmpAddress = (dr[6].ToString()),
-                        EmpPhoneNumber = (dr[7].ToString()),
-                        Position = dr[8].ToString(),
-                        Experience = Convert.ToInt32(dr[9].ToString())
+                        CustDateOfBirth = Convert.ToDateTime(dr[5].ToString()),
+                        CustAddress = (dr[6].ToString()),
+                        CustPhoneNumber = (dr[7].ToString())
                     });
                 }
-                view = CollectionViewSource.GetDefaultView(employee);
+                view = CollectionViewSource.GetDefaultView(customer);
             }
             catch (Exception ex)
             {
@@ -137,6 +137,5 @@ namespace BuildingMaterialsStore.ViewModels
                 con.Dispose();
             }
         }
-
     }
 }

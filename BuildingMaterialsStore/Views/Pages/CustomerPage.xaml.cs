@@ -17,18 +17,14 @@ using System.Windows.Shapes;
 namespace BuildingMaterialsStore.Views.Pages
 {
     /// <summary>
-    /// Логика взаимодействия для MainStorage.xaml
+    /// Логика взаимодействия для CustomerPage.xaml
     /// </summary>
-    public partial class MainStorage : Page
+    public partial class CustomerPage : Page
     {
-        public MainStorage(string section)
+        public CustomerPage(string section)
         {
-            try
-            {
-                InitializeComponent();
-                DataContext = new StorageViewModel(section);
-            }
-            catch { }
+            InitializeComponent();
+            DataContext = new CustomerViewModel(section);
         }
     }
 }

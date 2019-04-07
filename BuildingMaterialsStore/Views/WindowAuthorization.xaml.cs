@@ -46,10 +46,12 @@ namespace BuildingMaterialsStore.Views
             ds = new DataSet();
             adapter.Fill(ds, "storedb");
 
-            if (ds.Tables[0].DefaultView.Count < 1 || (Password.Password.ToString()!= ds.Tables[0].DefaultView[0].Row[3].ToString())) { MessageBox.Show("Неправильный логин или пароль"); return; }
+            if (ds.Tables[0].DefaultView.Count < 1 || (Password.Password.ToString()!= ds.Tables[0].DefaultView[0].Row[3].ToString()) ||
+                ds.Tables[0].DefaultView[0].Row[4]==null)
+            { MessageBox.Show("Неправильный логин или пароль"); return; }
             AuthorizationSettings.UserId = Convert.ToInt32(ds.Tables[0].DefaultView[0].Row[0]);
             AuthorizationSettings.Access = ds.Tables[0].DefaultView[0].Row[1].ToString();
-
+            
             AuthorizationSettings.EmployeeId = Convert.ToInt32(ds.Tables[0].DefaultView[0].Row[4]);
             AuthorizationSettings.EmpFirstName = ds.Tables[0].DefaultView[0].Row[5].ToString();
             AuthorizationSettings.EmpLastName = ds.Tables[0].DefaultView[0].Row[6].ToString();

@@ -41,7 +41,7 @@ AccessID int foreign key references Access(AccessID),
 --------------РАБОТНИК--------------
 create table Employee 
 (EmployeeID int not null identity primary key, 
-UsersID int foreign key references Users(UsersID),
+UsersID int null foreign key references Users(UsersID),
 EmpLastName varchar(20) not null, 
 EmpFirstName varchar(20) not null, 
 EmpPatronymic varchar(20) not null, 
@@ -119,10 +119,6 @@ end
 go
 --exec DecreaseAmountStore @EmployeeID=3, @CustomerID=3, @StorageID=3, @Count=3, @TotalPrice=3
 
-select UsersID, EmployeeID, EmpFirstName, EmpLastName, EmpPatronymic
-                from Employee
-                where UsersID = 2
-select UsersID, EmployeeID, EmpFirstName, EmpLastName, EmpPatronymic from Employee where UsersID = 1
 ----------------- ------------------------
 insert Access(AccessName) 
 values
@@ -291,13 +287,13 @@ values
 (8, 5,'Садовый инвентарь',100,'Спанбонд №17 белый (2.1x10м) (4810751573830)',5.41),
 (8, 5,'Садовый инвентарь',100,'Спанбонд №30 белый (рулон 1,6*300м, 960м.кв.) (1108568252004)',272.89);
 
-insert Store (EmployeeID,CustomerID,StorageID,[Count],TotalPrice)
+insert Store (EmployeeID,CustomerID,StorageID,[Count],TotalPrice,PurchaseDay)
 values
-(2,1,3,12.8),
-(3,2,3,12.8),
-(4,4,3,12.8),
-(2,3,3,12.8),
-(3,2,3,12.8);
+(2,1,3,1,12.8,'12-1-2019'),
+(3,2,3,1,12.8,'12-1-2019'),
+(4,4,3,1,12.8,'12-1-2019'),
+(2,3,3,1,12.8,'12-1-2019'),
+(3,2,3,1,12.8,'12-1-2019');
 
 
 ---------------------------ТРИГЕРЫ

@@ -25,17 +25,29 @@
                     <DropShadowEffect Color="Black" Direction="300" BlurRadius="13" ShadowDepth="7" Opacity="0.2"/>
                 </DataGrid.Effect>
                 <DataGrid.Columns>
-                  
-                    <DataGridTextColumn Header="Id"  Visibility="Hidden" Binding="{Binding Path='idStorage'}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="EmpLastName" Binding="{Binding Path='EmpLastName'}" IsReadOnly="True" />
-                <DataGridTextColumn Header="EmpFirstName" Binding="{Binding Path='EmpFirstName'}" IsReadOnly="True" />
-                <DataGridTextColumn Header="EmpPatronymic" Binding="{Binding Path='EmpPatronymic'}" IsReadOnly="True" />
-                <DataGridTextColumn Header="Sex" Binding="{Binding Path='Sex'}" IsReadOnly="True" />
-                <DataGridTextColumn Header="EmpDateOfBirth"  Binding="{Binding Path='EmpDateOfBirth'}" IsReadOnly="True" />
-                <DataGridTextColumn Header="EmpAddress"  Binding="{Binding Path='EmpAddress'}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="EmpPhoneNumber"  Binding="{Binding Path='EmpPhoneNumber'}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Position"  Binding="{Binding Path='Position'}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Experience"  Binding="{Binding Path='Experience'}" IsReadOnly="True"/>
+                <DataGridTemplateColumn Width="70">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button 
+                                Background="#FFC200"
+                                BorderBrush="#FFC200"
+                                Command="{Binding  Path=DataContext.DelCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                              >
+                                <materialDesign:PackIcon Foreground="White" Kind="Delete"/>
+                            </Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Id"  Visibility="Hidden" Binding="{Binding Path='idStorage'}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Фамилия" Binding="{Binding Path='EmpLastName'}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Имя" Binding="{Binding Path='EmpFirstName'}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Отчество" Binding="{Binding Path='EmpPatronymic'}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Пол" Binding="{Binding Path='Sex'}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Дата рождения"  Binding="{Binding Path='EmpDateOfBirth'}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Адрес"  Binding="{Binding Path='EmpAddress'}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Номер телефона"  Binding="{Binding Path='EmpPhoneNumber'}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Должность"  Binding="{Binding Path='Position'}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Опыт"  Binding="{Binding Path='Experience'}" IsReadOnly="True"/>
 
                 </DataGrid.Columns>
             </DataGrid>
