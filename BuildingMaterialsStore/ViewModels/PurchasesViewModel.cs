@@ -14,7 +14,6 @@ namespace BuildingMaterialsStore.ViewModels
 {
     class PurchasesViewModel : ViewModel
     {
-        static String connectionString = @"Data Source=DESKTOP-R50QS4G;Initial Catalog=Storedb;Integrated Security=True";
         SqlConnection con;
         private SqlCommand com;
         public ObservableCollection<Purchases> purchases;
@@ -63,7 +62,7 @@ namespace BuildingMaterialsStore.ViewModels
         {
             try
             { 
-            using (con = new SqlConnection(connectionString))
+            using (con = new SqlConnection(AuthorizationSettings.connectionString))
             {
                 con.Open();
                 using (com = new SqlCommand("InputStore", con))

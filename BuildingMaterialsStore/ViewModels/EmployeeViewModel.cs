@@ -12,7 +12,6 @@ namespace BuildingMaterialsStore.ViewModels
 {
     class EmployeeViewModel : ViewModel
     {
-        static String connectionString = @"Data Source=DESKTOP-R50QS4G;Initial Catalog=storedb;Integrated Security=True";
         SqlConnection con;
         SqlCommand cmd;
         SqlDataAdapter adapter;
@@ -68,7 +67,7 @@ namespace BuildingMaterialsStore.ViewModels
         {
             try
             {
-                con = new SqlConnection(connectionString);
+                con = new SqlConnection(AuthorizationSettings.connectionString);
                 con.Open();
                 cmd = new SqlCommand("update Employee " +
                     "set UsersID = null " +
@@ -94,7 +93,7 @@ namespace BuildingMaterialsStore.ViewModels
         {
             try
             {
-                con = new SqlConnection(connectionString);
+                con = new SqlConnection(AuthorizationSettings.connectionString);
                 con.Open();
                 cmd = new SqlCommand("select EmployeeID, EmpLastName, EmpFirstName, EmpPatronymic, Sex, EmpDateOfBirth, EmpAddress, " +
                     "EmpPhoneNumber, Position, Experience " +

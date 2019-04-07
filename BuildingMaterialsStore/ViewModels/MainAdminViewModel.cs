@@ -1,5 +1,6 @@
 ﻿using BuildingMaterialsStore.Models;
 using BuildingMaterialsStore.Views.Pages;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -10,6 +11,8 @@ namespace BuildingMaterialsStore.ViewModels
     {
         public ICommand QuitAplicationCommand { get; } = new DelegateCommand(p => Application.Current.Shutdown());
         private WindowState _currentSate;
+        public ICommand HelpAplicationCommand{get;}
+
         public ICommand WindowStateCommand { get; }
         private Page _currentPage;
         public Page CurrentPage
@@ -36,9 +39,11 @@ namespace BuildingMaterialsStore.ViewModels
         }
         private Page CustomersPage;
         private Page EmployeePage;
-        private Page StoragePage;
+      //  private Page StoragePage;
         public MainAdminViewModel()
         {
+            HelpAplicationCommand = new DelegateCommand(OnHelpCommandExecuted);
+
             EmployeePage = new MainAdminPage("Работники");
             CustomersPage = new CustomerPage ("Покупатели");
            // EmployeePage = new MainStorage("Общестроительные");
@@ -48,7 +53,14 @@ namespace BuildingMaterialsStore.ViewModels
             CurrentPage = EmployeePage;
             WindowStateCommand = new DelegateCommand(OnCurrentWindowState);
         }
-        
+        private void OnHelpCommandExecuted(object o)
+        {
+            try
+            {
+                Process.Start("Help.chm");
+            }
+            catch { MessageBox.Show("Справка не найдена"); }
+        }
         private int _selectedIndex = -1;
         public int SeletedIndex
         {

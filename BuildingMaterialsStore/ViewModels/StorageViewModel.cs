@@ -15,7 +15,6 @@ namespace BuildingMaterialsStore.ViewModels
 {
     class StorageViewModel : ViewModel
     {
-        static String connectionString = @"Data Source=DESKTOP-R50QS4G;Initial Catalog=storedb;Integrated Security=True";
         SqlConnection con;
         private SqlCommand com;
         SqlCommand cmd;
@@ -94,7 +93,6 @@ namespace BuildingMaterialsStore.ViewModels
         }
         private void OnAddCommandExecuted(object o)
         {
-            //MessageBox.Show(SelectCustomer.Split()[0] + "  d  " + SelectCustomer.Split()[1]);
             Purchases pr = new Purchases();
             pr.storage = new Storage();
             pr.idstorage = SelectItemDataGrid.idStorage;
@@ -135,7 +133,7 @@ namespace BuildingMaterialsStore.ViewModels
             int idCustomer = 0;
             try
             {
-                con = new SqlConnection(connectionString);
+                con = new SqlConnection(AuthorizationSettings.connectionString);
                 con.Open();
                 cmd = new SqlCommand("select Customer.CustomerID from Customer " +
                     "where Customer.CustLastName like'%" + SelectCustomer.Split()[0] + "%' AND " +
@@ -205,11 +203,11 @@ namespace BuildingMaterialsStore.ViewModels
             if (Text != null && SelectItem == null) { view.Filter = o => FilterTextBox(o); return; }
             if (Text != null && SelectItem != null) { view.Filter = o => FilterComboBox(o) && FilterTextBox(o); return; }
         }
-        public void FillList()
+        private void FillList()
         {
             try
             {
-                con = new SqlConnection(connectionString);
+                con = new SqlConnection(AuthorizationSettings.connectionString);
                 con.Open();
                 cmd = new SqlCommand("select Storage.StorageID, Category.NameCategory, Unit.UnitName, Storage.[Name], Storage.[Count], Storage.[Description], Storage.Price from Storage " +
                     "join Unit on (Storage.UnitID=Unit.UnitID) " +
@@ -238,7 +236,7 @@ namespace BuildingMaterialsStore.ViewModels
             }
             catch (Exception ex)
             {
-
+                MessageBox.Show(ex.Message);
             }
             finally
             {
@@ -248,11 +246,11 @@ namespace BuildingMaterialsStore.ViewModels
                 con.Dispose();
             }
         }
-        public void List(string Category)
+        private void List(string Category)
         {
             try
             {
-                con = new SqlConnection(connectionString);
+                con = new SqlConnection(AuthorizationSettings.connectionString);
                 con.Open();
                 cmd = new SqlCommand("select Storage.StorageID, Category.NameCategory, Unit.UnitName, Storage.[Name], Storage.[Count], Storage.[Description], Storage.Price from Storage " +
                     "join Unit on (Storage.UnitID=Unit.UnitID) " +
@@ -295,7 +293,7 @@ namespace BuildingMaterialsStore.ViewModels
         private void FillListName()
         {
             DataTable dt = new DataTable();
-            using (con = new SqlConnection(connectionString))
+            using (con = new SqlConnection(AuthorizationSettings.connectionString))
             {
                 con.Open();
                 if (CurrentSection != "Главная")
@@ -326,7 +324,7 @@ namespace BuildingMaterialsStore.ViewModels
         private void FillListCustomer()
         {
             DataTable dt = new DataTable();
-            using (con = new SqlConnection(connectionString))
+            using (con = new SqlConnection(AuthorizationSettings.connectionString))
             {
                 con.Open();
 

@@ -11,7 +11,6 @@ namespace BuildingMaterialsStore.ViewModels
 {
     class CustomerViewModel
     {
-        static String connectionString = @"Data Source=DESKTOP-R50QS4G;Initial Catalog=storedb;Integrated Security=True";
         SqlConnection con;
         SqlCommand cmd;
         SqlDataAdapter adapter;
@@ -92,7 +91,7 @@ namespace BuildingMaterialsStore.ViewModels
         {
             try
             {
-                con = new SqlConnection(connectionString);
+                con = new SqlConnection(AuthorizationSettings.connectionString);
                 con.Open();
                 cmd = new SqlCommand("select CustomerID, CustLastName, CustFirstName, CustPatronymic, Sex, CustDateOfBirth, CustAddress, " +
                     "CustPhoneNumber " +

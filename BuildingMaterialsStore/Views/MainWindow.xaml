@@ -244,8 +244,7 @@
                             Width="30"
                             Command="{Binding WindowStateCommand}"
                             Style="{StaticResource MyButtonStyleTreiAndHelp}"
-                            >
-                            
+                            >                            
                             <TextBlock Text="_"  
                                    FontSize="30"
                                    
@@ -255,6 +254,7 @@
                         </Button>
                         <Button Height="30"
                             Width="30"
+                            Command="{Binding HelpAplicationCommand}"
                             Style="{StaticResource MyButtonStyleTreiAndHelp}"
                             >
                             <materialDesign:PackIcon Kind="QuestionMark"
