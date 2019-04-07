@@ -50,3 +50,7 @@ C:\Users\vanov\Documents\GitHub\BuildingMaterialsStore\BuildingMaterialsStore\ob
 C:\Users\vanov\Documents\GitHub\BuildingMaterialsStore\BuildingMaterialsStore\obj\Debug\Views\WindowAddPurchase.baml
 C:\Users\vanov\Documents\GitHub\BuildingMaterialsStore\BuildingMaterialsStore\obj\Debug\Views\WindowCustomerPurchases.g.cs
 C:\Users\vanov\Documents\GitHub\BuildingMaterialsStore\BuildingMaterialsStore\obj\Debug\Views\WindowCustomerPurchases.baml
+C:\Users\vanov\Documents\GitHub\BuildingMaterialsStore\BuildingMaterialsStore\obj\Debug\Views\AdminWindow.g.cs
+C:\Users\vanov\Documents\GitHub\BuildingMaterialsStore\BuildingMaterialsStore\obj\Debug\Views\AdminWindow.baml
+C:\Users\vanov\Documents\GitHub\BuildingMaterialsStore\BuildingMaterialsStore\obj\Debug\Views\Pages\MainAdminPage.g.cs
+C:\Users\vanov\Documents\GitHub\BuildingMaterialsStore\BuildingMaterialsStore\obj\Debug\Views\Pages\MainAdminPage.baml

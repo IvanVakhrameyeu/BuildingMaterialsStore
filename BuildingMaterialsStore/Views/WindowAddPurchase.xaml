@@ -70,6 +70,7 @@
                      FontSize="15"
                      VerticalAlignment="Top"
                      HorizontalAlignment="Left"
+                     
                      Text="{Binding CountPurchases,Mode=TwoWay}"                 
                      Margin="1, 0 ,0, 0"/>
             <Label DockPanel.Dock="Top" Content="Сумма"/>

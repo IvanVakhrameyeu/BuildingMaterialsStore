@@ -85,7 +85,7 @@ PurchaseDay Date not null,
 
 -------------------------опнжедспш
 --------------днаюбкемхе онйсойх
-drop proc InputStore
+--drop proc InputStore
 go
 create procedure InputStore 
 @EmployeeID int,
@@ -97,13 +97,32 @@ create procedure InputStore
 AS
 begin
 INSERT INTO Store(EmployeeID, CustomerID, StorageID, [Count], TotalPrice, PurchaseDay)
-                    VALUES (@EmployeeID, @CustomerID, @StorageID, @Count, @TotalPrice, @PurchaseDay)
-					
+                    VALUES (@EmployeeID, @CustomerID, @StorageID, @Count, @TotalPrice, @PurchaseDay)					
 end
 go
-
-select GETDATE()
 --exec InputStore @EmployeeID=3, @CustomerID=3, @StorageID=3, @Count=3, @TotalPrice=3
+-------------------слемэьемхе йнкхвеярбю рнбюпю мю яйкюде
+--drop proc DecreaseAmountStore
+go
+create procedure DecreaseAmountStore 
+@EmployeeID int,
+@CustomerID int,
+@StorageID int,
+@Count int,
+@TotalPrice float,
+@PurchaseDay Date
+AS
+begin
+
+
+end
+go
+--exec DecreaseAmountStore @EmployeeID=3, @CustomerID=3, @StorageID=3, @Count=3, @TotalPrice=3
+
+select UsersID, EmployeeID, EmpFirstName, EmpLastName, EmpPatronymic
+                from Employee
+                where UsersID = 2
+select UsersID, EmployeeID, EmpFirstName, EmpLastName, EmpPatronymic from Employee where UsersID = 1
 ----------------- ------------------------
 insert Access(AccessName) 
 values

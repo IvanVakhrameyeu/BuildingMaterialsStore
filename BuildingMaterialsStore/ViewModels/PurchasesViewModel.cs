@@ -8,6 +8,7 @@ using System.Data.SqlClient;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
+using Wpf_журнал_учащихся_школы;
 
 namespace BuildingMaterialsStore.ViewModels
 {
@@ -16,9 +17,6 @@ namespace BuildingMaterialsStore.ViewModels
         static String connectionString = @"Data Source=DESKTOP-R50QS4G;Initial Catalog=Storedb;Integrated Security=True";
         SqlConnection con;
         private SqlCommand com;
-        SqlCommand cmd;
-        SqlDataAdapter adapter;
-        DataSet ds;
         public ObservableCollection<Purchases> purchases;
         public ICollectionView view { get; set; }
         private Purchases _selectItemDataGrid = null;
@@ -58,34 +56,15 @@ namespace BuildingMaterialsStore.ViewModels
         {
             foreach (Purchases dr in delList)
             {
-                add(Purchases.idEmployee, dr.idCustomer, dr.idstorage, dr.Count, dr.Total);   // твой код
-                //outPutdb("exec InputStore @EmployeeID="+Purchases.idEmployee.ToString() + ", " +   // мой старый код
-                //    "@CustomerID="+ dr.idCustomer.ToString() + ", " +
-                //    "@StorageID=" + dr.storage.idStorage.ToString() + ", " +
-                //    "@Count=" + dr.Count.ToString() + ", " +
-                //    "@TotalPrice=" + dr.Total.ToString() +"");
+                add(Purchases.idEmployee, dr.idCustomer, dr.idstorage, dr.Count, dr.Total);                 
             }
+            WorkWithWord.writeClass(delList,"reportPurchases");
             End();
-        }
-        public void outPutdb(string sql) // вывод из бд
-        {
-            using (con = new SqlConnection(connectionString))
-            {
-                con.Open();
-                // Создаем объект DataAdapter (отправляет запрос на бд)
-                adapter = new SqlDataAdapter(sql, con);
-                // Создаем объект Dataset (представление о таблице)
-                // DataSet ds = new DataSet();
-                // Заполняем Dataset
-                // adapter.Fill(ds);
-                // return ds;
-            }
-        }
+        }      
         private void add(int EmployeeID, int CustomerID, int StorageID, int Count, double TotalPrice)
         {
-
-            //string insert= "INSERT INTO Store(EmployeeID, CustomerID, StorageID, [Count], TotalPrice) " +
-            //        "VALUES (@EmployeeID, @CustomerID, @StorageID, @[Count], @TotalPrice)";                            
+            try
+            { 
             using (con = new SqlConnection(connectionString))
             {
                 con.Open();
@@ -98,23 +77,20 @@ namespace BuildingMaterialsStore.ViewModels
                     com.Parameters.AddWithValue("@Count", SqlDbType.TinyInt).Value = Count;
                     com.Parameters.AddWithValue("@TotalPrice", SqlDbType.Float).Value = TotalPrice;
                     com.Parameters.AddWithValue("@PurchaseDay", SqlDbType.Float).Value = DateTime.Now;
-                    MessageBox.Show("вставка успешна");
                     com.ExecuteNonQuery();
                 }
                 con.Close();
             }
-            /*}
+            }
             catch (Exception ex)
             {
-
+                MessageBox.Show(ex.Message);
             }
             finally
             {
-                ds = null;
-                //adapter.Dispose();
                 con.Close();
                 con.Dispose();
-            }*/
+            }
         }
         private void End()
         {

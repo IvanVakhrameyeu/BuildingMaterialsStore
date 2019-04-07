@@ -98,7 +98,7 @@ namespace BuildingMaterialsStore.ViewModels
             Purchases pr = new Purchases();
             pr.storage = new Storage();
             pr.idstorage = SelectItemDataGrid.idStorage;
-
+            
             if (purchases == null)
             {
                 purchases = new List<Purchases>();
@@ -114,6 +114,9 @@ namespace BuildingMaterialsStore.ViewModels
                 MessageBox.Show("Выберите покупателя");
                 return;
             }
+            pr.CustLastName = SelectCustomer.Split()[0];
+            pr.CustFirstName = SelectCustomer.Split()[1];
+
             pr.storage.NameCategory = SelectItemDataGrid.NameCategory;
             pr.storage.Name = SelectItemDataGrid.Name;
             pr.storage.Price = SelectItemDataGrid.Price;
@@ -279,7 +282,7 @@ namespace BuildingMaterialsStore.ViewModels
             }
             catch (Exception ex)
             {
-
+                MessageBox.Show(ex.Message);
             }
             finally
             {
