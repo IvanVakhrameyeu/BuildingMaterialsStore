@@ -15,6 +15,7 @@
                       CanUserAddRows="False"
                       ItemsSource="{Binding employee}"
                       FrozenColumnCount="2"
+                      FontSize="13"
                       Background="White"
                       ColumnHeaderHeight="30" 
                       Width="650"
@@ -43,7 +44,7 @@
                 <DataGridTextColumn Header="Имя" Binding="{Binding Path='EmpFirstName'}" IsReadOnly="True" />
                 <DataGridTextColumn Header="Отчество" Binding="{Binding Path='EmpPatronymic'}" IsReadOnly="True" />
                 <DataGridTextColumn Header="Пол" Binding="{Binding Path='Sex'}" IsReadOnly="True" />
-                <DataGridTextColumn Header="Дата рождения"  Binding="{Binding Path='EmpDateOfBirth'}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Дата рождения"  Binding="{Binding Path='EmpDateOfBirth', StringFormat=\{0:dd.MM.yy\}}" IsReadOnly="True" />
                 <DataGridTextColumn Header="Адрес"  Binding="{Binding Path='EmpAddress'}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Номер телефона"  Binding="{Binding Path='EmpPhoneNumber'}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Должность"  Binding="{Binding Path='Position'}" IsReadOnly="True"/>

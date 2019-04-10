@@ -20,17 +20,14 @@ namespace BuildingMaterialsStore.ViewModels
         SqlCommand cmd;
         SqlDataAdapter adapter;
         DataSet ds;
-        private List<Purchases> purchases { get; set; } = null;
+        public static List<Purchases> purchases { get; set; } = null;
         private string _section;
         private string _selectItem = null;
-        private string _selectCustomer = null;
         private string _text = null;
         public ICollectionView view { get; set; }
         public ICommand ClearFilterCommand { get; }
         public ICommand AddCommand { get; }
-        public ICommand ShoppingBasket { get; }
         public List<String> names { get; set; }
-        public List<String> customers { get; set; }
         public ObservableCollection<Storage> storages { get; set; }
         public string CurrentSection
         {
@@ -49,16 +46,6 @@ namespace BuildingMaterialsStore.ViewModels
                 if (_selectItem == value) return;
                 _selectItem = value;
                 Filter();
-            }
-        }
-        public string SelectCustomer
-        {
-            get { return _selectCustomer; }
-            set
-            {
-                if (_selectCustomer == value) return;
-                _selectCustomer = value;
-                purchases = new List<Purchases>();
             }
         }
         public string Text
@@ -88,15 +75,18 @@ namespace BuildingMaterialsStore.ViewModels
         {
             ClearFilterCommand = new DelegateCommand(OnClearFilterCommandExecuted, OnClearFilterCommandCanExecuted);
             AddCommand = new DelegateCommand(OnAddCommandExecuted);
-            ShoppingBasket = new DelegateCommand(OnAddPurchaseCommandExecuted);
             asyncMainMethod(section);
         }
+        /// <summary>
+        /// событие открытия окна с добавлением товара в корзину
+        /// </summary>
+        /// <param name="o"></param>
         private void OnAddCommandExecuted(object o)
         {
             Purchases pr = new Purchases();
             pr.storage = new Storage();
             pr.idstorage = SelectItemDataGrid.idStorage;
-            
+
             if (purchases == null)
             {
                 purchases = new List<Purchases>();
@@ -112,8 +102,8 @@ namespace BuildingMaterialsStore.ViewModels
                 MessageBox.Show("Выберите покупателя");
                 return;
             }
-            pr.CustLastName = SelectCustomer.Split()[0];
-            pr.CustFirstName = SelectCustomer.Split()[1];
+            pr.CustLastName = MainViewModel.SelectCustomer.Split()[0];
+            pr.CustFirstName = MainViewModel.SelectCustomer.Split()[1];
 
             pr.storage.NameCategory = SelectItemDataGrid.NameCategory;
             pr.storage.Name = SelectItemDataGrid.Name;
@@ -121,13 +111,17 @@ namespace BuildingMaterialsStore.ViewModels
             pr.storage.UnitName = SelectItemDataGrid.UnitName;
             pr.storage.Description = SelectItemDataGrid.Description;
 
-            new WindowAddPurchase(pr, SelectItemDataGrid.NameCategory, SelectItemDataGrid.Name, SelectItemDataGrid.Description, SelectItemDataGrid.Price).ShowDialog();
+            new WindowAddPurchase(pr, SelectItemDataGrid.Count).ShowDialog();
             if (pr != null && purchases != null)
             {
                 if (!(pr.Count <= 0))
+                {
                     purchases.Add(pr);
+                }
             }
+            
         }
+        
         private int findCustomer()
         {
             int idCustomer = 0;
@@ -136,8 +130,8 @@ namespace BuildingMaterialsStore.ViewModels
                 con = new SqlConnection(AuthorizationSettings.connectionString);
                 con.Open();
                 cmd = new SqlCommand("select Customer.CustomerID from Customer " +
-                    "where Customer.CustLastName like'%" + SelectCustomer.Split()[0] + "%' AND " +
-                    "Customer.CustFirstName like '%" + SelectCustomer.Split()[1] + "%'", con);
+                    "where Customer.CustLastName like'%" + MainViewModel.SelectCustomer.Split()[0] + "%' AND " +
+                    "Customer.CustFirstName like '%" + MainViewModel.SelectCustomer.Split()[1] + "%'", con);
                 adapter = new SqlDataAdapter(cmd);
                 ds = new DataSet();
                 adapter.Fill(ds, "Storedb");
@@ -157,10 +151,6 @@ namespace BuildingMaterialsStore.ViewModels
             }
             return idCustomer;
         }
-        private void OnAddPurchaseCommandExecuted(object o)
-        {
-            new WindowCustomerPurchases(purchases).ShowDialog();
-        }
         async private void asyncMainMethod(string section)
         {
             CurrentSection = section;
@@ -172,7 +162,6 @@ namespace BuildingMaterialsStore.ViewModels
                     break;
             }
             await Task.Run(() => FillListName());
-            await Task.Run(() => FillListCustomer());
         }
 
         private void OnClearFilterCommandExecuted(object Select)
@@ -319,28 +308,6 @@ namespace BuildingMaterialsStore.ViewModels
             foreach (DataRow dr in dt.Rows)
             {
                 names.Add(dr[0].ToString());
-            }
-        }
-        private void FillListCustomer()
-        {
-            DataTable dt = new DataTable();
-            using (con = new SqlConnection(AuthorizationSettings.connectionString))
-            {
-                con.Open();
-
-                using (com = new SqlCommand("select distinct CustLastName, CustFirstName from Customer", con))
-                {
-                    dt.Load(com.ExecuteReader());
-                }
-                con.Close();
-            }
-
-            if (customers == null)
-                customers = new List<String>();
-
-            foreach (DataRow dr in dt.Rows)
-            {
-                customers.Add(dr[0].ToString() + " " + dr[1].ToString());
             }
         }
     }

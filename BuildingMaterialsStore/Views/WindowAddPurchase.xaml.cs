@@ -7,10 +7,10 @@ namespace BuildingMaterialsStore.Views
 {
     public partial class WindowAddPurchase : Window
     {
-        public WindowAddPurchase(Purchases purchases, string NameCategory, string Name, string Description, double Price)
+        public WindowAddPurchase(Purchases purchases, int AmountGoods)
         {
             InitializeComponent();
-            DataContext = new AddWindowModel( purchases,NameCategory,Name,Description,Price);
+            DataContext = new AddPurchaseViewModel( purchases, AmountGoods);
         }
         private void DockPanel_MouseDown(object sender, MouseButtonEventArgs e)
         {

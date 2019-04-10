@@ -1,4 +1,5 @@
 ﻿using BuildingMaterialsStore.Models;
+using BuildingMaterialsStore.Views;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -6,6 +7,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Windows;
 using System.Windows.Data;
+using System.Windows.Input;
 
 namespace BuildingMaterialsStore.ViewModels
 {
@@ -18,7 +20,7 @@ namespace BuildingMaterialsStore.ViewModels
         private string _section;
         private string _selectCustomer = null;
         public ICollectionView view { get; set; }
-        //public ICommand DelCommand { get; }
+        public ICommand AddCommand { get; }
         public ObservableCollection<Customer> customer { get; set; }
         public string CurrentSection
         {
@@ -51,14 +53,14 @@ namespace BuildingMaterialsStore.ViewModels
                 _selectItemDataGrid = value;
             }
         }
-        public CustomerViewModel(string section)
+        public CustomerViewModel()
         {
-         //   DelCommand = new DelegateCommand(OnDeleteCommandExecuted);
-            asyncMainMethod(section);
+            AddCommand = new DelegateCommand(OnAddCommandExecuted);
+            asyncMainMethod();
         }
-        private void asyncMainMethod(string section)
+        private void asyncMainMethod()
         {
-            CurrentSection = section;
+            //CurrentSection = section;
             FillList();
         }
         //private void OnDeleteCommandExecuted(object o)
@@ -87,6 +89,11 @@ namespace BuildingMaterialsStore.ViewModels
         //        con.Dispose();
         //    }
         //}
+        private void OnAddCommandExecuted(object o)
+        {
+            new WindowAddCustomer().ShowDialog();
+
+        }
         public void FillList()
         {
             try

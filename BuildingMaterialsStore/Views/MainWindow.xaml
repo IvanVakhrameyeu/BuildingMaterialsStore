@@ -221,6 +221,21 @@
                                                >Сад и огород</TextBlock>
                         </DockPanel >
                     </ListViewItem>
+                    <ListViewItem HorizontalContentAlignment="Left"
+                                          FontSize="20"
+                                          Width="230"
+                                          Margin="0">
+                        <DockPanel VerticalAlignment="Center">
+                            <materialDesign:PackIcon 
+                                                             Height="25"
+                                                             VerticalAlignment="Center"
+                                                             Width="25"
+                                                             />
+                            <TextBlock Foreground="White"
+                                               Margin="0,0,0,0"
+                                               >Клиенты</TextBlock>
+                        </DockPanel >
+                    </ListViewItem>
                 </ListView>
                 </StackPanel>
             </DockPanel>
@@ -281,7 +296,27 @@
                     </StackPanel>
                 </Border>
             </DockPanel>
-        
+        <DockPanel DockPanel.Dock="Top" Height="30">
+            <TextBlock 
+                       Width="150"
+                       FontSize="15"                   
+                       Foreground="#1A1A24"
+                       Text="Выберите клиента"
+                />
+            <ComboBox 
+                      Height="30" 
+                      Width="250"
+                      HorizontalAlignment="Left"
+                      Background="White"
+                      SelectedItem="{Binding SelectCustomer}"
+                      ItemsSource="{ Binding customers}"
+                      Margin="0 0 0 0"
+                      VerticalAlignment="Top"/>
+            <Button Content="Корзина"
+                     Command="{Binding ShoppingBasket}"
+                    />
+        </DockPanel>
+
         <DockPanel Background="#F8F8F8" 
                    >
             <Frame 

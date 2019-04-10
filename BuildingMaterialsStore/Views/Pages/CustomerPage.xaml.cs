@@ -5,10 +5,14 @@ namespace BuildingMaterialsStore.Views.Pages
 {
     public partial class CustomerPage : Page
     {
-        public CustomerPage(string section)
+        public CustomerPage()
         {
-            InitializeComponent();
-            DataContext = new CustomerViewModel(section);
+            try
+            {
+                InitializeComponent();
+                DataContext = new CustomerViewModel();
+            }
+            catch { }
         }
     }
 }

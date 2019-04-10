@@ -10,11 +10,21 @@
       Title="CustomerPage">
 
     <DockPanel Width="650">
+        <DockPanel DockPanel.Dock="Top">
+            <Button Width="100"
+                    Height="30"
+                    Content="Добавление"   
+                    Command="{Binding AddCommand}"
+                   >
+               
+            </Button>
+        </DockPanel>
         <DataGrid Margin="0" 
                       AutoGenerateColumns="False" 
                       CanUserAddRows="False"
                       ItemsSource="{Binding customer}"
-                      FrozenColumnCount="2"
+                      FrozenColumnCount="3"
+                      FontSize="13"
                       Background="White"
                       ColumnHeaderHeight="30" 
                       Width="650"
@@ -32,7 +42,7 @@
                 <DataGridTextColumn Header="Имя" Binding="{Binding Path='CustFirstName'}" IsReadOnly="True" />
                 <DataGridTextColumn Header="Отчество" Binding="{Binding Path='CustPatronymic'}" IsReadOnly="True" />
                 <DataGridTextColumn Header="Пол" Binding="{Binding Path='Sex'}" IsReadOnly="True" />
-                <DataGridTextColumn Header="Дата рождения"  Binding="{Binding Path='CustDateOfBirth'}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Дата рождения"  Binding="{Binding Path='CustDateOfBirth', StringFormat=\{0:dd.MM.yy\}}" IsReadOnly="True" />
                 <DataGridTextColumn Header="Адрес"  Binding="{Binding Path='CustAddress'}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Номер телефона"  Binding="{Binding Path='CustPhoneNumber'}" IsReadOnly="True"/>
             

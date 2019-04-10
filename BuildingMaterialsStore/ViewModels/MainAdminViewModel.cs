@@ -39,16 +39,12 @@ namespace BuildingMaterialsStore.ViewModels
         }
         private Page CustomersPage;
         private Page EmployeePage;
-      //  private Page StoragePage;
         public MainAdminViewModel()
         {
             HelpAplicationCommand = new DelegateCommand(OnHelpCommandExecuted);
 
             EmployeePage = new MainAdminPage("Работники");
-            CustomersPage = new CustomerPage ("Покупатели");
-           // EmployeePage = new MainStorage("Общестроительные");
-            //StoragePage = new MainStorage("Кровельные материалы");
-            //FacadeMaterialsPage = new MainStorage("Фасадные материалы");
+            CustomersPage = new CustomerPage ();
 
             CurrentPage = EmployeePage;
             WindowStateCommand = new DelegateCommand(OnCurrentWindowState);
@@ -81,8 +77,6 @@ namespace BuildingMaterialsStore.ViewModels
             {
                 case 0: { CurrentPage = EmployeePage; break; }
                 case 1: { CurrentPage = CustomersPage; break; }
-                //case 2: { CurrentPage = EmployeePage; break; }
-                //case 3: { CurrentPage = StoragePage; break; }
                 default: { CurrentPage = null; break; }
             }
         }

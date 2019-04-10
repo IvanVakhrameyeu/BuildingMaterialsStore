@@ -9,26 +9,6 @@
       Title="MainStorage">
 
     <DockPanel Width="650">
-        <DockPanel DockPanel.Dock="Top" Height="30">
-            <TextBlock 
-                       Width="150"
-                       FontSize="15"                   
-                       Foreground="#1A1A24"
-                       Text="Выберите клиента"
-                />
-            <ComboBox 
-                      Height="30" 
-                      Width="250"
-                      HorizontalAlignment="Left"
-                      Background="White"
-                SelectedItem="{Binding SelectCustomer}"
-                      ItemsSource="{Binding customers}"
-                      Margin="0 0 0 0"
-                      VerticalAlignment="Top"/>
-            <Button Content="Корзина"
-                     Command="{Binding ShoppingBasket}"
-                    />
-        </DockPanel>
         <DockPanel DockPanel.Dock="Top" Height="30" Margin="0 0 0 0">
             <ComboBox Width="200" 
                      HorizontalAlignment="Left" 

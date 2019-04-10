@@ -109,6 +109,14 @@
                     <Run Text="Цена "/>
                     <Run Text="{Binding Price }"    />
                 </TextBlock>
+                <TextBlock HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            FontSize="15" 
+                            Width="230"
+                            DockPanel.Dock="Top">
+                    <Run Text="Количество товара на складе "/>
+                    <Run Text="{Binding AmountGoods }"    />                    
+                </TextBlock>
             </DockPanel>
         </DockPanel>
     </DockPanel>

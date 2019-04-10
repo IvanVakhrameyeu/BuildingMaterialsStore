@@ -14,12 +14,11 @@ namespace BuildingMaterialsStore.Views
         }
         private void SignIn_Click(object sender, RoutedEventArgs e)
         {
-            string connectionString = @"Data Source=DESKTOP-R50QS4G;Initial Catalog=storedb;Integrated Security=True";
             SqlConnection con;
             SqlCommand cmd;
             SqlDataAdapter adapter;
             DataSet ds;
-            con = new SqlConnection(connectionString);
+            con = new SqlConnection(AuthorizationSettings.connectionString);
             con.Open();
             cmd = new SqlCommand("select Users.UsersID, AccessName, [Login], [Password], EmployeeID, EmpFirstName, EmpLastName, EmpPatronymic " +
                 "from Users " +

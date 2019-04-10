@@ -29,6 +29,7 @@ Sex varchar(2) not null ,
 CustDateOfBirth  Date not null, 
 CustAddress varchar(200) not null, 
 CustPhoneNumber varchar(20) not null, 
+CustDiscountAmount tinyint null
 )
 ----------ÏÎËÜÇÎÂÀÒÅËÈ-----------
 create table Users
@@ -101,23 +102,21 @@ INSERT INTO Store(EmployeeID, CustomerID, StorageID, [Count], TotalPrice, Purcha
 end
 go
 --exec InputStore @EmployeeID=3, @CustomerID=3, @StorageID=3, @Count=3, @TotalPrice=3
--------------------ÓÌÅÍÜØÅÍÈÅ ÊÎËÈ×ÅÑÒÂÀ ÒÎÂÀĞÀ ÍÀ ÑÊËÀÄÅ
+-------------------ÓÌÅÍÜØÅÍÈÅ ÊÎËÈ×ÅÑÒÂÀ ÒÎÂÀĞÀ ÍÀ ÑÊËÀÄÅ (ıòî áû íà òğèããåğ ïåğåíåñòè ïîòîì)
 --drop proc DecreaseAmountStore
 go
 create procedure DecreaseAmountStore 
-@EmployeeID int,
-@CustomerID int,
 @StorageID int,
-@Count int,
-@TotalPrice float,
-@PurchaseDay Date
+@Count int
 AS
 begin
-
-
+update Storage
+set 
+[Count]=[Count]-@Count
+where StorageID=@StorageID
 end
 go
---exec DecreaseAmountStore @EmployeeID=3, @CustomerID=3, @StorageID=3, @Count=3, @TotalPrice=3
+exec DecreaseAmountStore @StorageID=3, @Count=3
 
 ----------------- ------------------------
 insert Access(AccessName) 
