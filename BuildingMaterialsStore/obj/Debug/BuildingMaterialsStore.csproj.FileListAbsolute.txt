@@ -73,3 +73,5 @@ C:\Users\vanov\Documents\GitHub\BuildingMaterialsStore\BuildingMaterialsStore\bi
 C:\Users\vanov\Documents\GitHub\BuildingMaterialsStore\BuildingMaterialsStore\bin\Debug\ru\Xceed.Wpf.AvalonDock.resources.dll
 C:\Users\vanov\Documents\GitHub\BuildingMaterialsStore\BuildingMaterialsStore\bin\Debug\sv\Xceed.Wpf.AvalonDock.resources.dll
 C:\Users\vanov\Documents\GitHub\BuildingMaterialsStore\BuildingMaterialsStore\bin\Debug\zh-Hans\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\vanov\Documents\GitHub\BuildingMaterialsStore\BuildingMaterialsStore\obj\Debug\Views\Pages\ReportsPage.g.cs
+C:\Users\vanov\Documents\GitHub\BuildingMaterialsStore\BuildingMaterialsStore\obj\Debug\Views\Pages\ReportsPage.baml

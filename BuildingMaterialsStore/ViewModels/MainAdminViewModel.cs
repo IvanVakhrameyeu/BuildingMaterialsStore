@@ -39,12 +39,14 @@ namespace BuildingMaterialsStore.ViewModels
         }
         private Page CustomersPage;
         private Page EmployeePage;
+        private Page RepPage;
         public MainAdminViewModel()
         {
             HelpAplicationCommand = new DelegateCommand(OnHelpCommandExecuted);
 
             EmployeePage = new MainAdminPage("Работники");
             CustomersPage = new CustomerPage ();
+            RepPage = new ReportsPage ();
 
             CurrentPage = EmployeePage;
             WindowStateCommand = new DelegateCommand(OnCurrentWindowState);
@@ -77,6 +79,7 @@ namespace BuildingMaterialsStore.ViewModels
             {
                 case 0: { CurrentPage = EmployeePage; break; }
                 case 1: { CurrentPage = CustomersPage; break; }
+                case 2: { CurrentPage = RepPage; break; }
                 default: { CurrentPage = null; break; }
             }
         }

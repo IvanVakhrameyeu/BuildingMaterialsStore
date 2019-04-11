@@ -16,7 +16,7 @@ namespace BuildingMaterialsStore.ViewModels
     class StorageViewModel : ViewModel
     {
         SqlConnection con;
-        private SqlCommand com;
+        SqlCommand com;
         SqlCommand cmd;
         SqlDataAdapter adapter;
         DataSet ds;

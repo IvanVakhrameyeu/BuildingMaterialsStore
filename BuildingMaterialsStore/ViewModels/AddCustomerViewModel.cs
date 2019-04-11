@@ -1,5 +1,7 @@
 ﻿using BuildingMaterialsStore.Models;
 using System;
+using System.Data;
+using System.Data.SqlClient;
 using System.Windows;
 using System.Windows.Input;
 
@@ -7,6 +9,9 @@ namespace BuildingMaterialsStore.ViewModels
 {
     class AddCustomerViewModel : ViewModel
     {
+        SqlConnection con;
+        private SqlCommand com;
+
         private string _custLastName;
         private string _custFirstName;
         private string _custPatronymic;
@@ -55,26 +60,11 @@ namespace BuildingMaterialsStore.ViewModels
                 return _sex;
             }
             set
-            {                
+            {
                 _sex = value;
             }
         }
-        public DateTime CustDateOfBirth
-        {
-            get
-            {
-                return _custDateOfBirth;
-            }
-            set
-            {
-                if (((DateTime.Today.Day - value.Day) / 365) < 18)
-                {
-                    MessageBox.Show("ВАМ МЕНЬШЕ 18!!!!АДЫН");
-                    return;
-                }
-                _custDateOfBirth = value;
-            }
-        }
+        public DateTime CustDateOfBirth { get; set; }
         public string CustAddress
         {
             get
@@ -100,22 +90,58 @@ namespace BuildingMaterialsStore.ViewModels
 
         public ICommand QuitAplicationCommand { get; }
         public ICommand AddCommand { get; }
-
+        /// <summary>
+        /// привязка делегатов в конструкторе
+        /// </summary>
         public AddCustomerViewModel()
         {
             QuitAplicationCommand = new DelegateCommand(CloseExcute);
             AddCommand = new DelegateCommand(Add);
-
-            
         }
+        /// <summary>
+        /// добавление в базу данных нового клиента
+        /// </summary>
+        private void AddInDB()
+        {
+            try
+            {
+                using (con = new SqlConnection(AuthorizationSettings.connectionString))
+                {
+                    con.Open();
+                    using (com = new SqlCommand("InsertCustomer", con))
+                    {
+                        com.CommandType = CommandType.StoredProcedure;
+                        com.Parameters.AddWithValue("@CustLastName", SqlDbType.VarChar).Value = CustLastName;
+                        com.Parameters.AddWithValue("@CustFirstName", SqlDbType.VarChar).Value = CustFirstName;
+                        com.Parameters.AddWithValue("@CustPatronymic", SqlDbType.VarChar).Value = CustPatronymic;
+                        com.Parameters.AddWithValue("@Sex", SqlDbType.VarChar).Value = Sex;
+                        com.Parameters.AddWithValue("@CustDateOfBirth", SqlDbType.Date).Value = CustDateOfBirth;
+                        com.Parameters.AddWithValue("@CustAddress", SqlDbType.VarChar).Value = CustAddress;
+                        com.Parameters.AddWithValue("@CustPhoneNumber", SqlDbType.VarChar).Value = CustPhoneNumber;
+                        com.ExecuteNonQuery();
+                    }
+                    con.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                con.Close();
+                con.Dispose();
+            }
+        }
+        /// <summary>
+        /// добаление клиента и закрытие окна
+        /// </summary>
+        /// <param name="t"></param>
         private void Add(object t)
         {
-
-            foreach (Window item in Application.Current.Windows)
-            {
-                if (item.ToString() == "BuildingMaterialsStore.Views.WindowAddCustomer")
-                    item.Close();
-            }
+            //AddInDB();
+            //MessageBox.Show(CustDateOfBirth.ToString());
+            CloseExcute(new object());
         }
         /// <summary>
         /// закрытие окна

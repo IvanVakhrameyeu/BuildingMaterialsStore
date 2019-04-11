@@ -1,0 +1,170 @@
+﻿<Page x:Class="BuildingMaterialsStore.Views.Pages.ReportsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:BuildingMaterialsStore.Views.Pages"
+      xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="650"
+      Title="ReportsPage">
+
+
+    <DockPanel>
+
+        <DockPanel DockPanel.Dock="Top">
+            <DockPanel DockPanel.Dock="Left">
+                <DockPanel DockPanel.Dock="Top">
+                    <Button Width="250"
+                    Height="37"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Left"
+                    Content="Отчет по товарам"   
+                    Command="{Binding PurchasesRepCommand}"
+                   />
+                </DockPanel>
+                <DockPanel DockPanel.Dock="Top">
+                    <Button Width="250"
+                    Height="37"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Left"
+                    Content="Отчет по продавцам"   
+                    Command="{Binding EmplRepCommand}"
+                   />
+                </DockPanel>
+                <DockPanel DockPanel.Dock="Top">
+                    <Button Width="250"
+                    Height="38"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Left"
+                    Content="Отчет по покупателям"   
+                    Command="{Binding CustRepCommand}"
+                   />
+                </DockPanel>
+            </DockPanel>
+            <DockPanel DockPanel.Dock="Left">
+                <Label
+                DockPanel.Dock="Top"
+                Content="С"/>
+                <DatePicker  DockPanel.Dock="Top"
+                     Width="200"
+                             
+                     Height="30"
+                     FontSize="15"
+                     VerticalAlignment="Top"
+                     HorizontalAlignment="Left"                     
+                     SelectedDate="{Binding DateFrom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     Margin="1, 0 ,0, 0"/>
+                <Label
+                DockPanel.Dock="Top"
+                Content="Работник"/>
+                <ComboBox DockPanel.Dock="Top"
+                     Width="200" 
+                     Height="30"
+                     FontSize="15"
+                     VerticalAlignment="Top"
+                     HorizontalAlignment="Left"                     
+                     ItemsSource="{Binding employees}"  
+                     SelectedItem="{ Binding SelectedEmployee}"
+                     Margin="1, 0 ,0, 0">
+                </ComboBox>
+            </DockPanel>
+            <DockPanel>
+                <Label
+                DockPanel.Dock="Top"
+                Content="По"/>
+                <DatePicker  DockPanel.Dock="Top"
+                     Width="200" 
+                     Height="30"
+                     FontSize="15"
+                     VerticalAlignment="Top"
+                     HorizontalAlignment="Left"
+                     
+                     SelectedDate="{Binding DateTo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     Margin="1, 0 ,0, 0"/>
+                <Label
+                DockPanel.Dock="Top"
+                Content="Покупатель"/>
+                <ComboBox DockPanel.Dock="Top"
+                     Width="200"
+                     Height="30"
+                     FontSize="15"
+                     VerticalAlignment="Top"
+                     HorizontalAlignment="Left"                     
+                     ItemsSource="{Binding customers}"                 
+                     Margin="1, 0 ,0, 0"/>
+            </DockPanel>
+        </DockPanel>
+        <DockPanel>
+            <DockPanel DockPanel.Dock="Top" Height="30" Margin="0 0 0 0">
+                <ComboBox Width="200"                           
+                     HorizontalAlignment="Left" 
+                     ItemsSource="{Binding namesCategory}"                     
+                     SelectedItem="{Binding SelectNameCategoryItem}">
+                    <ComboBox.Effect>
+                        <DropShadowEffect Color="Black" Direction="300" BlurRadius="13" ShadowDepth="7" Opacity="0.2"/>
+                    </ComboBox.Effect>
+                </ComboBox>
+                <ComboBox Width="195"                           
+                     HorizontalAlignment="Left" 
+                     ItemsSource="{Binding names}"                     
+                     SelectedItem="{Binding SelectNameItem}">
+                    <ComboBox.Effect>
+                        <DropShadowEffect Color="Black" Direction="300" BlurRadius="13" ShadowDepth="7" Opacity="0.2"/>
+                    </ComboBox.Effect>
+                </ComboBox>
+                <TextBox Width="150" 
+                     HorizontalAlignment="Left" 
+                     Text="{Binding Text,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"                 
+                     />
+                <Button   Width="105"
+                      HorizontalAlignment="Left"
+                      Command="{Binding ClearFilterCommand}"
+                      Content="Clear Filter"
+                  
+                 />
+            </DockPanel>
+            <DockPanel>
+                <DataGrid Margin="0" 
+                      AutoGenerateColumns="False" 
+                      CanUserAddRows="False"
+                      ItemsSource="{Binding storages}"
+                      FrozenColumnCount="2"
+                      Background="White"
+                      ColumnHeaderHeight="30" 
+                      Width="650"
+                      HorizontalAlignment="Left"
+                      SelectedItem="{Binding SelectItemDataGrid}"
+                      >
+                    <DataGrid.Effect>
+                        <DropShadowEffect Color="Black" Direction="300" BlurRadius="13" ShadowDepth="7" Opacity="0.2"/>
+                    </DataGrid.Effect>
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Width="70">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button 
+                                Background="#FFC200"
+                                BorderBrush="#FFC200"
+                                Command="{Binding  Path=DataContext.Purchases, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                              >
+                                        <materialDesign:PackIcon Foreground="White" Kind="QuestionAnswer"/>
+                                    </Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Header="Id"  Visibility="Hidden" Binding="{Binding Path='idStorage'}" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Категория" Binding="{Binding Path='NameCategory'}" IsReadOnly="True" />
+                        <DataGridTextColumn Header="Название" Binding="{Binding Path='Name'}" IsReadOnly="True" />
+                        <DataGridTextColumn Header="Мера" Binding="{Binding Path='UnitName'}" IsReadOnly="True" />
+                        <DataGridTextColumn Header="Количество" Binding="{Binding Path='Count'}" IsReadOnly="True" />
+                        <DataGridTextColumn Header="Стоимость"  Binding="{Binding Path='Price'}" IsReadOnly="True" />
+                        <DataGridTextColumn Header="Описание"  Binding="{Binding Path='Description'}" IsReadOnly="True"/>
+
+                    </DataGrid.Columns>
+                </DataGrid>
+            </DockPanel>
+        </DockPanel>
+    </DockPanel>
+</Page>

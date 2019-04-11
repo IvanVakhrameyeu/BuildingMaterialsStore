@@ -6,20 +6,21 @@
       xmlns:local="clr-namespace:BuildingMaterialsStore.Views.Pages"
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="650"
+      d:DesignHeight="500" d:DesignWidth="450"
       Title="CustomerPage">
 
-    <DockPanel Width="650">
+    <DockPanel>
         <DockPanel DockPanel.Dock="Top">
-            <Button Width="100"
+            <Button Width="650"
                     Height="30"
+                    HorizontalAlignment="Left"
                     Content="Добавление"   
                     Command="{Binding AddCommand}"
-                   >
-               
-            </Button>
+                   />
         </DockPanel>
-        <DataGrid Margin="0" 
+        <DataGrid DockPanel.Dock="Top" 
+            Margin="0" 
+                  VerticalAlignment="Top"
                       AutoGenerateColumns="False" 
                       CanUserAddRows="False"
                       ItemsSource="{Binding customer}"

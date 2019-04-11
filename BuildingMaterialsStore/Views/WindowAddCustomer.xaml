@@ -96,15 +96,12 @@
                 Content="Дата рождения"/>
                 <xctk:DateTimePicker  DockPanel.Dock="Top"
                      Width="200" 
-                     Format="LongDate"
-                     BorderBrush="{x:Null}"
                      Height="30"
                      FontSize="15"
                      VerticalAlignment="Top"
                      HorizontalAlignment="Left"
                      
                      Text="{Binding CustDateOfBirth}"
-                                      Name="DayB"
                      Margin="1, 0 ,0, 0"/>
                 <Label
                 DockPanel.Dock="Top"
@@ -121,12 +118,13 @@
                 <Label
                 DockPanel.Dock="Top"
                 Content="Номер телефона"/>
-                <TextBox DockPanel.Dock="Top"
+                <xctk:MaskedTextBox DockPanel.Dock="Top"
                      Width="200" 
                      Height="30"
                      FontSize="15"
                      VerticalAlignment="Top"
-                     HorizontalAlignment="Left"                     
+                     HorizontalAlignment="Left"                  
+                         Mask="+375 00 000 00 00"
                      Text="{Binding CustPhoneNumber,Mode=TwoWay}"                 
                      Margin="1, 0 ,0, 0"/>
             </DockPanel>

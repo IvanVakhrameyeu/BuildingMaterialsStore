@@ -116,8 +116,29 @@ set
 where StorageID=@StorageID
 end
 go
-exec DecreaseAmountStore @StorageID=3, @Count=3
+--exec DecreaseAmountStore @StorageID=3, @Count=3
+-------------------------------------------ÄÎÁÀÂËÅÍÈÅ ÊËÈÅÍÒÀ
+--drop proc InsertCustomer
+go
+create procedure InsertCustomer 
+@CustLastName varchar(20), 
+@CustFirstName varchar(20), 
+@CustPatronymic varchar(20), 
+@Sex varchar(2) ,
+@CustDateOfBirth  Date, 
+@CustAddress varchar(200), 
+@CustPhoneNumber varchar(20)
+AS
+begin
+INSERT INTO Customer(CustLastName,CustFirstName, CustPatronymic, Sex, CustDateOfBirth, CustAddress, CustPhoneNumber)
+                    VALUES (@CustLastName, @CustFirstName, @CustPatronymic, @Sex, @CustDateOfBirth, @CustAddress,@CustPhoneNumber)					
+end
+go
+--exec InsertCustomer @StorageID=3, @Count=3
 
+select distinct [Name] from Storage
+                    join Category on (Storage.CategoryID=Category.CategoryID)
+                    where NameCategory='Îáùåñòğîèòåëüíûå' 
 ----------------- ------------------------
 insert Access(AccessName) 
 values
