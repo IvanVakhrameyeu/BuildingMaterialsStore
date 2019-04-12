@@ -60,7 +60,6 @@ namespace BuildingMaterialsStore.ViewModels
         }
         private void asyncMainMethod()
         {
-            //CurrentSection = section;
             FillList();
         }
         //private void OnDeleteCommandExecuted(object o)
@@ -92,7 +91,8 @@ namespace BuildingMaterialsStore.ViewModels
         private void OnAddCommandExecuted(object o)
         {
             new WindowAddCustomer().ShowDialog();
-
+            customer.Clear();
+            FillList();
         }
         public void FillList()
         {
@@ -101,7 +101,7 @@ namespace BuildingMaterialsStore.ViewModels
                 con = new SqlConnection(AuthorizationSettings.connectionString);
                 con.Open();
                 cmd = new SqlCommand("select CustomerID, CustLastName, CustFirstName, CustPatronymic, Sex, CustDateOfBirth, CustAddress, " +
-                    "CustPhoneNumber " +
+                    "CustPhoneNumber, CustDiscountAmount " +
                     "from Customer ", con);
                 adapter = new SqlDataAdapter(cmd);
                 ds = new DataSet();
@@ -121,7 +121,8 @@ namespace BuildingMaterialsStore.ViewModels
                         Sex = (dr[4].ToString()),
                         CustDateOfBirth = Convert.ToDateTime(dr[5].ToString()),
                         CustAddress = (dr[6].ToString()),
-                        CustPhoneNumber = (dr[7].ToString())
+                        CustPhoneNumber = (dr[7].ToString()),
+                        CustDiscountAmount = Convert.ToDouble(dr[8].ToString())
                     });
                 }
                 view = CollectionViewSource.GetDefaultView(customer);

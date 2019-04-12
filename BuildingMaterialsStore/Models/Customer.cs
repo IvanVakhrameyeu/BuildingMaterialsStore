@@ -15,6 +15,7 @@ namespace BuildingMaterialsStore.Models
         public string Sex { get; set; }
         public DateTime CustDateOfBirth { get; set; }
         public string CustAddress { get; set; }
+        public double CustDiscountAmount { get; set; }
         public string CustPhoneNumber { get; set; }
     }
 }

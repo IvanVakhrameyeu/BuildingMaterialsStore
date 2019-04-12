@@ -96,7 +96,10 @@ namespace BuildingMaterialsStore.ViewModels
             else
                 pr.idPurchases = purchases.Count + 1;
             pr.storage.idStorage = SelectItemDataGrid.idStorage;
-            pr.idCustomer = findCustomer();
+            double discover=0;
+            pr.idCustomer = findCustomer(out discover);
+
+            pr.CurrentDiscountAmount = discover;
             if (pr.idCustomer == 0)
             {
                 MessageBox.Show("Выберите покупателя");
@@ -120,16 +123,16 @@ namespace BuildingMaterialsStore.ViewModels
                 }
             }
             
-        }
-        
-        private int findCustomer()
+        }        
+        private int findCustomer(out double discover)
         {
             int idCustomer = 0;
+            discover = 0;
             try
             {
                 con = new SqlConnection(AuthorizationSettings.connectionString);
                 con.Open();
-                cmd = new SqlCommand("select Customer.CustomerID from Customer " +
+                cmd = new SqlCommand("select Customer.CustomerID, CustDiscountAmount from Customer " +
                     "where Customer.CustLastName like'%" + MainViewModel.SelectCustomer.Split()[0] + "%' AND " +
                     "Customer.CustFirstName like '%" + MainViewModel.SelectCustomer.Split()[1] + "%'", con);
                 adapter = new SqlDataAdapter(cmd);
@@ -137,6 +140,7 @@ namespace BuildingMaterialsStore.ViewModels
                 adapter.Fill(ds, "Storedb");
 
                 idCustomer = Convert.ToInt32(ds.Tables[0].DefaultView[0].Row[0]);
+                discover = Convert.ToDouble(ds.Tables[0].DefaultView[0].Row[1]);
             }
             catch (Exception ex)
             {

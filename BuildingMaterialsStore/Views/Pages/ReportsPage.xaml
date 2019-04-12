@@ -79,8 +79,7 @@
                      Height="30"
                      FontSize="15"
                      VerticalAlignment="Top"
-                     HorizontalAlignment="Left"
-                     
+                     HorizontalAlignment="Left"                     
                      SelectedDate="{Binding DateTo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      Margin="1, 0 ,0, 0"/>
                 <Label
@@ -92,7 +91,8 @@
                      FontSize="15"
                      VerticalAlignment="Top"
                      HorizontalAlignment="Left"                     
-                     ItemsSource="{Binding customers}"                 
+                     ItemsSource="{Binding customers}"   
+                     SelectedItem="{ Binding SelectedCustomer}"                  
                      Margin="1, 0 ,0, 0"/>
             </DockPanel>
         </DockPanel>
@@ -147,7 +147,7 @@
                                     <Button 
                                 Background="#FFC200"
                                 BorderBrush="#FFC200"
-                                Command="{Binding  Path=DataContext.Purchases, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                                Command="{Binding  Path=DataContext.PurchasesRepCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
                               >
                                         <materialDesign:PackIcon Foreground="White" Kind="QuestionAnswer"/>
                                     </Button>

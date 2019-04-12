@@ -95,6 +95,8 @@
     <Compile Include="ViewModels\PurchasesViewModel.cs" />
     <Compile Include="ViewModels\ReportViewModel.cs" />
     <Compile Include="ViewModels\StorageViewModel.cs" />
+    <Compile Include="ViewModels\WordReports\EmpReport.cs" />
+    <Compile Include="ViewModels\WordReports\PurchasesRep.cs" />
     <Compile Include="ViewModels\WorkWithWord.cs" />
     <Compile Include="Views\AdminWindow.xaml.cs">
       <DependentUpon>AdminWindow.xaml</DependentUpon>

@@ -82,10 +82,16 @@ namespace BuildingMaterialsStore.ViewModels
         /// <summary>
         /// изменение общей стоимости товара
         /// </summary>
-        private void Total()
+        private void Total() // фиксануть отсутствие ссылки в purchases при начальном запуске
         {
-            TotalCost = Math.Round(Convert.ToDouble(CountPurchases) * Price, 2);
-            OnPropertyChanged("TotalCost");
+            try
+            {
+                TotalCost = Math.Round(Convert.ToDouble(CountPurchases) * Price - ((Convert.ToDouble(CountPurchases) * Price) * purchases.CurrentDiscountAmount / 100), 2);
+                OnPropertyChanged("TotalCost");
+            }
+            catch (Exception ex) {
+            //    MessageBox.Show(ex.Message);
+            }
         }
         /// <summary>
         ///проверяется, есть ли уже такой товар в корзине
@@ -132,7 +138,7 @@ namespace BuildingMaterialsStore.ViewModels
                 MessageBox.Show("На складе не достаточно материалов, вы можете купить меньше"); return;
             }
             purchases.Count = Convert.ToInt32(CountPurchases);
-            purchases.Total = Convert.ToDouble(CountPurchases) * Price;
+            purchases.Total = Math.Round(Convert.ToDouble(CountPurchases) * Price-((Convert.ToDouble(CountPurchases) * Price)*purchases.CurrentDiscountAmount/100),2);            
             switch (isCopyGoods())
             {
                 case 0: // если это копия и при этом попытка купить больше чем есть                
@@ -141,7 +147,7 @@ namespace BuildingMaterialsStore.ViewModels
                     break;
                 case 2: // если новый товар
                     purchases.Count = Convert.ToInt32(CountPurchases);
-                    purchases.Total = Convert.ToDouble(CountPurchases) * Price;
+                    purchases.Total = Math.Round(Convert.ToDouble(CountPurchases) * Price - ((Convert.ToDouble(CountPurchases) * Price) * purchases.CurrentDiscountAmount / 100), 2);
                     break;
             }
             foreach (Window item in Application.Current.Windows)

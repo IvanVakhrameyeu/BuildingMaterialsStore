@@ -15,6 +15,7 @@ namespace BuildingMaterialsStore.Models
         public string CustFirstName { get; set; }
         public string CustLastName { get; set; }
         public int Count { get; set; }
+        public double CurrentDiscountAmount { get; set; }
         public double Total { get; set; }
 
         public Storage storage { get; set; }

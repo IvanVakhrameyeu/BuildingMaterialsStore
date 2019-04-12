@@ -126,7 +126,7 @@ namespace BuildingMaterialsStore.ViewModels
         private void OnAddPurchaseCommandExecuted(object o)
         {
             new WindowCustomerPurchases(StorageViewModel.purchases).ShowDialog();
-            if (isChange) { changePages(); isChange = false; }
+            if (isChange) { changePages(); isChange = false; CurrentPage = MainStoragePage; }
         }
 
         private void OnHelpCommandExecuted(object o)
@@ -151,6 +151,10 @@ namespace BuildingMaterialsStore.ViewModels
                 LoadedPage(_selectedIndex);
             }
         }
+        /// <summary>
+        /// загрузка страницы при выборе меню
+        /// </summary>
+        /// <param name="i"></param>
         private void LoadedPage(int i)
         {
             switch (i)

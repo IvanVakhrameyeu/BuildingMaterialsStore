@@ -33,9 +33,23 @@ namespace BuildingMaterialsStore.ViewModels
         public ICommand CustRepCommand { get; }
         public ICommand ClearFilterCommand { get; }
 
+        private string _selectedCustomer = null;
+        private string _selectedEmployee = null;
         private string _selectNameItem = null;
         private string _selectNameCategoryItem = null;
         private string _text = null;
+        private Storage _selectItemDataGrid = null;
+        public Storage SelectItemDataGrid
+        {
+            get { return _selectItemDataGrid; }
+            set
+            {
+                if (_selectItemDataGrid == value)
+                    return;
+
+                _selectItemDataGrid = value;
+            }
+        }
 
         private DateTime _dateFrom= DateTime.Now;
         private DateTime _dateTo = DateTime.Now;
@@ -48,6 +62,22 @@ namespace BuildingMaterialsStore.ViewModels
         {
             get { return _dateTo; }
             set { _dateTo = value; OnPropertyChanged("DateTo"); }
+        }
+        public string SelectedCustomer
+        {
+            get { return _selectedCustomer; }
+            set
+            {
+                _selectedCustomer = value;
+            }
+        }
+        public string SelectedEmployee
+        {
+            get { return _selectedEmployee; }
+            set
+            {
+                _selectedEmployee = value;
+            }
         }
         public string SelectNameItem
         {
@@ -108,7 +138,17 @@ namespace BuildingMaterialsStore.ViewModels
         /// <param name="o"></param>
         private void OnPurchasesCommandExecuted(object o)
         {
+            if (DateFrom > DateTo) { MessageBox.Show("Проверьте формат даты"); return; }
 
+            string sql = "select CustLastName, CustFirstName, Store.[Count],  Store.CurrentDiscountAmount, TotalPrice, PurchaseDay " +
+                "from Store " +
+                "join Customer on(Store.CustomerID= Customer.CustomerID) " +
+                "join Storage on(Store.StorageID= Storage.StorageID) " +
+                "join Category on(Storage.CategoryID= Category.CategoryID) " +
+                "where Store.StorageID = " + SelectItemDataGrid.idStorage + " " +
+                "and PurchaseDay>= '" + DateFrom + "' and PurchaseDay<= '" + DateTo + "'";
+
+            PurchasesRep.writeClass(DateFrom, DateTo, "reportHistory", "товарам", SelectItemDataGrid.Name,SelectItemDataGrid.Price, SelectItemDataGrid.NameCategory,SelectItemDataGrid.Description, SelectItemDataGrid.Count, sql);
         }
         /// <summary>
         /// вывод отчета по работникам за данный период
@@ -117,7 +157,17 @@ namespace BuildingMaterialsStore.ViewModels
         private void OnEmplCommandExecuted(object o)
         {
             if (DateFrom > DateTo) {MessageBox.Show("Проверьте формат даты"); return; }
-            EmpReport.writeClass(DateFrom, DateTo, "reportPeople",);
+            if(SelectedEmployee==null) { MessageBox.Show("Выберите работника");return; }
+
+            string sql = "select CustLastName, CustFirstName, Category.NameCategory, [Name],Price, Store.[Count], TotalPrice, PurchaseDay, [Description] " +
+                "from Store " +
+                "join Customer on(Store.CustomerID= Customer.CustomerID) " +
+                "join Storage on(Store.StorageID= Storage.StorageID) " +
+                "join Category on(Storage.CategoryID= Category.CategoryID) " +
+                "where EmployeeID = (select EmployeeID from Employee where EmpLastName='" + SelectedEmployee.Split()[0] + "' and EmpFirstName = '" + SelectedEmployee.Split()[1] + "') " +
+                "and PurchaseDay>= '" + DateFrom + "' and PurchaseDay<= '" + DateTo + "'";
+
+            EmpReport.writeClass(DateFrom, DateTo, "reportPeople","работнику", SelectedEmployee,sql);
         }
         /// <summary>
         /// вывод отчета по покупателям за данный период
@@ -126,6 +176,19 @@ namespace BuildingMaterialsStore.ViewModels
         private void OnCustCommandExecuted(object o)
         {
 
+            if (DateFrom > DateTo) { MessageBox.Show("Проверьте формат даты"); return; }
+            if (SelectedCustomer == null) { MessageBox.Show("Выберите покупателя"); return; }
+
+            string sql = " select EmpLastName, EmpFirstName, Category.NameCategory, [Name],Price, Store.[Count], TotalPrice, PurchaseDay, [Description] " +
+                "from Store " +
+                "join Employee on (Store.EmployeeID = Employee.EmployeeID) " +
+                "join Storage on (Store.StorageID = Storage.StorageID) " +
+                "join Category on (Storage.CategoryID = Category.CategoryID) " +
+                "where CustomerID = (select CustomerID from Customer where CustLastName = '" + SelectedCustomer.Split()[0] + "' and CustFirstName = '" + SelectedCustomer.Split()[1] + "') " +
+                "and PurchaseDay>= '"+ DateFrom + "' and PurchaseDay<= '" + DateTo + "' ";
+
+
+            EmpReport.writeClass(DateFrom, DateTo, "reportPeople", "покупателю", SelectedCustomer, sql);
         }
         /// <summary>
         /// очищает фильтры
@@ -173,6 +236,9 @@ namespace BuildingMaterialsStore.ViewModels
             Storage c = o as Storage;
             return c.Description.ToLower().Contains(Text.ToLower());
         }
+        /// <summary>
+        /// заполнение DataGrid названиями товаров
+        /// </summary>
         private void FillList()
         {
             try
@@ -216,6 +282,9 @@ namespace BuildingMaterialsStore.ViewModels
                 con.Dispose();
             }
         }
+        /// <summary>
+        /// заполнение comboBox названиями категорий
+        /// </summary>
         private void FillListNameCategory()
         {
             DataTable dt = new DataTable();
@@ -238,7 +307,7 @@ namespace BuildingMaterialsStore.ViewModels
         }
         private void FillListNameWithCategory()
         {
-            MessageBox.Show("ololo");
+           // MessageBox.Show("ololo");
             names.Clear();
             DataTable dt = new DataTable();
             using (con = new SqlConnection(AuthorizationSettings.connectionString))
@@ -261,6 +330,9 @@ namespace BuildingMaterialsStore.ViewModels
             }
 
         }
+        /// <summary>
+        /// заполнение comboBox названий товаров
+        /// </summary>
         private void FillListName()
         {
             DataTable dt = new DataTable();
@@ -281,6 +353,9 @@ namespace BuildingMaterialsStore.ViewModels
                 names.Add(dr[0].ToString());
             }
         }
+        /// <summary>
+        /// заполнение comboBox работников
+        /// </summary>
         private void FillListEmployee()
         {
             DataTable dt = new DataTable();
@@ -300,6 +375,9 @@ namespace BuildingMaterialsStore.ViewModels
                 employees.Add(dr[0].ToString() + " " + dr[1].ToString());
             }
         }
+        /// <summary>
+        /// заполнение comboBox покупателей
+        /// </summary>
         private void FillListCustomer()
         {
             DataTable dt = new DataTable();

@@ -94,14 +94,14 @@
                 <Label
                 DockPanel.Dock="Top"
                 Content="Дата рождения"/>
-                <xctk:DateTimePicker  DockPanel.Dock="Top"
+                <DatePicker  DockPanel.Dock="Top"
                      Width="200" 
                      Height="30"
                      FontSize="15"
                      VerticalAlignment="Top"
                      HorizontalAlignment="Left"
                      
-                     Text="{Binding CustDateOfBirth}"
+                     SelectedDate="{Binding CustDateOfBirth}"
                      Margin="1, 0 ,0, 0"/>
                 <Label
                 DockPanel.Dock="Top"

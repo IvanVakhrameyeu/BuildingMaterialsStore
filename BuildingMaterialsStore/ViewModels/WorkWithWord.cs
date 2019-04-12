@@ -49,7 +49,7 @@ namespace Wpf_журнал_учащихся_школы
             Word.Range wordRange = wordApplication.Selection.Range;
 
             var wordTable = wordDocument.Tables.Add(wordRange,
-                ds.Count + 1, 6);
+                ds.Count + 1, 7);
             
             wordTable.Borders.InsideLineStyle = Microsoft.Office.Interop.Word.WdLineStyle.wdLineStyleSingle;
             wordTable.Borders.OutsideLineStyle = Microsoft.Office.Interop.Word.WdLineStyle.wdLineStyleDouble;
@@ -58,17 +58,19 @@ namespace Wpf_журнал_учащихся_школы
             wordTable.Cell(1, 2).Range.Text = "Количество";
             wordTable.Cell(1, 3).Range.Text = "Ед измерения";
             wordTable.Cell(1, 4).Range.Text = "Цена за ед";
-            wordTable.Cell(1, 5).Range.Text = "Общая цена";
-            wordTable.Cell(1, 6).Range.Text = "Описание";
+            wordTable.Cell(1, 5).Range.Text = "Скидка";
+            wordTable.Cell(1, 6).Range.Text = "Общая цена";
+            wordTable.Cell(1, 7).Range.Text = "Описание";
 
             for(int i = 2; i < ds.Count+2; i++)
             {
                 wordTable.Cell(i, 1).Range.Text = ds[i - 2].storage.Name;
                 wordTable.Cell(i, 2).Range.Text = ds[i - 2].Count.ToString();
                 wordTable.Cell(i, 3).Range.Text = ds[i - 2].storage.UnitName;
-                wordTable.Cell(i, 4).Range.Text = ds[i - 2].storage.Price.ToString();
-                wordTable.Cell(i, 5).Range.Text = ds[i - 2].Total.ToString();
-                wordTable.Cell(i, 6).Range.Text = ds[i - 2].storage.Description;             
+                wordTable.Cell(i, 4).Range.Text = ds[i - 2].storage.Price.ToString("0.00");
+                wordTable.Cell(i, 5).Range.Text = ds[i - 2].CurrentDiscountAmount.ToString("0.00 %");
+                wordTable.Cell(i, 6).Range.Text = ds[i - 2].Total.ToString("0.00");
+                wordTable.Cell(i, 7).Range.Text = ds[i - 2].storage.Description;             
             }
             try
             {

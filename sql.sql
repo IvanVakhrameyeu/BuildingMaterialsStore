@@ -29,7 +29,7 @@ Sex varchar(2) not null ,
 CustDateOfBirth  Date not null, 
 CustAddress varchar(200) not null, 
 CustPhoneNumber varchar(20) not null, 
-CustDiscountAmount tinyint null
+CustDiscountAmount tinyint not null
 )
 ----------ПОЛЬЗОВАТЕЛИ-----------
 create table Users
@@ -60,7 +60,6 @@ create table Category
 CategoryID  int not null identity primary key,
 NameCategory varchar(20) not null,
 )
-
 ----------СКЛАД-----------
 create table Storage
 (
@@ -81,6 +80,7 @@ CustomerID int null foreign key references Customer(CustomerID),
 StorageID int null foreign key references Storage(StorageID),
 [Count] tinyint not null,
 TotalPrice float not null,
+CurrentDiscountAmount float not null,
 PurchaseDay Date not null,
 )
 
@@ -93,30 +93,21 @@ create procedure InputStore
 @CustomerID int,
 @StorageID int,
 @Count int,
-@TotalPrice float,
 @PurchaseDay Date
 AS
 begin
-INSERT INTO Store(EmployeeID, CustomerID, StorageID, [Count], TotalPrice, PurchaseDay)
-                    VALUES (@EmployeeID, @CustomerID, @StorageID, @Count, @TotalPrice, @PurchaseDay)					
+declare @Price float
+declare @TotalPrice float
+declare @CurrentDiscountAmount float 
+set @CurrentDiscountAmount = (select CustDiscountAmount from Customer where CustomerID=@CustomerID)
+set @Price = (select Price from Storage where StorageID=@StorageID)
+set @TotalPrice = ((@Price*@Count)-((@Price*@Count)*@CurrentDiscountAmount/100))
+
+INSERT INTO Store(EmployeeID, CustomerID, StorageID, [Count], TotalPrice, PurchaseDay, CurrentDiscountAmount)
+                    VALUES (@EmployeeID, @CustomerID, @StorageID, @Count, @TotalPrice, @PurchaseDay, @CurrentDiscountAmount)					
 end
 go
---exec InputStore @EmployeeID=3, @CustomerID=3, @StorageID=3, @Count=3, @TotalPrice=3
--------------------УМЕНЬШЕНИЕ КОЛИЧЕСТВА ТОВАРА НА СКЛАДЕ (это бы на триггер перенести потом)
---drop proc DecreaseAmountStore
-go
-create procedure DecreaseAmountStore 
-@StorageID int,
-@Count int
-AS
-begin
-update Storage
-set 
-[Count]=[Count]-@Count
-where StorageID=@StorageID
-end
-go
---exec DecreaseAmountStore @StorageID=3, @Count=3
+--exec InputStore @EmployeeID=3, @CustomerID=3, @StorageID=3, @Count=3, @PurchaseDay='13.01.2019'
 -------------------------------------------ДОБАВЛЕНИЕ КЛИЕНТА
 --drop proc InsertCustomer
 go
@@ -130,15 +121,11 @@ create procedure InsertCustomer
 @CustPhoneNumber varchar(20)
 AS
 begin
-INSERT INTO Customer(CustLastName,CustFirstName, CustPatronymic, Sex, CustDateOfBirth, CustAddress, CustPhoneNumber)
-                    VALUES (@CustLastName, @CustFirstName, @CustPatronymic, @Sex, @CustDateOfBirth, @CustAddress,@CustPhoneNumber)					
+INSERT INTO Customer(CustLastName,CustFirstName, CustPatronymic, Sex, CustDateOfBirth, CustAddress, CustPhoneNumber, CustDiscountAmount)
+                    VALUES (@CustLastName, @CustFirstName, @CustPatronymic, @Sex, @CustDateOfBirth, @CustAddress,@CustPhoneNumber,0)					
 end
 go
 --exec InsertCustomer @StorageID=3, @Count=3
-
-select distinct [Name] from Storage
-                    join Category on (Storage.CategoryID=Category.CategoryID)
-                    where NameCategory='Общестроительные' 
 ----------------- ------------------------
 insert Access(AccessName) 
 values
@@ -184,27 +171,26 @@ values
 ('15','Баварец','Леха','Анатольевич','М', '1982-01-23' ,'г.Минск ул Слободская д58 кв 33', '152-33-32', 'Администратор',3),
 ('16','Баварец','Данииил','Анатольевич',    'М', '1982-01-24' ,'г.Минск ул Слободская д58 кв 33', '152-33-32', 'Администратор',3),
 ('17','Баварец','Саша', 'Анатольевич',   'Ж', '1982-01-25' ,'г.Минск ул Слободская д58 кв 33', '152-33-32', 'Администратор',3);
-
-insert Customer(CustLastName, CustFirstName, CustPatronymic, Sex, CustDateOfBirth, CustAddress, CustPhoneNumber) 
+insert Customer(CustLastName, CustFirstName, CustPatronymic, Sex, CustDateOfBirth, CustAddress, CustPhoneNumber, CustDiscountAmount) 
 values 
-('Степанов','Admin','Викторович',   'М', '1982-08-27','г.Минск ул Слободская д58 кв 33', '152-33-32'),
-('Антонов','Вася', 'Викторович',   'М', '1982-09-27','г.Минск ул Слободская д58 кв 33', '152-33-32'),
-('Антонов','Оля',  'Викторович',  'Ж', '1982-10-17' ,'г.Минск ул Слободская д58 кв 33', '152-33-32'),
-('Антонов','Степан', 'Викторович',  'М', '1982-02-27','г.Минск ул Слободская д58 кв 33', '152-33-32'),
-('Антонов','Женя',   'Викторович', 'Ж', '1982-01-17' ,'г.Минск ул Слободская д58 кв 33', '152-33-32'),
-('Антонов','Антон',   'Викторович', 'М', '1982-03-17' ,'г.Минск ул Слободская д58 кв 33', '152-33-32'),
-('Антонов','Виктория', 'Викторович',   'Ж', '1982-04-17' ,'г.Минск ул Слободская д58 кв 33', '152-33-32'),
-('Антонов','Григорий',  'Викторович',  'М', '1982-05-17' ,'г.Минск ул Слободская д58 кв 33', '152-33-32'),
-('Антонов','Ваня', 'Викторович',   'М', '1982-06-17' ,'г.Минск ул Слободская д58 кв 33', '152-33-32'),
-('Антонов','Дима',  'Викторович',  'М', '1982-07-17' ,'г.Минск ул Слободская д58 кв 33', '152-33-32'),
-('Антонов','Паша',  'Викторович',  'М', '1982-01-18' ,'г.Минск ул Слободская д58 кв 33', '152-33-32'),
-('Антонов','Анатолий',  'Викторович',  'М', '1982-01-19' ,'г.Минск ул Слободская д58 кв 33', '152-33-32'),
-('Антонов','Егор',   'Викторович', 'М', '1982-01-20' ,'г.Минск ул Слободская д58 кв 33', '152-33-32'),
-('Антонов','Никитий','Викторович',    'М', '1982-01-21' ,'г.Минск ул Слободская д58 кв 33', '152-33-32'),
-('Антонов','Артем','Викторович','М', '1982-01-22' ,'г.Минск ул Слободская д58 кв 33', '152-33-32'),
-('Антонов','Леха','Викторович','М', '1982-01-23' ,'г.Минск ул Слободская д58 кв 33', '152-33-32'),
-('Антонов','Данииил','Викторович',    'М', '1982-01-24' ,'г.Минск ул Слободская д58 кв 33', '152-33-32'),
-('Антонов','Саша', 'Викторович',   'Ж', '1982-01-25' ,'г.Минск ул Слободская д58 кв 33', '152-33-32');
+('Степанов','Admin','Викторович',   'М', '1982-08-27','г.Минск ул Слободская д58 кв 33', '152-33-32',0),
+('Антонов','Вася', 'Викторович',   'М', '1982-09-27','г.Минск ул Слободская д58 кв 33', '152-33-32',0),
+('Антонов','Оля',  'Викторович',  'Ж', '1982-10-17' ,'г.Минск ул Слободская д58 кв 33', '152-33-32',0),
+('Антонов','Степан', 'Викторович',  'М', '1982-02-27','г.Минск ул Слободская д58 кв 33', '152-33-32',0),
+('Антонов','Женя',   'Викторович', 'Ж', '1982-01-17' ,'г.Минск ул Слободская д58 кв 33', '152-33-32',0),
+('Антонов','Антон',   'Викторович', 'М', '1982-03-17' ,'г.Минск ул Слободская д58 кв 33', '152-33-32',0),
+('Антонов','Виктория', 'Викторович',   'Ж', '1982-04-17' ,'г.Минск ул Слободская д58 кв 33', '152-33-32',0),
+('Антонов','Григорий',  'Викторович',  'М', '1982-05-17' ,'г.Минск ул Слободская д58 кв 33', '152-33-32',0),
+('Антонов','Ваня', 'Викторович',   'М', '1982-06-17' ,'г.Минск ул Слободская д58 кв 33', '152-33-32',0),
+('Антонов','Дима',  'Викторович',  'М', '1982-07-17' ,'г.Минск ул Слободская д58 кв 33', '152-33-32',0),
+('Антонов','Паша',  'Викторович',  'М', '1982-01-18' ,'г.Минск ул Слободская д58 кв 33', '152-33-32',0),
+('Антонов','Анатолий',  'Викторович',  'М', '1982-01-19' ,'г.Минск ул Слободская д58 кв 33', '152-33-32',0),
+('Антонов','Егор',   'Викторович', 'М', '1982-01-20' ,'г.Минск ул Слободская д58 кв 33', '152-33-32',0),
+('Антонов','Никитий','Викторович',    'М', '1982-01-21' ,'г.Минск ул Слободская д58 кв 33', '152-33-32',0),
+('Антонов','Артем','Викторович','М', '1982-01-22' ,'г.Минск ул Слободская д58 кв 33', '152-33-32',0),
+('Антонов','Леха','Викторович','М', '1982-01-23' ,'г.Минск ул Слободская д58 кв 33', '152-33-32',0),
+('Антонов','Данииил','Викторович',    'М', '1982-01-24' ,'г.Минск ул Слободская д58 кв 33', '152-33-32',0),
+('Антонов','Саша', 'Викторович',   'Ж', '1982-01-25' ,'г.Минск ул Слободская д58 кв 33', '152-33-32',0);
 ------------------------
 insert Unit (UnitName)
 values
@@ -216,7 +202,6 @@ values
 ('г'),
 ('кг'),
 ('уп');
-
 -------------------
 insert Category (NameCategory)
 values 
@@ -306,18 +291,43 @@ values
 (8, 5,'Садовый инвентарь',100,'Тачка строительно-садовая ТССР-1П (100л, 120 кг, 1 пневмоколесо 400*90мм, вес 15 кг) (КОМ) (ТССР-1П)',85.25),
 (8, 5,'Садовый инвентарь',100,'Спанбонд №17 белый (2.1x10м) (4810751573830)',5.41),
 (8, 5,'Садовый инвентарь',100,'Спанбонд №30 белый (рулон 1,6*300м, 960м.кв.) (1108568252004)',272.89);
-
-insert Store (EmployeeID,CustomerID,StorageID,[Count],TotalPrice,PurchaseDay)
+insert Store (EmployeeID,CustomerID,StorageID,[Count],TotalPrice,PurchaseDay, CurrentDiscountAmount)
 values
-(2,1,3,1,12.8,'12-1-2019'),
-(3,2,3,1,12.8,'12-1-2019'),
-(4,4,3,1,12.8,'12-1-2019'),
-(2,3,3,1,12.8,'12-1-2019'),
-(3,2,3,1,12.8,'12-1-2019');
-
+(2,1,3,1,12.8,'12-1-2019',0),
+(3,2,3,1,12.8,'12-1-2019',0),
+(4,4,3,1,12.8,'12-1-2019',0),
+(2,3,3,1,12.8,'12-1-2019',0),
+(3,2,3,1,12.8,'12-1-2019',0);
 
 ---------------------------ТРИГЕРЫ
 ---------Триггер на подсчет TotalPrice (Store)
 ---------Триггер на проверку при покупки, что бы на складе было достаточно материалов
 
 
+----------Тригер на изменение скидки покупатели после добавления покупки
+go
+create trigger insertStore
+on Store
+after insert
+as
+begin
+
+---уменьшение товара на складе--------------------------------
+declare @StorageID tinyint
+declare @Count tinyint
+declare @AvRating float
+set @StorageID = (select inserted.StorageID from  inserted )
+set @Count = (select inserted.[Count] from  inserted )
+update Storage
+set 
+[Count]=[Count]-@Count
+where StorageID=@StorageID
+---------------------------------------------------------------
+
+
+--set @AvRating = (select Avg(Rating) from Logs where (Logs.StudentID = @ID))
+--update Student set AverRating =  @AvRating where Student.StudentID=@ID
+end
+go
+
+drop trigger insertStore

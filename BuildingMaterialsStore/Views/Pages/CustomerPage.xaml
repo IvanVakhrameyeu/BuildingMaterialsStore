@@ -36,8 +36,7 @@
                 <DropShadowEffect Color="Black" Direction="300" BlurRadius="13" ShadowDepth="7" Opacity="0.2"/>
             </DataGrid.Effect>
             <DataGrid.Columns>
-                
-                
+
                 <DataGridTextColumn Header="Id"  Visibility="Hidden" Binding="{Binding Path='idCustomer'}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Фамилия" Binding="{Binding Path='CustLastName'}" IsReadOnly="True" />
                 <DataGridTextColumn Header="Имя" Binding="{Binding Path='CustFirstName'}" IsReadOnly="True" />
@@ -46,6 +45,7 @@
                 <DataGridTextColumn Header="Дата рождения"  Binding="{Binding Path='CustDateOfBirth', StringFormat=\{0:dd.MM.yy\}}" IsReadOnly="True" />
                 <DataGridTextColumn Header="Адрес"  Binding="{Binding Path='CustAddress'}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Номер телефона"  Binding="{Binding Path='CustPhoneNumber'}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Скидка"  Binding="{Binding Path='CustDiscountAmount'}" IsReadOnly="True"/>
             
             </DataGrid.Columns>
         </DataGrid>

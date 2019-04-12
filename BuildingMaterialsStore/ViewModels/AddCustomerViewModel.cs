@@ -139,8 +139,7 @@ namespace BuildingMaterialsStore.ViewModels
         /// <param name="t"></param>
         private void Add(object t)
         {
-            //AddInDB();
-            //MessageBox.Show(CustDateOfBirth.ToString());
+            AddInDB();
             CloseExcute(new object());
         }
         /// <summary>

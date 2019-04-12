@@ -61,7 +61,7 @@ namespace BuildingMaterialsStore.ViewModels
             {
                 foreach (Purchases dr in delList)
                 {
-                    Add(Purchases.idEmployee, dr.idCustomer, dr.idstorage, dr.Count, dr.Total);
+                    Add(Purchases.idEmployee, dr.idCustomer, dr.idstorage, dr.Count);
                 }
                 WorkWithWord.writeClass(delList, "reportPurchases");
                 InTotal = 0;                
@@ -78,7 +78,7 @@ namespace BuildingMaterialsStore.ViewModels
         /// <param name="StorageID">номер товара</param>
         /// <param name="Count">количество товара</param>
         /// <param name="TotalPrice">общая цена</param>
-        private void Add(int EmployeeID, int CustomerID, int StorageID, int Count, double TotalPrice)
+        private void Add(int EmployeeID, int CustomerID, int StorageID, int Count)
         {
             try
             {
@@ -92,17 +92,16 @@ namespace BuildingMaterialsStore.ViewModels
                         com.Parameters.AddWithValue("@CustomerID", SqlDbType.Int).Value = CustomerID;
                         com.Parameters.AddWithValue("@StorageID", SqlDbType.Int).Value = StorageID;
                         com.Parameters.AddWithValue("@Count", SqlDbType.TinyInt).Value = Count;
-                        com.Parameters.AddWithValue("@TotalPrice", SqlDbType.Float).Value = TotalPrice;
                         com.Parameters.AddWithValue("@PurchaseDay", SqlDbType.Float).Value = DateTime.Now;
                         com.ExecuteNonQuery();
                     }
-                    using (com = new SqlCommand("DecreaseAmountStore", con))
-                    {
-                        com.CommandType = CommandType.StoredProcedure;
-                        com.Parameters.AddWithValue("@StorageID", SqlDbType.Int).Value = StorageID;
-                        com.Parameters.AddWithValue("@Count", SqlDbType.TinyInt).Value = Count;
-                        com.ExecuteNonQuery();
-                    }
+                    //using (com = new SqlCommand("DecreaseAmountStore", con))
+                    //{
+                    //    com.CommandType = CommandType.StoredProcedure;
+                    //    com.Parameters.AddWithValue("@StorageID", SqlDbType.Int).Value = StorageID;
+                    //    com.Parameters.AddWithValue("@Count", SqlDbType.TinyInt).Value = Count;
+                    //    com.ExecuteNonQuery();
+                    //}
                     con.Close();
                 }
             }
