@@ -5,10 +5,10 @@ namespace BuildingMaterialsStore.Views.Pages
 {
     public partial class MainAdminPage : Page
     {
-        public MainAdminPage(string section)
+        public MainAdminPage()
         {
             InitializeComponent();
-            DataContext = new EmployeeViewModel(section);
+            DataContext = new EmployeeViewModel();
         }
     }
 }

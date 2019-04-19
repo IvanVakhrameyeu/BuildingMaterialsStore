@@ -11,9 +11,8 @@ namespace BuildingMaterialsStore.Models
         public static int idEmployee;
         public int idPurchases { get; set; }
         public int idstorage { get; set; }
-        public int idCustomer { get; set; }
-        public string CustFirstName { get; set; }
-        public string CustLastName { get; set; }
+        public int idFirm { get; set; }
+        public string FirmName { get; set; }
         public int Count { get; set; }
         public double CurrentDiscountAmount { get; set; }
         public double Total { get; set; }
@@ -26,7 +25,7 @@ namespace BuildingMaterialsStore.Models
 
             Purchases Purchases1 = (Purchases)obj;
 
-            return (this.idCustomer == Purchases1.idCustomer) && (this.idPurchases == Purchases1.idPurchases) 
+            return (this.idFirm == Purchases1.idFirm) && (this.idPurchases == Purchases1.idPurchases) 
                 && (this.idstorage==Purchases1.idstorage) && (this.Total==Purchases1.Total)
                 && (this.storage.Equals(Purchases1.storage));
         }
@@ -36,7 +35,7 @@ namespace BuildingMaterialsStore.Models
             var hashCode = -746117808;
             hashCode = hashCode * -1521134295 + idPurchases.GetHashCode();
             hashCode = hashCode * -1521134295 + idstorage.GetHashCode();
-            hashCode = hashCode * -1521134295 + idCustomer.GetHashCode();
+            hashCode = hashCode * -1521134295 + idFirm.GetHashCode();
             hashCode = hashCode * -1521134295 + Count.GetHashCode();
             hashCode = hashCode * -1521134295 + Total.GetHashCode();
             hashCode = hashCode * -1521134295 + EqualityComparer<Storage>.Default.GetHashCode(storage);

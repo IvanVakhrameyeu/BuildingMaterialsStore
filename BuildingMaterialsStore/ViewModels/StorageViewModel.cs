@@ -97,16 +97,14 @@ namespace BuildingMaterialsStore.ViewModels
                 pr.idPurchases = purchases.Count + 1;
             pr.storage.idStorage = SelectItemDataGrid.idStorage;
             double discover=0;
-            pr.idCustomer = findCustomer(out discover);
+            pr.idFirm = FindidFirm(out discover);
 
             pr.CurrentDiscountAmount = discover;
-            if (pr.idCustomer == 0)
+            if (pr.idFirm == 0)
             {
-                MessageBox.Show("Выберите покупателя");
                 return;
             }
-            pr.CustLastName = MainViewModel.SelectCustomer.Split()[0];
-            pr.CustFirstName = MainViewModel.SelectCustomer.Split()[1];
+            pr.FirmName = MainViewModel.SelectFirm;
 
             pr.storage.NameCategory = SelectItemDataGrid.NameCategory;
             pr.storage.Name = SelectItemDataGrid.Name;
@@ -124,7 +122,7 @@ namespace BuildingMaterialsStore.ViewModels
             }
             
         }        
-        private int findCustomer(out double discover)
+        private int FindidFirm(out double discover)
         {
             int idCustomer = 0;
             discover = 0;
@@ -132,9 +130,8 @@ namespace BuildingMaterialsStore.ViewModels
             {
                 con = new SqlConnection(AuthorizationSettings.connectionString);
                 con.Open();
-                cmd = new SqlCommand("select Customer.CustomerID, CustDiscountAmount from Customer " +
-                    "where Customer.CustLastName like'%" + MainViewModel.SelectCustomer.Split()[0] + "%' AND " +
-                    "Customer.CustFirstName like '%" + MainViewModel.SelectCustomer.Split()[1] + "%'", con);
+                cmd = new SqlCommand("select Firms.FirmID, FirmDiscountAmount from Firms " +
+                    "where Firms.FirmName like'%" + MainViewModel.SelectFirm + "%'", con);
                 adapter = new SqlDataAdapter(cmd);
                 ds = new DataSet();
                 adapter.Fill(ds, "Storedb");

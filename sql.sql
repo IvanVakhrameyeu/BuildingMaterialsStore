@@ -18,19 +18,35 @@ create table Access
 AccessID int not null identity primary key,
 AccessName varchar(10) not null
 )
-----------КЛИЕНТЫ-----------
-create table Customer
+----------ФИРМЫ-----------
+--exec sp_rename 'Firms.CustPhoneNumber', 'FirmPhoneNumber', 'COLUMN'
+ 
+create table Firms
 (
-CustomerID int not null identity primary key,
-CustLastName varchar(20) not null, 
-CustFirstName varchar(20) not null, 
-CustPatronymic varchar(20) not null, 
-Sex varchar(2) not null ,
-CustDateOfBirth  Date not null, 
-CustAddress varchar(200) not null, 
-CustPhoneNumber varchar(20) not null, 
-CustDiscountAmount tinyint not null
+FirmID int not null identity primary key,
+FirmName varchar(300) not null, 
+UNP varchar(200) not null,
+FirmLegalAddress varchar(300) not null, 
+FirmAccountNumber varchar(200) not null,
+FirmBankDetails varchar(300) not null,
+FirmDiscountAmount float not null,
+FirmPhoneNumber varchar(30) null
 )
+/*------------НЕ АКТУАЛЬНО--------------
+----------КЛИЕНТЫ----------- CTRL + K, CTRL + U (снять комменты)
+--create table Customer
+--(
+--CustomerID int not null identity primary key,
+--CustLastName varchar(20) not null, 
+--CustFirstName varchar(20) not null, 
+--CustPatronymic varchar(20) not null, 
+--Sex varchar(2) not null ,
+--CustDateOfBirth  Date not null, 
+--CustAddress varchar(200) not null, 
+--CustPhoneNumber varchar(20) not null, 
+--CustDiscountAmount tinyint not null
+)*/
+--------------------------------------
 ----------ПОЛЬЗОВАТЕЛИ-----------
 create table Users
 (
@@ -54,6 +70,7 @@ Position varchar(20) not null,
 Experience tinyint not null,
 --constrain CheckTeacher check (Sex = 'М' OR Sex= 'Ж') 
 );
+
 ----------КАТЕГОРИИ ТОВАРА-------
 create table Category
 (
@@ -71,17 +88,19 @@ UnitID int null foreign key references Unit(UnitID),
 [Description] varchar(350) not null,
 Price float not null,
 )
+
 ----------ПОКУПКИ-----------
 create table Store
 (
 StoreID int not null identity primary key,
 EmployeeID int null foreign key references Employee(EmployeeID),
-CustomerID int null foreign key references Customer(CustomerID),
+FirmID int null foreign key references Firms(FirmID),
 StorageID int null foreign key references Storage(StorageID),
 [Count] tinyint not null,
 TotalPrice float not null,
 CurrentDiscountAmount float not null,
 PurchaseDay Date not null,
+Paid bit not null,
 )
 
 -------------------------ПРОЦЕДУРЫ
@@ -90,7 +109,7 @@ PurchaseDay Date not null,
 go
 create procedure InputStore 
 @EmployeeID int,
-@CustomerID int,
+@FirmID int,
 @StorageID int,
 @Count int,
 @PurchaseDay Date
@@ -99,33 +118,47 @@ begin
 declare @Price float
 declare @TotalPrice float
 declare @CurrentDiscountAmount float 
-set @CurrentDiscountAmount = (select CustDiscountAmount from Customer where CustomerID=@CustomerID)
+set @CurrentDiscountAmount = (select FirmDiscountAmount from Firms where FirmID=@FirmID)
 set @Price = (select Price from Storage where StorageID=@StorageID)
 set @TotalPrice = ((@Price*@Count)-((@Price*@Count)*@CurrentDiscountAmount/100))
 
-INSERT INTO Store(EmployeeID, CustomerID, StorageID, [Count], TotalPrice, PurchaseDay, CurrentDiscountAmount)
-                    VALUES (@EmployeeID, @CustomerID, @StorageID, @Count, @TotalPrice, @PurchaseDay, @CurrentDiscountAmount)					
+INSERT INTO Store(EmployeeID, FirmID, StorageID, [Count], TotalPrice, PurchaseDay, CurrentDiscountAmount,Paid)
+                    VALUES (@EmployeeID, @FirmID, @StorageID, @Count, @TotalPrice, @PurchaseDay, @CurrentDiscountAmount,0)					
 end
 go
---exec InputStore @EmployeeID=3, @CustomerID=3, @StorageID=3, @Count=3, @PurchaseDay='13.01.2019'
+--exec InputStore @EmployeeID=3, @FirmID=3, @StorageID=3, @Count=3, @PurchaseDay='13.01.2019'
 -------------------------------------------ДОБАВЛЕНИЕ КЛИЕНТА
---drop proc InsertCustomer
+--drop proc InsertFirm
 go
-create procedure InsertCustomer 
-@CustLastName varchar(20), 
-@CustFirstName varchar(20), 
-@CustPatronymic varchar(20), 
-@Sex varchar(2) ,
-@CustDateOfBirth  Date, 
-@CustAddress varchar(200), 
-@CustPhoneNumber varchar(20)
+create procedure InsertFirm 
+@FirmName varchar(200), 
+@UNP varchar(200), 
+@FirmAccountNumber varchar(200), 
+@FirmBankDetails varchar(200) ,
+@FirmLegalAddress varchar(200),
+@FirmPhoneNumber varchar(50)
 AS
 begin
-INSERT INTO Customer(CustLastName,CustFirstName, CustPatronymic, Sex, CustDateOfBirth, CustAddress, CustPhoneNumber, CustDiscountAmount)
-                    VALUES (@CustLastName, @CustFirstName, @CustPatronymic, @Sex, @CustDateOfBirth, @CustAddress,@CustPhoneNumber,0)					
+INSERT INTO Firms(FirmName,UNP, FirmAccountNumber, FirmBankDetails, FirmLegalAddress, FirmPhoneNumber, FirmDiscountAmount)
+        VALUES (@FirmName, @UNP, @FirmAccountNumber, @FirmBankDetails, @FirmLegalAddress, @FirmPhoneNumber, 0)					
 end
 go
---exec InsertCustomer @StorageID=3, @Count=3
+--exec InsertFirm @StorageID=3, @Count=3
+-------------------------------------------ОТГРУЗКА ТОВАРА
+--drop proc Shipment
+go
+create procedure Shipment 
+@ID int
+AS
+begin
+
+update Store 
+set Paid=1
+where FirmId=@ID
+end
+go
+
+--exec Shipment @ID=2
 ----------------- ------------------------
 insert Access(AccessName) 
 values
@@ -135,22 +168,22 @@ values
 insert Users([Login], [Password],AccessID) 
 values
 ('Admin',   '1',1),
-('Teacher',    '1',2),
-('Teacher3',    '1',2),
-('Teacher4',    '1',2),
-('Teacher5',    '1',2),
-('Teacher6',    '1',2),
-('Teacher7',    '1',2),
-('Teacher8',    '1',2),
-('Teacher9',    '1',2),
-('Teacher10',    '1',2),
-('Teacher11',    '1',2),
-('Teacher12',    '1',2),
-('Teacher13',    '1',2),
-('Teacher14',    '1',2),
-('Teacher15',    '1',2),
-('Teacher16',    '1',2),
-('Teacher17',    '1',2);
+('T',       '1',2),
+('T3',      '1',2),
+('T4',      '1',2),
+('T5',      '1',2),
+('T6',      '1',2),
+('T7',      '1',2),
+('T8',      '1',2),
+('T9',      '1',2),
+('T10',     '1',2),
+('T11',     '1',2),
+('T12',     '1',2),
+('T13',     '1',2),
+('T14',     '1',2),
+('T15',     '1',2),
+('T16',     '1',2),
+('T1000',   '1',2);
 --------------------------------------------------
 insert Employee(UsersID,EmpLastName, EmpFirstName, EmpPatronymic, Sex, EmpDateOfBirth, EmpAddress, EmpPhoneNumber, Position, Experience) 
 values 
@@ -171,26 +204,11 @@ values
 ('15','Баварец','Леха','Анатольевич','М', '1982-01-23' ,'г.Минск ул Слободская д58 кв 33', '152-33-32', 'Администратор',3),
 ('16','Баварец','Данииил','Анатольевич',    'М', '1982-01-24' ,'г.Минск ул Слободская д58 кв 33', '152-33-32', 'Администратор',3),
 ('17','Баварец','Саша', 'Анатольевич',   'Ж', '1982-01-25' ,'г.Минск ул Слободская д58 кв 33', '152-33-32', 'Администратор',3);
-insert Customer(CustLastName, CustFirstName, CustPatronymic, Sex, CustDateOfBirth, CustAddress, CustPhoneNumber, CustDiscountAmount) 
+insert Firms(FirmName,UNP, FirmAccountNumber, FirmBankDetails, FirmLegalAddress, FirmDiscountAmount) 
 values 
-('Степанов','Admin','Викторович',   'М', '1982-08-27','г.Минск ул Слободская д58 кв 33', '152-33-32',0),
-('Антонов','Вася', 'Викторович',   'М', '1982-09-27','г.Минск ул Слободская д58 кв 33', '152-33-32',0),
-('Антонов','Оля',  'Викторович',  'Ж', '1982-10-17' ,'г.Минск ул Слободская д58 кв 33', '152-33-32',0),
-('Антонов','Степан', 'Викторович',  'М', '1982-02-27','г.Минск ул Слободская д58 кв 33', '152-33-32',0),
-('Антонов','Женя',   'Викторович', 'Ж', '1982-01-17' ,'г.Минск ул Слободская д58 кв 33', '152-33-32',0),
-('Антонов','Антон',   'Викторович', 'М', '1982-03-17' ,'г.Минск ул Слободская д58 кв 33', '152-33-32',0),
-('Антонов','Виктория', 'Викторович',   'Ж', '1982-04-17' ,'г.Минск ул Слободская д58 кв 33', '152-33-32',0),
-('Антонов','Григорий',  'Викторович',  'М', '1982-05-17' ,'г.Минск ул Слободская д58 кв 33', '152-33-32',0),
-('Антонов','Ваня', 'Викторович',   'М', '1982-06-17' ,'г.Минск ул Слободская д58 кв 33', '152-33-32',0),
-('Антонов','Дима',  'Викторович',  'М', '1982-07-17' ,'г.Минск ул Слободская д58 кв 33', '152-33-32',0),
-('Антонов','Паша',  'Викторович',  'М', '1982-01-18' ,'г.Минск ул Слободская д58 кв 33', '152-33-32',0),
-('Антонов','Анатолий',  'Викторович',  'М', '1982-01-19' ,'г.Минск ул Слободская д58 кв 33', '152-33-32',0),
-('Антонов','Егор',   'Викторович', 'М', '1982-01-20' ,'г.Минск ул Слободская д58 кв 33', '152-33-32',0),
-('Антонов','Никитий','Викторович',    'М', '1982-01-21' ,'г.Минск ул Слободская д58 кв 33', '152-33-32',0),
-('Антонов','Артем','Викторович','М', '1982-01-22' ,'г.Минск ул Слободская д58 кв 33', '152-33-32',0),
-('Антонов','Леха','Викторович','М', '1982-01-23' ,'г.Минск ул Слободская д58 кв 33', '152-33-32',0),
-('Антонов','Данииил','Викторович',    'М', '1982-01-24' ,'г.Минск ул Слободская д58 кв 33', '152-33-32',0),
-('Антонов','Саша', 'Викторович',   'Ж', '1982-01-25' ,'г.Минск ул Слободская д58 кв 33', '152-33-32',0);
+('Государственное учреждение образования "повышения квалификации"', '190583856', 'BY40BPSB30121642290179330000', 'ЦБУ № 704 ОАО "БПС-Сбербанк", BIC: BPSBBY2X ЦБУ № 704 ОАО "БПС-Сбербанк"', 'г. Минск, 1-ый пер. Менделеева, д. 50, к. 4',0)	,
+('Министерства природных ресурсов и охраны окружающей среды Республики Беларусь', '190583857', 'BY40BPSB30121642290179331111', 'ЦБУ № 704 ОАО "БПС-Сбербанк", BIC: BPSBBY2X ЦБУ № 705 ОАО "БПС-Сбербанк"', 'г. Минск, 1-ый пер. Менделеева, д. 50, к. 5',0)	; --,
+--('', '', '', '', '',0)	;
 ------------------------
 insert Unit (UnitName)
 values
@@ -291,13 +309,13 @@ values
 (8, 5,'Садовый инвентарь',100,'Тачка строительно-садовая ТССР-1П (100л, 120 кг, 1 пневмоколесо 400*90мм, вес 15 кг) (КОМ) (ТССР-1П)',85.25),
 (8, 5,'Садовый инвентарь',100,'Спанбонд №17 белый (2.1x10м) (4810751573830)',5.41),
 (8, 5,'Садовый инвентарь',100,'Спанбонд №30 белый (рулон 1,6*300м, 960м.кв.) (1108568252004)',272.89);
-insert Store (EmployeeID,CustomerID,StorageID,[Count],TotalPrice,PurchaseDay, CurrentDiscountAmount)
+insert Store (EmployeeID,FirmID,StorageID,[Count],TotalPrice,PurchaseDay, CurrentDiscountAmount,Paid)
 values
-(2,1,3,1,12.8,'12-1-2019',0),
-(3,2,3,1,12.8,'12-1-2019',0),
-(4,4,3,1,12.8,'12-1-2019',0),
-(2,3,3,1,12.8,'12-1-2019',0),
-(3,2,3,1,12.8,'12-1-2019',0);
+(2,1,3,1,12.8,'12-1-2019',0,0),
+(3,2,3,1,12.8,'12-1-2019',0,1),
+(4,1,3,1,12.8,'12-1-2019',0,0),
+(2,2,3,1,12.8,'12-1-2019',0,1),
+(3,1,3,1,12.8,'12-1-2019',0,0);
 
 ---------------------------ТРИГЕРЫ
 ---------Триггер на подсчет TotalPrice (Store)
@@ -311,7 +329,6 @@ on Store
 after insert
 as
 begin
-
 ---уменьшение товара на складе--------------------------------
 declare @StorageID tinyint
 declare @Count tinyint
@@ -323,8 +340,43 @@ set
 [Count]=[Count]-@Count
 where StorageID=@StorageID
 ---------------------------------------------------------------
+declare @TotalTotalPrice float
+declare @TotalPrice float
+declare @FirmID int
+set @FirmID = (select inserted.FirmID from  inserted )
+set @TotalTotalPrice = 0
+set @TotalPrice = 0
+declare cursorStore cursor  
+--set @cursorStore = CURSOR scroll
+for select TotalPrice from store where FirmID = @FirmID
 
+open cursorStore
+fetch next from cursorStore into @TotalPrice
+while @@FETCH_STATUS=0
+begin 
+set @TotalTotalPrice = @TotalTotalPrice+@TotalPrice
+fetch next from cursorStore into @TotalPrice
+end
+close cursorStore
 
+if (@TotalTotalPrice <1000) 
+begin 
+update Firms
+set FirmDiscountAmount = 1
+where FirmID = @FirmID 
+end 
+if (@TotalTotalPrice <2000) 
+begin 
+update Firms
+set FirmDiscountAmount = 2
+where FirmID = @FirmID 
+end 
+if (@TotalTotalPrice <3000) 
+begin 
+update Firms
+set FirmDiscountAmount = 3
+where FirmID = @FirmID 
+end 
 --set @AvRating = (select Avg(Rating) from Logs where (Logs.StudentID = @ID))
 --update Student set AverRating =  @AvRating where Student.StudentID=@ID
 end

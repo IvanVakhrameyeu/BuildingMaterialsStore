@@ -101,8 +101,8 @@ namespace BuildingMaterialsStore.ViewModels.WordReports
                 {
                     //if(j==4)
                     //    wordTable.Cell(i, j + 1).Range.Text = ds.Tables[0].Rows[i - 2][j].ToString("0.00");
-                  //  else
-                    if (j == 5)
+                    //  else
+                     if (j == 5)
                         wordTable.Cell(i, j + 1).Range.Text = Convert.ToDateTime(ds.Tables[0].Rows[i - 2][j]).Date.ToString("d");
                     else
                         wordTable.Cell(i, j + 1).Range.Text = ds.Tables[0].Rows[i - 2][j].ToString();

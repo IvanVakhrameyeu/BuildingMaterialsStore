@@ -23,8 +23,8 @@
                   VerticalAlignment="Top"
                       AutoGenerateColumns="False" 
                       CanUserAddRows="False"
-                      ItemsSource="{Binding customer}"
-                      FrozenColumnCount="3"
+                      ItemsSource="{Binding firms}"
+                      FrozenColumnCount="0"
                       FontSize="13"
                       Background="White"
                       ColumnHeaderHeight="30" 
@@ -37,15 +37,13 @@
             </DataGrid.Effect>
             <DataGrid.Columns>
 
-                <DataGridTextColumn Header="Id"  Visibility="Hidden" Binding="{Binding Path='idCustomer'}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Фамилия" Binding="{Binding Path='CustLastName'}" IsReadOnly="True" />
-                <DataGridTextColumn Header="Имя" Binding="{Binding Path='CustFirstName'}" IsReadOnly="True" />
-                <DataGridTextColumn Header="Отчество" Binding="{Binding Path='CustPatronymic'}" IsReadOnly="True" />
-                <DataGridTextColumn Header="Пол" Binding="{Binding Path='Sex'}" IsReadOnly="True" />
-                <DataGridTextColumn Header="Дата рождения"  Binding="{Binding Path='CustDateOfBirth', StringFormat=\{0:dd.MM.yy\}}" IsReadOnly="True" />
-                <DataGridTextColumn Header="Адрес"  Binding="{Binding Path='CustAddress'}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Номер телефона"  Binding="{Binding Path='CustPhoneNumber'}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Скидка"  Binding="{Binding Path='CustDiscountAmount'}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Id"  Visibility="Hidden" Binding="{Binding Path='idFirm'}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Название фирмы" Binding="{Binding Path='FirmName'}" IsReadOnly="True" />
+                <DataGridTextColumn Header="УПН" Binding="{Binding Path='UNP'}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Физический адрес" Binding="{Binding Path='FirmLegalAddress'}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Номер счета" Binding="{Binding Path='FirmAccountNumber'}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Данные счета"  Binding="{Binding Path='FirmBankDetails', StringFormat=\{0:dd.MM.yy\}}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Скидка"  Binding="{Binding Path='FirmDiscountAmount'}" IsReadOnly="True"/>
             
             </DataGrid.Columns>
         </DataGrid>

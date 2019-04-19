@@ -1,4 +1,5 @@
 ﻿using BuildingMaterialsStore.Models;
+using BuildingMaterialsStore.ViewModels.Pages;
 using BuildingMaterialsStore.Views;
 using BuildingMaterialsStore.Views.Pages;
 using System.Collections.Generic;
@@ -39,15 +40,15 @@ namespace BuildingMaterialsStore.ViewModels
                 OnPropertyChanged("CurrentWindowState");
             }
         }
-        static public List<string> customers { get; set; }
-        static private string _selectCustomer = null;
-        static public string SelectCustomer
+        static public List<string> firms { get; set;  }
+        static private string _selectFirm = null;
+        static public string SelectFirm
         {
-            get { return _selectCustomer; }
+            get { return _selectFirm; }
             set
             {
-                if (_selectCustomer == value) return;
-                _selectCustomer = value;
+                if (_selectFirm == value) return;
+                _selectFirm = value;
                 StorageViewModel.purchases = new List<Purchases>();
                 PurchasesViewModel.InTotal = 0;
             }
@@ -65,6 +66,7 @@ namespace BuildingMaterialsStore.ViewModels
         private Page HardwareFastenersPage;
         private Page OvenMaterialsPage;
         private Page GardenPage;
+        private Page GoodsIssuePage;
 
         private Page CustomersPage;
         public MainViewModel()
@@ -92,34 +94,32 @@ namespace BuildingMaterialsStore.ViewModels
             HardwareFastenersPage = new MainStorage("Метизы и крепеж");
             OvenMaterialsPage = new MainStorage("Печные материалы");
             GardenPage = new MainStorage("Сад и огород");
+            GoodsIssuePage = new GoodsIssue();
         }
         async private void awayMethods()
         {
-            await Task.Run(() => FillListCustomer());
-
+            await Task.Run(() => FillListFirms());
         }
-        private void FillListCustomer()
+        private void FillListFirms()
         {
-            if (customers == null)
+            if (firms == null)
             {
                 SqlConnection con;
                 SqlCommand com;
-
                 DataTable dt = new DataTable();
                 using (con = new SqlConnection(AuthorizationSettings.connectionString))
                 {
                     con.Open();
-
-                    using (com = new SqlCommand("select distinct CustLastName, CustFirstName from Customer", con))
+                    using (com = new SqlCommand("select distinct FirmName  from Firms", con))
                     {
                         dt.Load(com.ExecuteReader());
                     }
                     con.Close();
                 }
-                customers = new List<string>();
+                firms = new List<string>();
                 foreach (DataRow dr in dt.Rows)
                 {
-                    customers.Add(dr[0].ToString() + " " + dr[1].ToString());
+                    firms.Add(dr[0].ToString());
                 }
             }
         }
@@ -128,7 +128,6 @@ namespace BuildingMaterialsStore.ViewModels
             new WindowCustomerPurchases(StorageViewModel.purchases).ShowDialog();
             if (isChange) { changePages(); isChange = false; CurrentPage = MainStoragePage; }
         }
-
         private void OnHelpCommandExecuted(object o)
         {
             try
@@ -169,6 +168,7 @@ namespace BuildingMaterialsStore.ViewModels
                 case 7: { CurrentPage = OvenMaterialsPage; break; }
                 case 8: { CurrentPage = GardenPage; break; }
                 case 9: { CurrentPage = CustomersPage; break; }
+                case 10: { CurrentPage = GoodsIssuePage; break; }
                 default: { CurrentPage = null; break; }
             }
         }

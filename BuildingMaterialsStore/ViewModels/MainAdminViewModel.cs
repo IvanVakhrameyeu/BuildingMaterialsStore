@@ -44,7 +44,7 @@ namespace BuildingMaterialsStore.ViewModels
         {
             HelpAplicationCommand = new DelegateCommand(OnHelpCommandExecuted);
 
-            EmployeePage = new MainAdminPage("Работники");
+            EmployeePage = new MainAdminPage();
             CustomersPage = new CustomerPage ();
             RepPage = new ReportsPage ();
 

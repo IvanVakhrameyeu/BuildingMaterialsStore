@@ -91,8 +91,8 @@
                      FontSize="15"
                      VerticalAlignment="Top"
                      HorizontalAlignment="Left"                     
-                     ItemsSource="{Binding customers}"   
-                     SelectedItem="{ Binding SelectedCustomer}"                  
+                     ItemsSource="{Binding firms}"   
+                     SelectedItem="{ Binding SelectedFirm}"                  
                      Margin="1, 0 ,0, 0"/>
             </DockPanel>
         </DockPanel>

@@ -82,8 +82,8 @@ namespace BuildingMaterialsStore.ViewModels.WordReports
             wordTable.Borders.OutsideLineStyle = Microsoft.Office.Interop.Word.WdLineStyle.wdLineStyleDouble;
 
             
-            wordTable.Cell(1, 1).Range.Text = "Фамилия";
-            wordTable.Cell(1, 2).Range.Text = "Имя";
+            wordTable.Cell(1, 1).Range.Text = "Название";
+            wordTable.Cell(1, 2).Range.Text = "УПН";
             wordTable.Cell(1, 3).Range.Text = "Категория";
             wordTable.Cell(1, 4).Range.Text = "Название";
             wordTable.Cell(1, 5).Range.Text = "Цена за ед";
