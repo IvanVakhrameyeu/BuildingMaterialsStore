@@ -144,21 +144,40 @@ INSERT INTO Firms(FirmName,UNP, FirmAccountNumber, FirmBankDetails, FirmLegalAdd
 end
 go
 --exec InsertFirm @StorageID=3, @Count=3
--------------------------------------------ÎÒÃĞÓÇÊÀ ÒÎÂÀĞÀ
+-------------------------------------------ÄÎÁÀÂËÅÍÈÅ ÍÀÈÌÅÍÎÂÀÍÈß ÒÎÂÀĞÀ
+--drop proc InsertStoragesName
+go
+create procedure InsertStoragesName
+@CategoryID int, 
+@UnitID int, 
+@Name varchar(100), 
+@Description varchar(350),
+@Price float
+AS
+begin
+INSERT INTO Storage(CategoryID, UnitID, [Name], [Count], [Description],Price)
+        VALUES (@CategoryID,@UnitID,@Name,0,@Description,@Price)					
+end
+go
+--exec InsertStoragesName @CategoryID, @UnitID, @Name, @Description, @Price
+
+-------------------------------------------ÎÒÃĞÓÇÊÀ ÒÎÂÀĞÀ (èçìåíèòü)
 --drop proc Shipment
 go
 create procedure Shipment 
-@ID int
+@ID int,
+@Date Date
 AS
 begin
-
 update Store 
 set Paid=1
-where FirmId=@ID
+where FirmId=@ID and Store.PurchaseDay=@Date
 end
 go
-
 --exec Shipment @ID=2
+
+select FirmID, PurchaseDay, Sum(TotalPrice) from Store group by FirmID, PurchaseDay
+
 ----------------- ------------------------
 insert Access(AccessName) 
 values

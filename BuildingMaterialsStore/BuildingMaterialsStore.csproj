@@ -84,16 +84,19 @@
     <Compile Include="Models\AuthorizationSettings.cs" />
     <Compile Include="Models\Firms.cs" />
     <Compile Include="Models\Employee.cs" />
+    <Compile Include="Models\IdAndName.cs" />
     <Compile Include="Models\Purchases.cs" />
     <Compile Include="Models\Storage.cs" />
     <Compile Include="Models\Store.cs" />
     <Compile Include="Models\ViewModel.cs" />
     <Compile Include="ViewModels\AddCustomerViewModel.cs" />
     <Compile Include="ViewModels\AddPurchaseViewModel.cs" />
+    <Compile Include="ViewModels\AddStorageVM.cs" />
     <Compile Include="ViewModels\FirmsViewModel.cs" />
     <Compile Include="ViewModels\EmployeeViewModel.cs" />
     <Compile Include="ViewModels\MainAdminViewModel.cs" />
     <Compile Include="ViewModels\Pages\GoodsIssueVM.cs" />
+    <Compile Include="ViewModels\Pages\StorageVM.cs" />
     <Compile Include="ViewModels\PurchasesViewModel.cs" />
     <Compile Include="ViewModels\ReportViewModel.cs" />
     <Compile Include="ViewModels\StorageViewModel.cs" />
@@ -118,11 +121,17 @@
     <Compile Include="Views\Pages\ReportsPage.xaml.cs">
       <DependentUpon>ReportsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Pages\StoragePage.xaml.cs">
+      <DependentUpon>StoragePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\WindowAddCustomer.xaml.cs">
       <DependentUpon>WindowAddCustomer.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\WindowAddPurchase.xaml.cs">
       <DependentUpon>WindowAddPurchase.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\WindowAddStorage.xaml.cs">
+      <DependentUpon>WindowAddStorage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\WindowAuthorization.xaml.cs">
       <DependentUpon>WindowAuthorization.xaml</DependentUpon>
@@ -168,11 +177,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Pages\StoragePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\WindowAddCustomer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\WindowAddPurchase.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\WindowAddStorage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

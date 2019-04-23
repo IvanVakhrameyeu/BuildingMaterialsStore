@@ -40,12 +40,14 @@ namespace BuildingMaterialsStore.ViewModels
         private Page CustomersPage;
         private Page EmployeePage;
         private Page RepPage;
+        private Page StoragePage;
         public MainAdminViewModel()
         {
             HelpAplicationCommand = new DelegateCommand(OnHelpCommandExecuted);
 
             EmployeePage = new MainAdminPage();
             CustomersPage = new CustomerPage ();
+            StoragePage = new StoragePage();
             RepPage = new ReportsPage ();
 
             CurrentPage = EmployeePage;
@@ -75,11 +77,13 @@ namespace BuildingMaterialsStore.ViewModels
         }
         private void LoadedPage(int i)
         {
+            if (AddStorageVM.isChange) { StoragePage = new StoragePage(); AddStorageVM.isChange = false; }
             switch (i)
             {
                 case 0: { CurrentPage = EmployeePage; break; }
                 case 1: { CurrentPage = CustomersPage; break; }
-                case 2: { CurrentPage = RepPage; break; }
+                case 2: { CurrentPage = StoragePage; break; }
+                case 3: { CurrentPage = RepPage; break; }
                 default: { CurrentPage = null; break; }
             }
         }

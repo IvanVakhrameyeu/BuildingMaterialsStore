@@ -175,20 +175,20 @@ namespace BuildingMaterialsStore.ViewModels
         /// <param name="o"></param>
         private void OnCustCommandExecuted(object o)
         {
+            if (DateFrom > DateTo) { MessageBox.Show("Проверьте формат даты"); return; }
+            if (SelectedFirm == null) { MessageBox.Show("Выберите покупателя"); return; }
 
-            //if (DateFrom > DateTo) { MessageBox.Show("Проверьте формат даты"); return; }
-            //if (SelectedFirm == null) { MessageBox.Show("Выберите покупателя"); return; }
-
-            //string sql = " select EmpLastName, EmpFirstName, Category.NameCategory, [Name],Price, Store.[Count], TotalPrice, PurchaseDay, [Description] " +
-            //    "from Store " +
-            //    "join Employee on (Store.EmployeeID = Employee.EmployeeID) " +
-            //    "join Storage on (Store.StorageID = Storage.StorageID) " +
-            //    "join Category on (Storage.CategoryID = Category.CategoryID) " +
-            //    "where CustomerID = (select CustomerID from Customer where FirmName = '" + SelectedFirm.Split()[0] + "' and UNP = '" + SelectedFirm.Split()[1] + "') " +
-            //    "and PurchaseDay>= '"+ DateFrom + "' and PurchaseDay<= '" + DateTo + "' ";
+            string sql = " select EmpLastName, EmpFirstName, Category.NameCategory, [Name],Price, Store.[Count], TotalPrice, PurchaseDay, [Description] " +
+                "from Store " +
+                "join Employee on (Store.EmployeeID = Employee.EmployeeID) " +
+                "join Storage on (Store.StorageID = Storage.StorageID) " +
+                "join Category on (Storage.CategoryID = Category.CategoryID) " +
+                "join Firms on (Store.FirmID = Firms.FirmID) " +
+                "where Store.FirmID = (select FirmID from Firms where FirmName like '%" + SelectedFirm + "') " +
+                "and PurchaseDay>= '" + DateFrom + "' and PurchaseDay<= '" + DateTo + "' ";
 
 
-            //EmpReport.writeClass(DateFrom, DateTo, "reportPeople", "покупателю", SelectedFirm, sql);
+            EmpReport.writeClass(DateFrom, DateTo, "reportPeople", "покупателю", SelectedFirm, sql);
         }
         /// <summary>
         /// очищает фильтры

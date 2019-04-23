@@ -69,6 +69,9 @@ namespace BuildingMaterialsStore.ViewModels
         private Page GoodsIssuePage;
 
         private Page CustomersPage;
+        /// <summary>
+        /// конструктор, привязка делегатов
+        /// </summary>
         public MainViewModel()
         {
             HelpAplicationCommand = new DelegateCommand(OnHelpCommandExecuted);
@@ -96,10 +99,16 @@ namespace BuildingMaterialsStore.ViewModels
             GardenPage = new MainStorage("Сад и огород");
             GoodsIssuePage = new GoodsIssue();
         }
+        /// <summary>
+        /// асинхронный запуск заполнения названий фирм
+        /// </summary>
         async private void awayMethods()
         {
             await Task.Run(() => FillListFirms());
         }
+        /// <summary>
+        /// добавление названия фирм в ComboBox
+        /// </summary>
         private void FillListFirms()
         {
             if (firms == null)
@@ -123,11 +132,19 @@ namespace BuildingMaterialsStore.ViewModels
                 }
             }
         }
+        /// <summary>
+        /// добавление товара в корзину
+        /// </summary>
+        /// <param name="o"></param>
         private void OnAddPurchaseCommandExecuted(object o)
         {
             new WindowCustomerPurchases(StorageViewModel.purchases).ShowDialog();
             if (isChange) { changePages(); isChange = false; CurrentPage = MainStoragePage; }
         }
+        /// <summary>
+        /// открытие Help.chm
+        /// </summary>
+        /// <param name="o"></param>
         private void OnHelpCommandExecuted(object o)
         {
             try

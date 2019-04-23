@@ -20,8 +20,8 @@ namespace BuildingMaterialsStore.ViewModels.Pages
         SqlCommand cmd;
         SqlDataAdapter adapter;
         DataSet ds;
-        private string _section;
-        private string _selectGoods = null;
+        //private string _section;
+        //private string _selectGoods = null;
         public ICollectionView view { get; set; }
         public ICommand AddCommand { get; }
         public ObservableCollection<Store> stories { get; set; }
@@ -52,7 +52,7 @@ namespace BuildingMaterialsStore.ViewModels.Pages
                 return;
             }
 
-
+		//select FirmID, PurchaseDay, Sum(TotalPrice) from Store group by FirmID, PurchaseDay
         }
         private void updatePurhcases()
         {

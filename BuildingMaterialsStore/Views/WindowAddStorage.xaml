@@ -1,16 +1,16 @@
-﻿<Window x:Class="BuildingMaterialsStore.Views.WindowAddCustomer"
+﻿<Window x:Class="BuildingMaterialsStore.Views.WindowAddStorage"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BuildingMaterialsStore.Views"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         WindowStyle="None"
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
-        Title="WindowAddCustomer" Height="250" Width="410">
+        Title="WindowAddCustomer" Height="240" Width="410">
     <DockPanel>
         <DockPanel DockPanel.Dock="Top"
                    VerticalAlignment="Top"
@@ -39,59 +39,51 @@
             </Border>
         </DockPanel>
         <DockPanel DockPanel.Dock="Top">
-        <DockPanel
+            <DockPanel
             DockPanel.Dock="Left">
-            <Label
-                DockPanel.Dock="Top"
-                Content="Название"/>
-            <TextBox DockPanel.Dock="Top"
-                     Width="200" 
-                     Height="30"
-                     FontSize="15"
-                     VerticalAlignment="Top"
-                     HorizontalAlignment="Left"                     
-                     Text="{Binding FirmName,Mode=TwoWay}"                 
-                     Margin="1, 0 ,0, 0"/>
-
-            <Label
-                DockPanel.Dock="Top"
-                Content="УПН"/>
-            <TextBox DockPanel.Dock="Top"
-                     Width="200" 
-                     Height="30"
-                     FontSize="15"
-                     VerticalAlignment="Top"
-                     HorizontalAlignment="Left"                     
-                     Text="{Binding UNP,Mode=TwoWay}"                 
-                     Margin="1, 0 ,0, 0"/>
-            <Label
-                DockPanel.Dock="Top"
-                Content="Номер счета"/>
-            <TextBox DockPanel.Dock="Top"
-                     Width="200" 
-                     Height="30"
-                     FontSize="15"
-                     VerticalAlignment="Top"
-                     HorizontalAlignment="Left"                     
-                     Text="{Binding FirmAccountNumber,Mode=TwoWay}"                 
-                     Margin="1, 0 ,0, 0"/>
-            </DockPanel>
-        <DockPanel DockPanel.Dock="Right">
                 <Label
                 DockPanel.Dock="Top"
-                Content="Реквизиты"/>
+                Content="Категория"/>
+                <ComboBox DockPanel.Dock="Top"
+                     Width="200" 
+                     Height="30"
+                     FontSize="15"
+                     VerticalAlignment="Top"
+                     HorizontalAlignment="Left"       
+                      SelectedItem="{Binding SelectCategory}"
+                      ItemsSource="{ Binding NameCategory}"                   
+                     Margin="1, 0 ,0, 0"/>
+
+                <Label
+                DockPanel.Dock="Top"
+                Content="Единица измерения"/>
+                <ComboBox DockPanel.Dock="Top"
+                     Width="200" 
+                     Height="30"
+                     FontSize="15"
+                     VerticalAlignment="Top"
+                     HorizontalAlignment="Left"         
+                      SelectedItem="{Binding SelectUnitName}"
+                      ItemsSource="{ Binding UnitName}"              
+                     Margin="1, 0 ,0, 0"/>
+                <Label
+                DockPanel.Dock="Top"
+                Content="Название"/>
                 <TextBox DockPanel.Dock="Top"
                      Width="200" 
                      Height="30"
                      FontSize="15"
                      VerticalAlignment="Top"
                      HorizontalAlignment="Left"                     
-                     Text="{Binding FirmBankDetails,Mode=TwoWay}"                 
+                     Text="{Binding Name,Mode=TwoWay}"                 
                      Margin="1, 0 ,0, 0"/>
+            </DockPanel>
+            <DockPanel DockPanel.Dock="Right">
+               
 
                 <Label
                 DockPanel.Dock="Top"
-                Content="Физический адрес"/>
+                Content="Описание"/>
                 <TextBox DockPanel.Dock="Top"
                      Width="200" 
                      Height="30"
@@ -99,19 +91,18 @@
                      VerticalAlignment="Top"
                      HorizontalAlignment="Left"
                      
-                     Text="{Binding FirmLegalAddress,Mode=TwoWay}"                 
+                     Text="{Binding Description,Mode=TwoWay}"                 
                      Margin="1, 0 ,0, 0"/>
                 <Label
                 DockPanel.Dock="Top"
-                Content="Номер телефона"/>
-                <xctk:MaskedTextBox DockPanel.Dock="Top"
+                Content="Цена"/>
+                <TextBox DockPanel.Dock="Top"
                      Width="200" 
                      Height="30"
                      FontSize="15"
                      VerticalAlignment="Top"
-                     HorizontalAlignment="Left"                  
-                         Mask="+375 00 000 00 00"
-                     Text="{Binding FirmPhoneNumber,Mode=TwoWay}"                 
+                     HorizontalAlignment="Left"  
+                     Text="{Binding Price,Mode=TwoWay}"                 
                      Margin="1, 0 ,0, 0"/>
             </DockPanel>
         </DockPanel>

@@ -77,3 +77,7 @@ C:\Users\vanov\Documents\GitHub\BuildingMaterialsStore\BuildingMaterialsStore\ob
 C:\Users\vanov\Documents\GitHub\BuildingMaterialsStore\BuildingMaterialsStore\obj\Debug\Views\Pages\FirmsPage.baml
 C:\Users\vanov\Documents\GitHub\BuildingMaterialsStore\BuildingMaterialsStore\obj\Debug\Views\Pages\GoodsIssue.g.cs
 C:\Users\vanov\Documents\GitHub\BuildingMaterialsStore\BuildingMaterialsStore\obj\Debug\Views\Pages\GoodsIssue.baml
+C:\Users\vanov\Documents\GitHub\BuildingMaterialsStore\BuildingMaterialsStore\obj\Debug\Views\Pages\StoragePage.g.cs
+C:\Users\vanov\Documents\GitHub\BuildingMaterialsStore\BuildingMaterialsStore\obj\Debug\Views\Pages\StoragePage.baml
+C:\Users\vanov\Documents\GitHub\BuildingMaterialsStore\BuildingMaterialsStore\obj\Debug\Views\WindowAddStorage.g.cs
+C:\Users\vanov\Documents\GitHub\BuildingMaterialsStore\BuildingMaterialsStore\obj\Debug\Views\WindowAddStorage.baml
