@@ -40,11 +40,10 @@
                 </DataGridTemplateColumn>
                 <DataGridTextColumn Header="Id"  Visibility="Hidden" Binding="{Binding Path='FirmID'}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Название фирмы" Binding="{Binding Path='FirmName'}" IsReadOnly="True" />
-                <DataGridTextColumn Header="Количество" Binding="{Binding Path='Count'}" IsReadOnly="True" />
                 <DataGridTextColumn Header="Стоимость"  Binding="{Binding Path='TotalPrice'}" IsReadOnly="True" />
                 <DataGridTextColumn Header="Скидка"  Binding="{Binding Path='CurrentDiscountAmount'}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Оплачено"  Binding="{Binding Path='Paid'}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Товар" Binding="{Binding Path='Description'}" IsReadOnly="True" />
+                <DataGridTextColumn Header="PurchaseDay" Binding="{Binding Path='PurchaseDay',StringFormat='{}{0:dd-MM-yyyy}'}" IsReadOnly="True" />
             </DataGrid.Columns>
         </DataGrid>
     </DockPanel>

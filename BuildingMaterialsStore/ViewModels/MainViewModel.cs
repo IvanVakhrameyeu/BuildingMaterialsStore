@@ -1,12 +1,11 @@
 ﻿using BuildingMaterialsStore.Models;
-using BuildingMaterialsStore.ViewModels.Pages;
 using BuildingMaterialsStore.Views;
 using BuildingMaterialsStore.Views.Pages;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -20,7 +19,7 @@ namespace BuildingMaterialsStore.ViewModels
         private WindowState _currentSate;
         public ICommand WindowStateCommand { get; }
         public ICommand ShoppingBasket { get; }
-        public static bool isChange=false;
+        public static bool isChange = false;
         private Page _currentPage;
         public Page CurrentPage
         {
@@ -40,7 +39,20 @@ namespace BuildingMaterialsStore.ViewModels
                 OnPropertyChanged("CurrentWindowState");
             }
         }
-        static public List<string> firms { get; set;  }
+
+        static private ObservableCollection<string> _firms;
+        static public ObservableCollection<string> firms
+        {
+            get
+            {
+                return _firms;
+            }
+            set
+            {
+                _firms = value;
+            }
+        }
+
         static private string _selectFirm = null;
         static public string SelectFirm
         {
@@ -102,9 +114,9 @@ namespace BuildingMaterialsStore.ViewModels
         /// <summary>
         /// асинхронный запуск заполнения названий фирм
         /// </summary>
-        async private void awayMethods()
+        private void awayMethods()
         {
-            await Task.Run(() => FillListFirms());
+            FillListFirms();
         }
         /// <summary>
         /// добавление названия фирм в ComboBox
@@ -125,7 +137,7 @@ namespace BuildingMaterialsStore.ViewModels
                     }
                     con.Close();
                 }
-                firms = new List<string>();
+                firms = new ObservableCollection<string>();
                 foreach (DataRow dr in dt.Rows)
                 {
                     firms.Add(dr[0].ToString());

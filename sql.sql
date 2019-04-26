@@ -5,7 +5,6 @@ use storedb
 ---------дПНОМСРЭ---------
 drop database storedb
 ------------1------------
-
 -----------ед хглепемхъ-------------
 create table Unit
 (
@@ -104,6 +103,7 @@ Paid bit not null,
 )
 
 -------------------------опнжедспш
+--SYSDATETIME()
 --------------днаюбкемхе онйсойх
 --drop proc InputStore
 go
@@ -175,9 +175,6 @@ where FirmId=@ID and Store.PurchaseDay=@Date
 end
 go
 --exec Shipment @ID=2
-
-select FirmID, PurchaseDay, Sum(TotalPrice) from Store group by FirmID, PurchaseDay
-
 ----------------- ------------------------
 insert Access(AccessName) 
 values

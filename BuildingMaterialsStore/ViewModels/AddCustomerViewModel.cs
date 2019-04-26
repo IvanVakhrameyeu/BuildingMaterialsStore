@@ -84,7 +84,7 @@ namespace BuildingMaterialsStore.ViewModels
                 _firmPhoneNumber = value;
             }
         }
-
+        
         public ICommand QuitAplicationCommand { get; }
         public ICommand AddCommand { get; }
         /// <summary>
@@ -117,6 +117,7 @@ namespace BuildingMaterialsStore.ViewModels
                         com.ExecuteNonQuery();
                     }
                     con.Close();
+                    MainViewModel.firms.Add(FirmName); // ДОБАВЛЕНИЕ ФИРМЫ В КОМБОБОКС                    
                 }
             }
             catch (Exception ex)

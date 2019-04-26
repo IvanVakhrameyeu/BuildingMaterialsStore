@@ -102,6 +102,7 @@
     <Compile Include="ViewModels\StorageViewModel.cs" />
     <Compile Include="ViewModels\WordReports\EmpReport.cs" />
     <Compile Include="ViewModels\WordReports\PurchasesRep.cs" />
+    <Compile Include="ViewModels\WordReports\TTH.cs" />
     <Compile Include="ViewModels\WorkWithWord.cs" />
     <Compile Include="Views\AdminWindow.xaml.cs">
       <DependentUpon>AdminWindow.xaml</DependentUpon>
@@ -220,6 +221,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
     <None Include="Properties\ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
@@ -230,8 +232,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Reports\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

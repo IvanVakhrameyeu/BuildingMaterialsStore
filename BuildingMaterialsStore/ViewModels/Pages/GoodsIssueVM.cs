@@ -51,12 +51,33 @@ namespace BuildingMaterialsStore.ViewModels.Pages
                 MessageBox.Show("уже отгружено");
                 return;
             }
-
-		//select FirmID, PurchaseDay, Sum(TotalPrice) from Store group by FirmID, PurchaseDay
-        }
-        private void updatePurhcases()
-        {
-
+            try
+            {
+                SqlCommand com;
+                using (con = new SqlConnection(AuthorizationSettings.connectionString))
+                {
+                    con.Open();
+                    using (com = new SqlCommand("Shipment", con))
+                    {
+                        com.CommandType = CommandType.StoredProcedure;
+                        com.Parameters.AddWithValue("@ID", SqlDbType.Int).Value = SelectItemDataGrid.FirmID;
+                        com.Parameters.AddWithValue("@Date", SqlDbType.Date).Value = SelectItemDataGrid.PurchaseDay;
+                        com.ExecuteNonQuery();
+                    }
+                    con.Close();
+                    stories.Clear();
+                    FillList();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                con.Close();
+                con.Dispose();
+            }
         }
         public void FillList()
         {
@@ -64,12 +85,9 @@ namespace BuildingMaterialsStore.ViewModels.Pages
             {
                 con = new SqlConnection(AuthorizationSettings.connectionString);
                 con.Open();
-                cmd = new SqlCommand("select Store.StoreID, Store.EmployeeID, Store.FirmID, Firms.FirmName, Store.StorageID, " +
-                    "Store.[Count], Store.TotalPrice, Store.CurrentDiscountAmount, " +
-                    "Store.PurchaseDay, Store.Paid, Storage.[Description] " +
-                    "from Store " +
-                    "join Storage on (Store.StorageID= Storage.StorageID)  " +
-                    "join Firms on (Store.FirmID= Firms.FirmID)", con);
+                cmd = new SqlCommand("select Store.FirmID, Firms.FirmName, PurchaseDay, Store.Paid,  Sum(TotalPrice) as 'TotalPrice' from Store " +
+                    "join Firms on(Store.FirmID = Firms.FirmID) " +
+                    "group by Store.FirmID, PurchaseDay, Firms.FirmName, Store.Paid", con);
                 adapter = new SqlDataAdapter(cmd);
                 ds = new DataSet();
                 adapter.Fill(ds, "storedb");
@@ -79,18 +97,12 @@ namespace BuildingMaterialsStore.ViewModels.Pages
                 foreach (DataRow dr in ds.Tables[0].Rows)
                 {
                     stories.Add(new Store
-                    {
-                        StoreID = Convert.ToInt32(dr[0].ToString()),
-                        //EmployeeID = Convert.ToInt32(dr[1].ToString()),
-                        //FirmID = Convert.ToInt32(dr[2].ToString()),
-                        FirmName = (dr[3].ToString()),
-                        StorageID = Convert.ToInt32(dr[4].ToString()),
-                        Count = Convert.ToInt32(dr[5].ToString()),
-                        TotalPrice = Convert.ToDouble(dr[6].ToString()),
-                        CurrentDiscountAmount = Convert.ToDouble(dr[7].ToString()),
-                        //PurchaseDay = Convert.ToDateTime(dr[8].ToString()),
-                        Paid = Convert.ToBoolean(dr[9].ToString()),
-                        Description = (dr[10].ToString())
+                    {                        
+                        FirmID = Convert.ToInt32(dr[0]),
+                        FirmName = dr[1].ToString(),
+                        PurchaseDay = (Convert.ToDateTime(dr[2])),
+                        TotalPrice = Convert.ToDouble(dr[4]),
+                        Paid = Convert.ToBoolean(dr[3])
                     });
                 }
                 view = CollectionViewSource.GetDefaultView(stories);

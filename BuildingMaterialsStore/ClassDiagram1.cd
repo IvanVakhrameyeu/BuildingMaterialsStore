@@ -1,0 +1,285 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="BuildingMaterialsStore.Models.AuthorizationSettings" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AoAAAAAAAAAAAEgAAAAAAAgAAAAAAAAAAAAAAAASAAA=</HashCode>
+      <FileName>Models\AuthorizationSettings.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BuildingMaterialsStore.Models.Employee" Collapsed="true">
+    <Position X="2" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AoAAAAAgAAAABAEgAAAAAAAgAAQAAAAAAAAAAAAQQAA=</HashCode>
+      <FileName>Models\Employee.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BuildingMaterialsStore.Models.Firms" Collapsed="true">
+    <Position X="3.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAQAAEEAAgCA=</HashCode>
+      <FileName>Models\Firms.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BuildingMaterialsStore.Models.IdAndName" Collapsed="true">
+    <Position X="0.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>Models\IdAndName.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BuildingMaterialsStore.Models.Purchases" Collapsed="true">
+    <Position X="2" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgAAABAQgAAAAQIgCAAACEEAAAAA=</HashCode>
+      <FileName>Models\Purchases.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BuildingMaterialsStore.Models.Storage" Collapsed="true">
+    <Position X="3.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAQAgAAAAgAAABAQAAAAAAIAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Storage.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BuildingMaterialsStore.Models.Store" Collapsed="true">
+    <Position X="0.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAkAAAAAAEAAAQAABAAQAgAAAAAAkAAAAA=</HashCode>
+      <FileName>Models\Store.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BuildingMaterialsStore.Models.ViewModel" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="2.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAIAAAAAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\ViewModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BuildingMaterialsStore.ViewModels.Pages.GoodsIssueVM" Collapsed="true">
+    <Position X="15.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAAAAAQGAAACAQAAAAEQAAAAAQACAAAAAAA=</HashCode>
+      <FileName>ViewModels\Pages\GoodsIssueVM.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BuildingMaterialsStore.ViewModels.Pages.StorageVM" Collapsed="true">
+    <Position X="19" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAQGAAACAQAAAAEQAAAAAQACAAAAAAA=</HashCode>
+      <FileName>ViewModels\Pages\StorageVM.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BuildingMaterialsStore.ViewModels.WordReports.EmpReport" Collapsed="true">
+    <Position X="17.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAABAAAAACAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\WordReports\EmpReport.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BuildingMaterialsStore.ViewModels.WordReports.PurchasesRep" Collapsed="true">
+    <Position X="17.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAABAAAAACAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\WordReports\PurchasesRep.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BuildingMaterialsStore.ViewModels.WordReports.TTH" Collapsed="true">
+    <Position X="15.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAABAAAAACAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\WordReports\TTH.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BuildingMaterialsStore.ViewModels.AddCustomerViewModel">
+    <Position X="0.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIABCAAAAEIAAACAAgAAQCAAACAAIAIAQAAAECAgCQ=</HashCode>
+      <FileName>ViewModels\AddCustomerViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BuildingMaterialsStore.ViewModels.AddPurchaseViewModel">
+    <Position X="3.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgIAYAAEAQAgAAAHAAgAAASAAIQAQAAAARAQBAAAAAE=</HashCode>
+      <FileName>ViewModels\AddPurchaseViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BuildingMaterialsStore.ViewModels.AddStorageVM">
+    <Position X="6.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IgICICAgAQAgACAGAAgAAQSAABCgAIAAAACAAAABACQ=</HashCode>
+      <FileName>ViewModels\AddStorageVM.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BuildingMaterialsStore.ViewModels.DelegateCommand" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="15.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAQAAEAEAABAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\DelegateCommand.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BuildingMaterialsStore.ViewModels.EmployeeViewModel">
+    <Position X="11" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQEAAAKkQAAAkEAAAAAAQECAAAAAAA=</HashCode>
+      <FileName>ViewModels\EmployeeViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BuildingMaterialsStore.ViewModels.FirmsViewModel" Collapsed="true">
+    <Position X="19" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAAQHAAACkQAAAAEQAAAAAQGCAAAAAAA=</HashCode>
+      <FileName>ViewModels\FirmsViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BuildingMaterialsStore.ViewModels.MainAdminViewModel">
+    <Position X="5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAEAAIAAIAAACAAAAAAAkDAAEAAADBAQABAAAAAAAI=</HashCode>
+      <FileName>ViewModels\MainAdminViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BuildingMaterialsStore.ViewModels.MainViewModel">
+    <Position X="8" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CEEcAhAAAAADCCAACAAAIELAAEQAAHBAQADAAAAAACI=</HashCode>
+      <FileName>ViewModels\MainViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BuildingMaterialsStore.ViewModels.PurchasesViewModel">
+    <Position X="9.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIABAAEAAAAAAEEQAhgAQCAAEEAQAABAQAAAAAAAAQ=</HashCode>
+      <FileName>ViewModels\PurchasesViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BuildingMaterialsStore.ViewModels.ReportViewModel">
+    <Position X="12.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>SAgAABCAQiAIEAQEALEqEYAiAREAALgYGUCKCCAFAIA=</HashCode>
+      <FileName>ViewModels\ReportViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BuildingMaterialsStore.ViewModels.StorageViewModel">
+    <Position X="2" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAEAQAEACAIAAQHAAACEUBAAREQACAIAUQCCAAAAII=</HashCode>
+      <FileName>ViewModels\StorageViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Wpf_журнал_учащихся_школы.WorkWithWord" Collapsed="true">
+    <Position X="17.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAABAAAAACAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\WorkWithWord.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BuildingMaterialsStore.Views.Pages.CustomerPage" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="7.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\Pages\FirmsPage.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BuildingMaterialsStore.Views.Pages.GoodsIssue" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="9" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\Pages\GoodsIssue.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BuildingMaterialsStore.Views.Pages.MainAdminPage" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="10.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\Pages\MainAdminPage.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BuildingMaterialsStore.Views.Pages.MainStorage" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="5.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\Pages\MainStorage.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BuildingMaterialsStore.Views.Pages.ReportsPage" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="9" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\Pages\ReportsPage.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BuildingMaterialsStore.Views.Pages.StoragePage" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="10.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\Pages\StoragePage.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BuildingMaterialsStore.Views.AdminWindow" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="5.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\AdminWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BuildingMaterialsStore.Views.WindowAddCustomer" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="5.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\WindowAddCustomer.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BuildingMaterialsStore.Views.WindowAddPurchase" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="7.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\WindowAddPurchase.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BuildingMaterialsStore.Views.WindowAddStorage" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="9" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\WindowAddStorage.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BuildingMaterialsStore.Views.WindowAuthorization" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="10.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAgAAAAAAAAAA=</HashCode>
+      <FileName>Views\WindowAuthorization.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BuildingMaterialsStore.Views.WindowCustomerPurchases" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="3.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\WindowCustomerPurchases.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BuildingMaterialsStore.MainWindow" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="7.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\MainWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

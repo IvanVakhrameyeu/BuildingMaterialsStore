@@ -93,9 +93,6 @@ namespace BuildingMaterialsStore.ViewModels
             new WindowAddCustomer().ShowDialog();
             firms.Clear();
             FillList();
-            
-
-            MainViewModel.firms.Clear(); // чот не то
         }
         /// <summary>
         /// заполнение List Firm данными

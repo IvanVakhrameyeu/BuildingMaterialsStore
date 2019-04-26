@@ -40,10 +40,8 @@ namespace BuildingMaterialsStore.ViewModels.Pages
         }
         private void OnAddCommandExecuted(object o)
         {
-            new WindowAddStorage().ShowDialog();
-            
+            new WindowAddStorage().ShowDialog();            
         }
-
         public void FillList()
         {
             try
@@ -88,6 +86,5 @@ namespace BuildingMaterialsStore.ViewModels.Pages
                 con.Dispose();
             }
         }
-
     }
 }
