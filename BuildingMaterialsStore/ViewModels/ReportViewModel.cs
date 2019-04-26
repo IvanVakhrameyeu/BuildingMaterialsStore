@@ -24,8 +24,11 @@ namespace BuildingMaterialsStore.ViewModels
         public ObservableCollection<Storage> storages { get; set; }
         public List<string> employees { get; set; }
         public List<string> firms { get; set; }
-        public List<string> namesCategory { get; set; }
-        public List<string> names { get; set; }
+        private ObservableCollection<string> _namesCategory;
+        private ObservableCollection<string> _names;
+
+        public ObservableCollection<string> namesCategory{ get {  return _namesCategory;  } set { _namesCategory = value; } }
+        public ObservableCollection<string> names { get { return _names; } set { _names = value; } }
 
         public ICollectionView view { get; set; }
         public ICommand PurchasesRepCommand { get; }
@@ -97,7 +100,7 @@ namespace BuildingMaterialsStore.ViewModels
                 if (_selectNameCategoryItem == value) return;
                 _selectNameCategoryItem = value;
                 Filter();
-              //  FillListNameWithCategory();
+                FillListNameWithCategory();
             }
         }
         public string Text
@@ -126,11 +129,16 @@ namespace BuildingMaterialsStore.ViewModels
         /// </summary>
         private void asyncMainMethod()
         {
-            FillList();
-            FillListNameCategory();
-            FillListName();
-            FillListEmployee();
-            FillListFirms();
+            try
+            {
+                FillListEmployee();
+                FillListFirms();
+
+                FillList();
+                FillListNameCategory();
+                FillListName();
+            }
+            catch(Exception ex) { MessageBox.Show(ex.Message); }
         }
         /// <summary>
         /// вывод покупок за данный период(удалить возможно)
@@ -298,8 +306,8 @@ namespace BuildingMaterialsStore.ViewModels
                 }
                 con.Close();
             }
-            if (names == null)
-                namesCategory = new List<String>();
+            if (namesCategory == null)
+                namesCategory = new ObservableCollection<String>();
             foreach (DataRow dr in dt.Rows)
             {
                 namesCategory.Add(dr[0].ToString());
@@ -316,7 +324,7 @@ namespace BuildingMaterialsStore.ViewModels
 
                 using (com = new SqlCommand("select distinct [Name] from Storage " +
                     "join Category on (Storage.CategoryID=Category.CategoryID) " +
-                    "where NameCategory= '" + SelectNameCategoryItem + "'", con))
+                    "where NameCategory like'%" + SelectNameCategoryItem + "'", con))
                 {
                     dt.Load(com.ExecuteReader());
                 }
@@ -347,7 +355,7 @@ namespace BuildingMaterialsStore.ViewModels
                 con.Close();
             }
             if (names == null)
-                names = new List<String>();
+                names = new ObservableCollection<string>();
             foreach (DataRow dr in dt.Rows)
             {
                 names.Add(dr[0].ToString());
