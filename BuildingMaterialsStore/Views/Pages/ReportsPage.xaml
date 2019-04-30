@@ -12,18 +12,9 @@
 
 
     <DockPanel>
-
         <DockPanel DockPanel.Dock="Top">
             <DockPanel DockPanel.Dock="Left">
-                <DockPanel DockPanel.Dock="Top">
-                    <Button Width="250"
-                    Height="37"
-                    VerticalAlignment="Top"
-                    HorizontalAlignment="Left"
-                    Content="Отчет по товарам"   
-                    Command="{Binding PurchasesRepCommand}"
-                   />
-                </DockPanel>
+               
                 <DockPanel DockPanel.Dock="Top">
                     <Button Width="250"
                     Height="37"
@@ -91,8 +82,8 @@
                      FontSize="15"
                      VerticalAlignment="Top"
                      HorizontalAlignment="Left"                     
-                     ItemsSource="{Binding customers}"   
-                     SelectedItem="{ Binding SelectedCustomer}"                  
+                     ItemsSource="{Binding firms}"   
+                     SelectedItem="{ Binding SelectedFirm}"                  
                      Margin="1, 0 ,0, 0"/>
             </DockPanel>
         </DockPanel>

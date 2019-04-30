@@ -16,21 +16,10 @@ namespace BuildingMaterialsStore.ViewModels
         SqlCommand cmd;
         SqlDataAdapter adapter;
         DataSet ds;
-        private string _section;
         private string _selectCustomer = null;
         public ICollectionView view { get; set; }
         public ICommand DelCommand { get; }
         public ObservableCollection<Employee> employee { get; set; }
-        public string CurrentSection
-        {
-            get { return _section; }
-            set
-            {
-                if (_section == null)
-                    _section = value;
-            }
-        }
-
         public string SelectCustomer
         {
             get { return _selectCustomer; }
@@ -53,14 +42,13 @@ namespace BuildingMaterialsStore.ViewModels
                 _selectItemDataGrid = value;
             }
         }
-        public EmployeeViewModel(string section)
+        public EmployeeViewModel()
         {
             DelCommand = new DelegateCommand(OnDeleteCommandExecuted);
-            asyncMainMethod(section);
+            asyncMainMethod();
         }
-        private void asyncMainMethod(string section)
+        private void asyncMainMethod()
         {
-            CurrentSection = section;
             FillList();
         }
         private void OnDeleteCommandExecuted(object o)

@@ -23,9 +23,12 @@ namespace BuildingMaterialsStore.ViewModels
 
         public ObservableCollection<Storage> storages { get; set; }
         public List<string> employees { get; set; }
-        public List<string> customers { get; set; }
-        public List<string> namesCategory { get; set; }
-        public List<string> names { get; set; }
+        public List<string> firms { get; set; }
+        private ObservableCollection<string> _namesCategory;
+        private ObservableCollection<string> _names;
+
+        public ObservableCollection<string> namesCategory{ get {  return _namesCategory;  } set { _namesCategory = value; } }
+        public ObservableCollection<string> names { get { return _names; } set { _names = value; } }
 
         public ICollectionView view { get; set; }
         public ICommand PurchasesRepCommand { get; }
@@ -33,7 +36,7 @@ namespace BuildingMaterialsStore.ViewModels
         public ICommand CustRepCommand { get; }
         public ICommand ClearFilterCommand { get; }
 
-        private string _selectedCustomer = null;
+        private string _selectedFirm = null;
         private string _selectedEmployee = null;
         private string _selectNameItem = null;
         private string _selectNameCategoryItem = null;
@@ -63,12 +66,12 @@ namespace BuildingMaterialsStore.ViewModels
             get { return _dateTo; }
             set { _dateTo = value; OnPropertyChanged("DateTo"); }
         }
-        public string SelectedCustomer
+        public string SelectedFirm
         {
-            get { return _selectedCustomer; }
+            get { return _selectedFirm; }
             set
             {
-                _selectedCustomer = value;
+                _selectedFirm = value;
             }
         }
         public string SelectedEmployee
@@ -97,7 +100,7 @@ namespace BuildingMaterialsStore.ViewModels
                 if (_selectNameCategoryItem == value) return;
                 _selectNameCategoryItem = value;
                 Filter();
-              //  FillListNameWithCategory();
+                FillListNameWithCategory();
             }
         }
         public string Text
@@ -111,7 +114,6 @@ namespace BuildingMaterialsStore.ViewModels
                 Filter();
             }
         }
-
         public ReportViewModel()
         {
             asyncMainMethod();
@@ -126,11 +128,16 @@ namespace BuildingMaterialsStore.ViewModels
         /// </summary>
         private void asyncMainMethod()
         {
-            FillList();
-            FillListNameCategory();
-            FillListName();
-            FillListEmployee();
-            FillListCustomer();
+            try
+            {
+                FillListEmployee();
+                FillListFirms();
+
+                FillList();
+                FillListNameCategory();
+                FillListName();
+            }
+            catch(Exception ex) { MessageBox.Show(ex.Message); }
         }
         /// <summary>
         /// вывод покупок за данный период(удалить возможно)
@@ -140,18 +147,18 @@ namespace BuildingMaterialsStore.ViewModels
         {
             if (DateFrom > DateTo) { MessageBox.Show("Проверьте формат даты"); return; }
 
-            string sql = "select CustLastName, CustFirstName, Store.[Count],  Store.CurrentDiscountAmount, TotalPrice, PurchaseDay " +
+            string sql = "select FirmName, UNP, Store.[Count],  Store.CurrentDiscountAmount, TotalPrice, PurchaseDay " +
                 "from Store " +
-                "join Customer on(Store.CustomerID= Customer.CustomerID) " +
+                "join Firms on(Store.FirmID= Firms.FirmID) " +
                 "join Storage on(Store.StorageID= Storage.StorageID) " +
                 "join Category on(Storage.CategoryID= Category.CategoryID) " +
                 "where Store.StorageID = " + SelectItemDataGrid.idStorage + " " +
                 "and PurchaseDay>= '" + DateFrom + "' and PurchaseDay<= '" + DateTo + "'";
 
-            PurchasesRep.writeClass(DateFrom, DateTo, "reportHistory", "товарам", SelectItemDataGrid.Name,SelectItemDataGrid.Price, SelectItemDataGrid.NameCategory,SelectItemDataGrid.Description, SelectItemDataGrid.Count, sql);
+            PurchasesRep.writeClass(DateFrom, DateTo, "reportHistory", "товарам", SelectItemDataGrid.Name, SelectItemDataGrid.Price, SelectItemDataGrid.NameCategory, SelectItemDataGrid.Description, SelectItemDataGrid.Count, sql);
         }
         /// <summary>
-        /// вывод отчета по работникам за данный период
+        /// вывод отчета по работнику за данный период
         /// </summary>
         /// <param name="o"></param>
         private void OnEmplCommandExecuted(object o)
@@ -159,36 +166,36 @@ namespace BuildingMaterialsStore.ViewModels
             if (DateFrom > DateTo) {MessageBox.Show("Проверьте формат даты"); return; }
             if(SelectedEmployee==null) { MessageBox.Show("Выберите работника");return; }
 
-            string sql = "select CustLastName, CustFirstName, Category.NameCategory, [Name],Price, Store.[Count], TotalPrice, PurchaseDay, [Description] " +
+            string sql = "select FirmName, UNP, Category.NameCategory, [Name],Price, Store.[Count], TotalPrice, PurchaseDay, [Description] " +
                 "from Store " +
-                "join Customer on(Store.CustomerID= Customer.CustomerID) " +
+                "join Firms on(Store.FirmID = Firms.FirmID) " +
                 "join Storage on(Store.StorageID= Storage.StorageID) " +
                 "join Category on(Storage.CategoryID= Category.CategoryID) " +
                 "where EmployeeID = (select EmployeeID from Employee where EmpLastName='" + SelectedEmployee.Split()[0] + "' and EmpFirstName = '" + SelectedEmployee.Split()[1] + "') " +
                 "and PurchaseDay>= '" + DateFrom + "' and PurchaseDay<= '" + DateTo + "'";
 
-            EmpReport.writeClass(DateFrom, DateTo, "reportPeople","работнику", SelectedEmployee,sql);
+            EmpReport.writeClass(DateFrom, DateTo, "reportPeople","работнику", SelectedEmployee,sql, "Название", "УПН");
         }
         /// <summary>
-        /// вывод отчета по покупателям за данный период
+        /// вывод отчета по покупателю за данный период
         /// </summary>
         /// <param name="o"></param>
         private void OnCustCommandExecuted(object o)
         {
-
             if (DateFrom > DateTo) { MessageBox.Show("Проверьте формат даты"); return; }
-            if (SelectedCustomer == null) { MessageBox.Show("Выберите покупателя"); return; }
+            if (SelectedFirm == null) { MessageBox.Show("Выберите покупателя"); return; }
 
             string sql = " select EmpLastName, EmpFirstName, Category.NameCategory, [Name],Price, Store.[Count], TotalPrice, PurchaseDay, [Description] " +
                 "from Store " +
                 "join Employee on (Store.EmployeeID = Employee.EmployeeID) " +
                 "join Storage on (Store.StorageID = Storage.StorageID) " +
                 "join Category on (Storage.CategoryID = Category.CategoryID) " +
-                "where CustomerID = (select CustomerID from Customer where CustLastName = '" + SelectedCustomer.Split()[0] + "' and CustFirstName = '" + SelectedCustomer.Split()[1] + "') " +
-                "and PurchaseDay>= '"+ DateFrom + "' and PurchaseDay<= '" + DateTo + "' ";
+                "join Firms on (Store.FirmID = Firms.FirmID) " +
+                "where Store.FirmID = (select FirmID from Firms where FirmName like '%" + SelectedFirm + "') " +
+                "and PurchaseDay>= '" + DateFrom + "' and PurchaseDay<= '" + DateTo + "' ";
 
 
-            EmpReport.writeClass(DateFrom, DateTo, "reportPeople", "покупателю", SelectedCustomer, sql);
+            EmpReport.writeClass(DateFrom, DateTo, "reportPeople", "покупателю", SelectedFirm, sql, "Фамилия", "Имя");
         }
         /// <summary>
         /// очищает фильтры
@@ -298,8 +305,8 @@ namespace BuildingMaterialsStore.ViewModels
                 }
                 con.Close();
             }
-            if (names == null)
-                namesCategory = new List<String>();
+            if (namesCategory == null)
+                namesCategory = new ObservableCollection<String>();
             foreach (DataRow dr in dt.Rows)
             {
                 namesCategory.Add(dr[0].ToString());
@@ -307,7 +314,6 @@ namespace BuildingMaterialsStore.ViewModels
         }
         private void FillListNameWithCategory()
         {
-           // MessageBox.Show("ololo");
             names.Clear();
             DataTable dt = new DataTable();
             using (con = new SqlConnection(AuthorizationSettings.connectionString))
@@ -316,7 +322,7 @@ namespace BuildingMaterialsStore.ViewModels
 
                 using (com = new SqlCommand("select distinct [Name] from Storage " +
                     "join Category on (Storage.CategoryID=Category.CategoryID) " +
-                    "where NameCategory= '" + SelectNameCategoryItem + "'", con))
+                    "where NameCategory like'%" + SelectNameCategoryItem + "'", con))
                 {
                     dt.Load(com.ExecuteReader());
                 }
@@ -347,7 +353,7 @@ namespace BuildingMaterialsStore.ViewModels
                 con.Close();
             }
             if (names == null)
-                names = new List<String>();
+                names = new ObservableCollection<string>();
             foreach (DataRow dr in dt.Rows)
             {
                 names.Add(dr[0].ToString());
@@ -378,22 +384,22 @@ namespace BuildingMaterialsStore.ViewModels
         /// <summary>
         /// заполнение comboBox покупателей
         /// </summary>
-        private void FillListCustomer()
+        private void FillListFirms()
         {
             DataTable dt = new DataTable();
             using (con = new SqlConnection(AuthorizationSettings.connectionString))
             {
                 con.Open();
-                using (com = new SqlCommand("select distinct CustLastName, CustFirstName from Customer", con))
+                using (com = new SqlCommand("select distinct FirmName from Firms", con))
                 {
                     dt.Load(com.ExecuteReader());
                 }
                 con.Close();
             }
-            customers = new List<string>();
+            firms = new List<string>();
             foreach (DataRow dr in dt.Rows)
             {
-                customers.Add(dr[0].ToString() + " " + dr[1].ToString());
+                firms.Add(dr[0].ToString());
             }
         }
     }

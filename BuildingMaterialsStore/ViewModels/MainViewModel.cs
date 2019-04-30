@@ -2,10 +2,10 @@
 using BuildingMaterialsStore.Views;
 using BuildingMaterialsStore.Views.Pages;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -19,7 +19,7 @@ namespace BuildingMaterialsStore.ViewModels
         private WindowState _currentSate;
         public ICommand WindowStateCommand { get; }
         public ICommand ShoppingBasket { get; }
-        public static bool isChange=false;
+        public static bool isChange = false;
         private Page _currentPage;
         public Page CurrentPage
         {
@@ -39,15 +39,28 @@ namespace BuildingMaterialsStore.ViewModels
                 OnPropertyChanged("CurrentWindowState");
             }
         }
-        static public List<string> customers { get; set; }
-        static private string _selectCustomer = null;
-        static public string SelectCustomer
+
+        static private ObservableCollection<string> _firms;
+        static public ObservableCollection<string> firms
         {
-            get { return _selectCustomer; }
+            get
+            {
+                return _firms;
+            }
             set
             {
-                if (_selectCustomer == value) return;
-                _selectCustomer = value;
+                _firms = value;
+            }
+        }
+
+        static private string _selectFirm = null;
+        static public string SelectFirm
+        {
+            get { return _selectFirm; }
+            set
+            {
+                if (_selectFirm == value) return;
+                _selectFirm = value;
                 StorageViewModel.purchases = new List<Purchases>();
                 PurchasesViewModel.InTotal = 0;
             }
@@ -65,8 +78,12 @@ namespace BuildingMaterialsStore.ViewModels
         private Page HardwareFastenersPage;
         private Page OvenMaterialsPage;
         private Page GardenPage;
+        private Page GoodsIssuePage;
 
         private Page CustomersPage;
+        /// <summary>
+        /// конструктор, привязка делегатов
+        /// </summary>
         public MainViewModel()
         {
             HelpAplicationCommand = new DelegateCommand(OnHelpCommandExecuted);
@@ -92,43 +109,54 @@ namespace BuildingMaterialsStore.ViewModels
             HardwareFastenersPage = new MainStorage("Метизы и крепеж");
             OvenMaterialsPage = new MainStorage("Печные материалы");
             GardenPage = new MainStorage("Сад и огород");
+            GoodsIssuePage = new GoodsIssue();
         }
-        async private void awayMethods()
+        /// <summary>
+        /// асинхронный запуск заполнения названий фирм
+        /// </summary>
+        private void awayMethods()
         {
-            await Task.Run(() => FillListCustomer());
-
+            FillListFirms();
         }
-        private void FillListCustomer()
+        /// <summary>
+        /// добавление названия фирм в ComboBox
+        /// </summary>
+        private void FillListFirms()
         {
-            if (customers == null)
+            if (firms == null)
             {
                 SqlConnection con;
                 SqlCommand com;
-
                 DataTable dt = new DataTable();
                 using (con = new SqlConnection(AuthorizationSettings.connectionString))
                 {
                     con.Open();
-
-                    using (com = new SqlCommand("select distinct CustLastName, CustFirstName from Customer", con))
+                    using (com = new SqlCommand("select distinct FirmName  from Firms", con))
                     {
                         dt.Load(com.ExecuteReader());
                     }
                     con.Close();
                 }
-                customers = new List<string>();
+                firms = new ObservableCollection<string>();
                 foreach (DataRow dr in dt.Rows)
                 {
-                    customers.Add(dr[0].ToString() + " " + dr[1].ToString());
+                    firms.Add(dr[0].ToString());
                 }
             }
         }
+        /// <summary>
+        /// добавление товара в корзину
+        /// </summary>
+        /// <param name="o"></param>
         private void OnAddPurchaseCommandExecuted(object o)
         {
             new WindowCustomerPurchases(StorageViewModel.purchases).ShowDialog();
             if (isChange) { changePages(); isChange = false; CurrentPage = MainStoragePage; }
         }
-
+        /// <summary>
+        /// открытие Help.chm
+        /// </summary>
+        /// <param name="o"></param>
         private void OnHelpCommandExecuted(object o)
         {
             try
@@ -169,6 +197,7 @@ namespace BuildingMaterialsStore.ViewModels
                 case 7: { CurrentPage = OvenMaterialsPage; break; }
                 case 8: { CurrentPage = GardenPage; break; }
                 case 9: { CurrentPage = CustomersPage; break; }
+                case 10: { CurrentPage = GoodsIssuePage; break; }
                 default: { CurrentPage = null; break; }
             }
         }

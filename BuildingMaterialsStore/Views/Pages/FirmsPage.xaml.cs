@@ -10,7 +10,7 @@ namespace BuildingMaterialsStore.Views.Pages
             try
             {
                 InitializeComponent();
-                DataContext = new CustomerViewModel();
+                DataContext = new FirmsViewModel();
             }
             catch { }
         }

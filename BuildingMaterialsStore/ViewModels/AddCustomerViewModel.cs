@@ -11,83 +11,80 @@ namespace BuildingMaterialsStore.ViewModels
     {
         SqlConnection con;
         private SqlCommand com;
+        private string _firmName;
+        private string _UNP;
+        private string _firmAccountNumber;
+        private string _firmBankDetails;
+        private string _firmLegalAddress;
+        private string _firmPhoneNumber;
 
-        private string _custLastName;
-        private string _custFirstName;
-        private string _custPatronymic;
-        private string _sex;
-        private DateTime _custDateOfBirth;
-        private string _custAddress;
-        private string _custPhoneNumber;
-
-        public string CustLastName
+        public string FirmName
         {
             get
             {
-                return _custLastName;
+                return _firmName;
             }
             set
             {
-                _custLastName = value;
+                _firmName = value;
             }
         }
-        public string CustFirstName
+        public string UNP
         {
             get
             {
-                return _custFirstName;
+                return _UNP;
             }
             set
             {
-                _custFirstName = value;
+                _UNP = value;
             }
         }
-        public string CustPatronymic
+        public string FirmAccountNumber
         {
             get
             {
-                return _custPatronymic;
+                return _firmAccountNumber;
             }
             set
             {
-                _custPatronymic = value;
+                _firmAccountNumber = value;
             }
         }
-        public string Sex
+        public string FirmBankDetails
         {
             get
             {
-                return _sex;
+                return _firmBankDetails;
             }
             set
             {
-                _sex = value;
+                _firmBankDetails = value;
             }
         }
-        public DateTime CustDateOfBirth { get; set; }
-        public string CustAddress
+        public string FirmLegalAddress
         {
             get
             {
-                return _custAddress;
+                return _firmLegalAddress;
             }
             set
             {
-                _custAddress = value;
+                _firmLegalAddress = value;
             }
         }
-        public string CustPhoneNumber
+        public string FirmPhoneNumber
         {
             get
             {
-                return _custPhoneNumber;
+                return _firmPhoneNumber;
             }
             set
             {
-                _custPhoneNumber = value;
+                _firmPhoneNumber = value;
             }
         }
-
+        
         public ICommand QuitAplicationCommand { get; }
         public ICommand AddCommand { get; }
         /// <summary>
@@ -108,19 +105,19 @@ namespace BuildingMaterialsStore.ViewModels
                 using (con = new SqlConnection(AuthorizationSettings.connectionString))
                 {
                     con.Open();
-                    using (com = new SqlCommand("InsertCustomer", con))
+                    using (com = new SqlCommand("InsertFirm", con))
                     {
                         com.CommandType = CommandType.StoredProcedure;
-                        com.Parameters.AddWithValue("@CustLastName", SqlDbType.VarChar).Value = CustLastName;
-                        com.Parameters.AddWithValue("@CustFirstName", SqlDbType.VarChar).Value = CustFirstName;
-                        com.Parameters.AddWithValue("@CustPatronymic", SqlDbType.VarChar).Value = CustPatronymic;
-                        com.Parameters.AddWithValue("@Sex", SqlDbType.VarChar).Value = Sex;
-                        com.Parameters.AddWithValue("@CustDateOfBirth", SqlDbType.Date).Value = CustDateOfBirth;
-                        com.Parameters.AddWithValue("@CustAddress", SqlDbType.VarChar).Value = CustAddress;
-                        com.Parameters.AddWithValue("@CustPhoneNumber", SqlDbType.VarChar).Value = CustPhoneNumber;
+                        com.Parameters.AddWithValue("@FirmName", SqlDbType.VarChar).Value = FirmName;
+                        com.Parameters.AddWithValue("@UNP", SqlDbType.VarChar).Value = UNP;
+                        com.Parameters.AddWithValue("@FirmAccountNumber", SqlDbType.VarChar).Value = FirmAccountNumber;
+                        com.Parameters.AddWithValue("@FirmBankDetails", SqlDbType.VarChar).Value = FirmBankDetails;
+                        com.Parameters.AddWithValue("@FirmLegalAddress", SqlDbType.VarChar).Value = FirmLegalAddress;
+                        com.Parameters.AddWithValue("@FirmPhoneNumber", SqlDbType.VarChar).Value = FirmPhoneNumber;
                         com.ExecuteNonQuery();
                     }
                     con.Close();
+                    MainViewModel.firms.Add(FirmName); // ДОБАВЛЕНИЕ ФИРМЫ В КОМБОБОКС                    
                 }
             }
             catch (Exception ex)

@@ -88,8 +88,8 @@ namespace BuildingMaterialsStore.ViewModels.WordReports
             wordTable.Borders.OutsideLineStyle = Microsoft.Office.Interop.Word.WdLineStyle.wdLineStyleDouble;
 
 
-            wordTable.Cell(1, 1).Range.Text = "Фамилия";
-            wordTable.Cell(1, 2).Range.Text = "Имя";
+            wordTable.Cell(1, 1).Range.Text = "Название";
+            wordTable.Cell(1, 2).Range.Text = "УПН";
             wordTable.Cell(1, 3).Range.Text = "Кол-во";
             wordTable.Cell(1, 4).Range.Text = "Скидка";
             wordTable.Cell(1, 5).Range.Text = "Общая цена";
@@ -101,8 +101,8 @@ namespace BuildingMaterialsStore.ViewModels.WordReports
                 {
                     //if(j==4)
                     //    wordTable.Cell(i, j + 1).Range.Text = ds.Tables[0].Rows[i - 2][j].ToString("0.00");
-                  //  else
-                    if (j == 5)
+                    //  else
+                     if (j == 5)
                         wordTable.Cell(i, j + 1).Range.Text = Convert.ToDateTime(ds.Tables[0].Rows[i - 2][j]).Date.ToString("d");
                     else
                         wordTable.Cell(i, j + 1).Range.Text = ds.Tables[0].Rows[i - 2][j].ToString();

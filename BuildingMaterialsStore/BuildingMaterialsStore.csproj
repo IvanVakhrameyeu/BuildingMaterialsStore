@@ -82,27 +82,37 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Models\AuthorizationSettings.cs" />
-    <Compile Include="Models\Customer.cs" />
+    <Compile Include="Models\Firms.cs" />
     <Compile Include="Models\Employee.cs" />
+    <Compile Include="Models\IdAndName.cs" />
     <Compile Include="Models\Purchases.cs" />
     <Compile Include="Models\Storage.cs" />
+    <Compile Include="Models\Store.cs" />
     <Compile Include="Models\ViewModel.cs" />
     <Compile Include="ViewModels\AddCustomerViewModel.cs" />
     <Compile Include="ViewModels\AddPurchaseViewModel.cs" />
-    <Compile Include="ViewModels\CustomerViewModel.cs" />
+    <Compile Include="ViewModels\AddStorageVM.cs" />
+    <Compile Include="ViewModels\FirmsViewModel.cs" />
     <Compile Include="ViewModels\EmployeeViewModel.cs" />
     <Compile Include="ViewModels\MainAdminViewModel.cs" />
+    <Compile Include="ViewModels\Pages\GoodsIssueVM.cs" />
+    <Compile Include="ViewModels\Pages\StorageVM.cs" />
     <Compile Include="ViewModels\PurchasesViewModel.cs" />
     <Compile Include="ViewModels\ReportViewModel.cs" />
     <Compile Include="ViewModels\StorageViewModel.cs" />
     <Compile Include="ViewModels\WordReports\EmpReport.cs" />
     <Compile Include="ViewModels\WordReports\PurchasesRep.cs" />
+    <Compile Include="ViewModels\WordReports\TTH.cs" />
     <Compile Include="ViewModels\WorkWithWord.cs" />
+    <Compile Include="ViewModels\СуммаПрописью.cs" />
     <Compile Include="Views\AdminWindow.xaml.cs">
       <DependentUpon>AdminWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Pages\CustomerPage.xaml.cs">
-      <DependentUpon>CustomerPage.xaml</DependentUpon>
+    <Compile Include="Views\Pages\FirmsPage.xaml.cs">
+      <DependentUpon>FirmsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Pages\GoodsIssue.xaml.cs">
+      <DependentUpon>GoodsIssue.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Pages\MainAdminPage.xaml.cs">
       <DependentUpon>MainAdminPage.xaml</DependentUpon>
@@ -113,11 +123,17 @@
     <Compile Include="Views\Pages\ReportsPage.xaml.cs">
       <DependentUpon>ReportsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Pages\StoragePage.xaml.cs">
+      <DependentUpon>StoragePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\WindowAddCustomer.xaml.cs">
       <DependentUpon>WindowAddCustomer.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\WindowAddPurchase.xaml.cs">
       <DependentUpon>WindowAddPurchase.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\WindowAddStorage.xaml.cs">
+      <DependentUpon>WindowAddStorage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\WindowAuthorization.xaml.cs">
       <DependentUpon>WindowAuthorization.xaml</DependentUpon>
@@ -143,7 +159,11 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Views\Pages\CustomerPage.xaml">
+    <Page Include="Views\Pages\FirmsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Pages\GoodsIssue.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -159,11 +179,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Pages\StoragePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\WindowAddCustomer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\WindowAddPurchase.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\WindowAddStorage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -194,6 +222,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
     <None Include="Properties\ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
@@ -204,8 +233,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Reports\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

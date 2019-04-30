@@ -61,9 +61,34 @@ namespace BuildingMaterialsStore.ViewModels
             {
                 foreach (Purchases dr in delList)
                 {
-                    Add(Purchases.idEmployee, dr.idCustomer, dr.idstorage, dr.Count);
+                    //try
+                    //{
+                        SqlConnection con;
+                        SqlCommand cmd;
+                        SqlDataAdapter adapter;
+                        DataSet ds;
+                        con = new SqlConnection(AuthorizationSettings.connectionString);
+                        con.Open();
+                        cmd = new SqlCommand("select FirmDiscountAmount from Firms where FirmID=" + dr.idFirm, con);
+                        adapter = new SqlDataAdapter(cmd);
+                        ds = new DataSet();
+                        adapter.Fill(ds, "Storedb");
+
+                        dr.CurrentDiscountAmount = Convert.ToDouble(ds.Tables[0].DefaultView[0].Row[0]);
+                    //}
+                    //catch (Exception ex)
+                    //{
+                    //    MessageBox.Show(ex.Message);
+                    //}
+                    //finally
+                    //{
+                        con.Close();
+                        con.Dispose();
+                    //}
+                    Add(Purchases.idEmployee, dr.idFirm, dr.idstorage, dr.Count);
+                    
                 }
-                WorkWithWord.writeClass(delList, "reportPurchases");
+                WorkWithWord.writeClass(delList, "Invoice");
                 InTotal = 0;                
                 MainViewModel.isChange = true;
                 End();
@@ -89,19 +114,12 @@ namespace BuildingMaterialsStore.ViewModels
                     {
                         com.CommandType = CommandType.StoredProcedure;
                         com.Parameters.AddWithValue("@EmployeeID", SqlDbType.Int).Value = EmployeeID;
-                        com.Parameters.AddWithValue("@CustomerID", SqlDbType.Int).Value = CustomerID;
+                        com.Parameters.AddWithValue("@FirmID", SqlDbType.Int).Value = CustomerID;
                         com.Parameters.AddWithValue("@StorageID", SqlDbType.Int).Value = StorageID;
                         com.Parameters.AddWithValue("@Count", SqlDbType.TinyInt).Value = Count;
                         com.Parameters.AddWithValue("@PurchaseDay", SqlDbType.Float).Value = DateTime.Now;
                         com.ExecuteNonQuery();
                     }
-                    //using (com = new SqlCommand("DecreaseAmountStore", con))
-                    //{
-                    //    com.CommandType = CommandType.StoredProcedure;
-                    //    com.Parameters.AddWithValue("@StorageID", SqlDbType.Int).Value = StorageID;
-                    //    com.Parameters.AddWithValue("@Count", SqlDbType.TinyInt).Value = Count;
-                    //    com.ExecuteNonQuery();
-                    //}
                     con.Close();
                 }
             }

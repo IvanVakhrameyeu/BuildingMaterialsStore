@@ -236,6 +236,21 @@
                                                >Клиенты</TextBlock>
                         </DockPanel >
                     </ListViewItem>
+                    <ListViewItem HorizontalContentAlignment="Left"
+                                          FontSize="20"
+                                          Width="230"
+                                          Margin="0">
+                        <DockPanel VerticalAlignment="Center">
+                            <materialDesign:PackIcon 
+                                                             Height="25"
+                                                             VerticalAlignment="Center"
+                                                             Width="25"
+                                                             />
+                            <TextBlock Foreground="White"
+                                               Margin="0,0,0,0"
+                                               >Отгрузка товара</TextBlock>
+                        </DockPanel >
+                    </ListViewItem>
                 </ListView>
                 </StackPanel>
             </DockPanel>
@@ -308,8 +323,8 @@
                       Width="250"
                       HorizontalAlignment="Left"
                       Background="White"
-                      SelectedItem="{Binding SelectCustomer}"
-                      ItemsSource="{ Binding customers}"
+                      SelectedItem="{Binding SelectFirm}"
+                      ItemsSource="{ Binding firms}"
                       Margin="0 0 0 0"
                       VerticalAlignment="Top"/>
             <Button Content="Корзина"

@@ -11,7 +11,7 @@ using System.Windows.Input;
 
 namespace BuildingMaterialsStore.ViewModels
 {
-    class CustomerViewModel
+    class FirmsViewModel
     {
         SqlConnection con;
         SqlCommand cmd;
@@ -21,7 +21,7 @@ namespace BuildingMaterialsStore.ViewModels
         private string _selectCustomer = null;
         public ICollectionView view { get; set; }
         public ICommand AddCommand { get; }
-        public ObservableCollection<Customer> customer { get; set; }
+        public ObservableCollection<Firms> firms { get; set; }
         public string CurrentSection
         {
             get { return _section; }
@@ -53,7 +53,7 @@ namespace BuildingMaterialsStore.ViewModels
                 _selectItemDataGrid = value;
             }
         }
-        public CustomerViewModel()
+        public FirmsViewModel()
         {
             AddCommand = new DelegateCommand(OnAddCommandExecuted);
             asyncMainMethod();
@@ -91,41 +91,41 @@ namespace BuildingMaterialsStore.ViewModels
         private void OnAddCommandExecuted(object o)
         {
             new WindowAddCustomer().ShowDialog();
-            customer.Clear();
+            firms.Clear();
             FillList();
         }
+        /// <summary>
+        /// заполнение List Firm данными
+        /// </summary>
         public void FillList()
         {
             try
             {
                 con = new SqlConnection(AuthorizationSettings.connectionString);
                 con.Open();
-                cmd = new SqlCommand("select CustomerID, CustLastName, CustFirstName, CustPatronymic, Sex, CustDateOfBirth, CustAddress, " +
-                    "CustPhoneNumber, CustDiscountAmount " +
-                    "from Customer ", con);
+                cmd = new SqlCommand("select * " +
+                    "from Firms ", con);
                 adapter = new SqlDataAdapter(cmd);
                 ds = new DataSet();
                 adapter.Fill(ds, "storedb");
 
-                if (customer == null)
-                    customer = new ObservableCollection<Customer>();
+                if (firms == null)
+                    firms = new ObservableCollection<Firms>();
 
                 foreach (DataRow dr in ds.Tables[0].Rows)
                 {
-                    customer.Add(new Customer
+                    firms.Add(new Firms
                     {
-                        idCustomer = Convert.ToInt32(dr[0].ToString()),
-                        CustLastName = dr[1].ToString(),
-                        CustFirstName = (dr[2].ToString()),
-                        CustPatronymic = (dr[3].ToString()),
-                        Sex = (dr[4].ToString()),
-                        CustDateOfBirth = Convert.ToDateTime(dr[5].ToString()),
-                        CustAddress = (dr[6].ToString()),
-                        CustPhoneNumber = (dr[7].ToString()),
-                        CustDiscountAmount = Convert.ToDouble(dr[8].ToString())
+                        idFirm = Convert.ToInt32(dr[0].ToString()),
+                        FirmName = dr[1].ToString(),
+                        UNP = (dr[2].ToString()),
+                        FirmLegalAddress = (dr[3].ToString()),
+                        FirmAccountNumber = (dr[4].ToString()),
+                        FirmBankDetails = (dr[5].ToString()),
+                        FirmDiscountAmount = Convert.ToDouble(dr[6].ToString())
                     });
                 }
-                view = CollectionViewSource.GetDefaultView(customer);
+                view = CollectionViewSource.GetDefaultView(firms);
             }
             catch (Exception ex)
             {

@@ -10,7 +10,7 @@
         WindowStyle="None"
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
-        Title="WindowAddCustomer" Height="320" Width="450">
+        Title="WindowAddCustomer" Height="250" Width="410">
     <DockPanel>
         <DockPanel DockPanel.Dock="Top"
                    VerticalAlignment="Top"
@@ -43,69 +43,55 @@
             DockPanel.Dock="Left">
             <Label
                 DockPanel.Dock="Top"
-                Content="Фамилия"/>
+                Content="Название"/>
             <TextBox DockPanel.Dock="Top"
                      Width="200" 
                      Height="30"
                      FontSize="15"
                      VerticalAlignment="Top"
                      HorizontalAlignment="Left"                     
-                     Text="{Binding CustLastName,Mode=TwoWay}"                 
+                     Text="{Binding FirmName,Mode=TwoWay}"                 
                      Margin="1, 0 ,0, 0"/>
 
             <Label
                 DockPanel.Dock="Top"
-                Content="Имя"/>
+                Content="УПН"/>
             <TextBox DockPanel.Dock="Top"
                      Width="200" 
                      Height="30"
                      FontSize="15"
                      VerticalAlignment="Top"
                      HorizontalAlignment="Left"                     
-                     Text="{Binding CustFirstName,Mode=TwoWay}"                 
+                     Text="{Binding UNP,Mode=TwoWay}"                 
                      Margin="1, 0 ,0, 0"/>
             <Label
                 DockPanel.Dock="Top"
-                Content="Отчество"/>
+                Content="Номер счета"/>
             <TextBox DockPanel.Dock="Top"
                      Width="200" 
                      Height="30"
                      FontSize="15"
                      VerticalAlignment="Top"
                      HorizontalAlignment="Left"                     
-                     Text="{Binding CustPatronymic,Mode=TwoWay}"                 
+                     Text="{Binding FirmAccountNumber,Mode=TwoWay}"                 
                      Margin="1, 0 ,0, 0"/>
-            <Label
-                DockPanel.Dock="Top"
-                Content="Пол"/>
-                <ComboBox DockPanel.Dock="Top"
-                     Width="200" 
-                     Height="30"
-                     FontSize="15"
-                     VerticalAlignment="Top"
-                     HorizontalAlignment="Left"                     
-                     Text="{Binding Sex,Mode=TwoWay}"                 
-                     Margin="1, 0 ,0, 0">
-                    <ComboBoxItem>М</ComboBoxItem>
-                    <ComboBoxItem>Ж</ComboBoxItem>
-                </ComboBox>
-        </DockPanel>
+            </DockPanel>
         <DockPanel DockPanel.Dock="Right">
                 <Label
                 DockPanel.Dock="Top"
-                Content="Дата рождения"/>
-                <DatePicker  DockPanel.Dock="Top"
+                Content="Реквизиты"/>
+                <TextBox DockPanel.Dock="Top"
                      Width="200" 
                      Height="30"
                      FontSize="15"
                      VerticalAlignment="Top"
-                     HorizontalAlignment="Left"
-                     
-                     SelectedDate="{Binding CustDateOfBirth}"
+                     HorizontalAlignment="Left"                     
+                     Text="{Binding FirmBankDetails,Mode=TwoWay}"                 
                      Margin="1, 0 ,0, 0"/>
+
                 <Label
                 DockPanel.Dock="Top"
-                Content="Адрес прописки"/>
+                Content="Физический адрес"/>
                 <TextBox DockPanel.Dock="Top"
                      Width="200" 
                      Height="30"
@@ -113,7 +99,7 @@
                      VerticalAlignment="Top"
                      HorizontalAlignment="Left"
                      
-                     Text="{Binding CustAddress,Mode=TwoWay}"                 
+                     Text="{Binding FirmLegalAddress,Mode=TwoWay}"                 
                      Margin="1, 0 ,0, 0"/>
                 <Label
                 DockPanel.Dock="Top"
@@ -125,7 +111,7 @@
                      VerticalAlignment="Top"
                      HorizontalAlignment="Left"                  
                          Mask="+375 00 000 00 00"
-                     Text="{Binding CustPhoneNumber,Mode=TwoWay}"                 
+                     Text="{Binding FirmPhoneNumber,Mode=TwoWay}"                 
                      Margin="1, 0 ,0, 0"/>
             </DockPanel>
         </DockPanel>
@@ -136,7 +122,6 @@
                     Content="Принять"
                     Command="{Binding AddCommand}"
                    />
-
         </DockPanel>
     </DockPanel>
 </Window>
