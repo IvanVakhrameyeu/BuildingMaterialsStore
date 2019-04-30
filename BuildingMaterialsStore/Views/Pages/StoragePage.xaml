@@ -35,12 +35,12 @@
             </DataGrid.Effect>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Id"  Visibility="Hidden" Binding="{Binding Path='idFirm'}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="NameCategory" Binding="{Binding Path='NameCategory'}" IsReadOnly="True" />
-                <DataGridTextColumn Header="UnitName" Binding="{Binding Path='UnitName'}" IsReadOnly="True" />
-                <DataGridTextColumn Header="Name" Binding="{Binding Path='Name'}" IsReadOnly="True" />
-                <DataGridTextColumn Header="Count" Binding="{Binding Path='Count'}" IsReadOnly="True" />
-                <DataGridTextColumn Header="Price"  Binding="{Binding Path='Price'}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Description"  Binding="{Binding Path='Description'}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Категория" Binding="{Binding Path='NameCategory'}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Ед изм" Binding="{Binding Path='UnitName'}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Название" Binding="{Binding Path='Name'}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Количество" Binding="{Binding Path='Count'}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Цена"  Binding="{Binding Path='Price'}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Описание"  Binding="{Binding Path='Description'}" IsReadOnly="True" />
             </DataGrid.Columns>
         </DataGrid>
     </DockPanel>

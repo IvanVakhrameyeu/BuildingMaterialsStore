@@ -160,7 +160,6 @@ INSERT INTO Storage(CategoryID, UnitID, [Name], [Count], [Description],Price)
 end
 go
 --exec InsertStoragesName @CategoryID, @UnitID, @Name, @Description, @Price
-
 -------------------------------------------ОТГРУЗКА ТОВАРА (изменить)
 --drop proc Shipment
 go
@@ -175,6 +174,8 @@ where FirmId=@ID and Store.PurchaseDay=@Date
 end
 go
 --exec Shipment @ID=2
+--update Store 
+--set Paid=0
 ----------------- ------------------------
 insert Access(AccessName) 
 values
@@ -327,11 +328,11 @@ values
 (8, 5,'Садовый инвентарь',100,'Спанбонд №30 белый (рулон 1,6*300м, 960м.кв.) (1108568252004)',272.89);
 insert Store (EmployeeID,FirmID,StorageID,[Count],TotalPrice,PurchaseDay, CurrentDiscountAmount,Paid)
 values
-(2,1,3,1,12.8,'12-1-2019',0,0),
-(3,2,3,1,12.8,'12-1-2019',0,1),
-(4,1,3,1,12.8,'12-1-2019',0,0),
-(2,2,3,1,12.8,'12-1-2019',0,1),
-(3,1,3,1,12.8,'12-1-2019',0,0);
+(2,1,3,1,9.49,'12-1-2019',0,0),
+(3,2,3,1,9.49,'12-1-2019',0,1),
+(4,1,3,1,9.49,'12-1-2019',0,0),
+(2,2,3,1,9.49,'12-1-2019',0,1),
+(3,1,3,1,9.49,'12-1-2019',0,0);
 
 ---------------------------ТРИГЕРЫ
 ---------Триггер на подсчет TotalPrice (Store)
@@ -399,3 +400,11 @@ end
 go
 
 drop trigger insertStore
+
+
+--select Storage.[Description], UnitName, Store.[Count], Store.TotalPrice, Storage.Price from Store
+--join Storage on (Store.StorageID= Storage.StorageID)
+--join Unit on (Storage.UnitID = Unit.UnitID)
+--where Store.PurchaseDay='' and
+--Store.FirmID=''
+select FirmName, UNP, FirmLegalAddress, FirmAccountNumber,FirmBankDetails, FirmPhoneNumber from Firms where FirmID=2

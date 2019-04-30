@@ -43,7 +43,7 @@
                 <DataGridTextColumn Header="Стоимость"  Binding="{Binding Path='TotalPrice'}" IsReadOnly="True" />
                 <DataGridTextColumn Header="Скидка"  Binding="{Binding Path='CurrentDiscountAmount'}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Оплачено"  Binding="{Binding Path='Paid'}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="PurchaseDay" Binding="{Binding Path='PurchaseDay',StringFormat='{}{0:dd-MM-yyyy}'}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Дата заказа" Binding="{Binding Path='PurchaseDay',StringFormat='{}{0:dd-MM-yyyy}'}" IsReadOnly="True" />
             </DataGrid.Columns>
         </DataGrid>
     </DockPanel>

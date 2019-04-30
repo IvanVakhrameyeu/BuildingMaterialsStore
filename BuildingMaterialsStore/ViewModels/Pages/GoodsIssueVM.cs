@@ -1,4 +1,5 @@
 ﻿using BuildingMaterialsStore.Models;
+using BuildingMaterialsStore.ViewModels.WordReports;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -51,9 +52,13 @@ namespace BuildingMaterialsStore.ViewModels.Pages
                 MessageBox.Show("уже отгружено");
                 return;
             }
+
+            int id = SelectItemDataGrid.FirmID;
+            DateTime date = SelectItemDataGrid.PurchaseDay;
             try
-            {
+            {                
                 SqlCommand com;
+
                 using (con = new SqlConnection(AuthorizationSettings.connectionString))
                 {
                     con.Open();
@@ -65,7 +70,10 @@ namespace BuildingMaterialsStore.ViewModels.Pages
                         com.ExecuteNonQuery();
                     }
                     con.Close();
+
+
                     stories.Clear();
+                
                     FillList();
                 }
             }
@@ -78,6 +86,13 @@ namespace BuildingMaterialsStore.ViewModels.Pages
                 con.Close();
                 con.Dispose();
             }
+            string sql = "select Storage.[Description], UnitName, Store.[Count], Store.TotalPrice, Storage.Price, Store.FirmID, Store.PurchaseDay " +
+                "from Store " +
+                "join Storage on(Store.StorageID = Storage.StorageID) " +
+                "join Unit on(Storage.UnitID = Unit.UnitID) " +
+                "where Store.PurchaseDay = '" + date + "' and " +
+                "Store.FirmID = " + id + "";
+            TTH.writeClass("TTH", sql);
         }
         public void FillList()
         {

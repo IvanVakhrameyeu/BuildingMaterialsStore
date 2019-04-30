@@ -1,4 +1,5 @@
 ﻿using BuildingMaterialsStore.Models;
+using BuildingMaterialsStore.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -89,16 +90,31 @@ namespace Wpf_журнал_учащихся_школы
             wordTable.Cell(2, 5).Range.Text = "5";
             wordTable.Cell(2, 6).Range.Text = "6";
 
+            double TotalSum = 0;
+            double TotalSumHDS = 0;
             for (int i = 3; i < ds.Count+3; i++)
             {
                 wordTable.Cell(i, 1).Range.Text = ds[i - 3].storage.Name;
                 wordTable.Cell(i, 2).Range.Text = ds[i - 3].Count.ToString();
-                wordTable.Cell(i, 3).Range.Text = ((ds[i - 3].storage.Price)-(ds[i - 3].storage.Price*20/100)).ToString();
+                wordTable.Cell(i, 3).Range.Text = ((ds[i - 3].Total) -(ds[i - 3].Total * 20/100)).ToString();
                 wordTable.Cell(i, 4).Range.Text = "20%";//ds[i - 2].storage.Price.ToString("0.00");
-                wordTable.Cell(i, 5).Range.Text = (ds[i - 3].storage.Price * 20 / 100).ToString();
-                wordTable.Cell(i, 6).Range.Text = ds[i - 3].Total.ToString("0.00");        
+                wordTable.Cell(i, 5).Range.Text = (ds[i - 3].Total * 20 / 100).ToString();
+                wordTable.Cell(i, 6).Range.Text = ds[i - 3].Total.ToString("0.00");
+                TotalSum += ((ds[i - 3].Total) - (ds[i - 3].Total * 20 / 100));
+                TotalSumHDS += ds[i - 3].Total;
             }
+
+
+
+            ReplaceWordStub("{P}", СуммаПрописью.Валюта.Рубли.Пропись(Convert.ToDecimal(TotalSum)), wordDocument);
+            ReplaceWordStub("{HP}", СуммаПрописью.Валюта.Рубли.Пропись(Convert.ToDecimal(TotalSumHDS)), wordDocument);
+
             wordApplication.Visible = true;
+
+        }
+        private void ConvertNumbersToWords()
+        {
+
         }
     }
 }

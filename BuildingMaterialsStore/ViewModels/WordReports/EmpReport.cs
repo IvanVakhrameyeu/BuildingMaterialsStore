@@ -13,7 +13,7 @@ namespace BuildingMaterialsStore.ViewModels.WordReports
             range.Find.ClearFormatting();
             range.Find.Execute(FindText: stubToReplace, ReplaceWith: text);
         }
-        static public void writeClass(DateTime dateFrom, DateTime dateTo, string nameFile,string NameReport, string Name, string sql)
+        static public void writeClass(DateTime dateFrom, DateTime dateTo, string nameFile,string NameReport, string Name, string sql, string Column1, string Column2)
         {
             Word._Application wordApplication = new Word.Application();
             Word._Document wordDocument = null;
@@ -82,8 +82,8 @@ namespace BuildingMaterialsStore.ViewModels.WordReports
             wordTable.Borders.OutsideLineStyle = Microsoft.Office.Interop.Word.WdLineStyle.wdLineStyleDouble;
 
             
-            wordTable.Cell(1, 1).Range.Text = "Название";
-            wordTable.Cell(1, 2).Range.Text = "УПН";
+            wordTable.Cell(1, 1).Range.Text = Column1;
+            wordTable.Cell(1, 2).Range.Text = Column2;
             wordTable.Cell(1, 3).Range.Text = "Категория";
             wordTable.Cell(1, 4).Range.Text = "Название";
             wordTable.Cell(1, 5).Range.Text = "Цена за ед";

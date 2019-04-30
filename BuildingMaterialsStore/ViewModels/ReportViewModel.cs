@@ -114,7 +114,6 @@ namespace BuildingMaterialsStore.ViewModels
                 Filter();
             }
         }
-
         public ReportViewModel()
         {
             asyncMainMethod();
@@ -146,20 +145,20 @@ namespace BuildingMaterialsStore.ViewModels
         /// <param name="o"></param>
         private void OnPurchasesCommandExecuted(object o)
         {
-            //if (DateFrom > DateTo) { MessageBox.Show("Проверьте формат даты"); return; }
+            if (DateFrom > DateTo) { MessageBox.Show("Проверьте формат даты"); return; }
 
-            //string sql = "select FirmName, UNP, Store.[Count],  Store.CurrentDiscountAmount, TotalPrice, PurchaseDay " +
-            //    "from Store " +
-            //    "join Customer on(Store.CustomerID= Customer.CustomerID) " +
-            //    "join Storage on(Store.StorageID= Storage.StorageID) " +
-            //    "join Category on(Storage.CategoryID= Category.CategoryID) " +
-            //    "where Store.StorageID = " + SelectItemDataGrid.idStorage + " " +
-            //    "and PurchaseDay>= '" + DateFrom + "' and PurchaseDay<= '" + DateTo + "'";
+            string sql = "select FirmName, UNP, Store.[Count],  Store.CurrentDiscountAmount, TotalPrice, PurchaseDay " +
+                "from Store " +
+                "join Firms on(Store.FirmID= Firms.FirmID) " +
+                "join Storage on(Store.StorageID= Storage.StorageID) " +
+                "join Category on(Storage.CategoryID= Category.CategoryID) " +
+                "where Store.StorageID = " + SelectItemDataGrid.idStorage + " " +
+                "and PurchaseDay>= '" + DateFrom + "' and PurchaseDay<= '" + DateTo + "'";
 
-            //PurchasesRep.writeClass(DateFrom, DateTo, "reportHistory", "товарам", SelectItemDataGrid.Name,SelectItemDataGrid.Price, SelectItemDataGrid.NameCategory,SelectItemDataGrid.Description, SelectItemDataGrid.Count, sql);
+            PurchasesRep.writeClass(DateFrom, DateTo, "reportHistory", "товарам", SelectItemDataGrid.Name, SelectItemDataGrid.Price, SelectItemDataGrid.NameCategory, SelectItemDataGrid.Description, SelectItemDataGrid.Count, sql);
         }
         /// <summary>
-        /// вывод отчета по работникам за данный период
+        /// вывод отчета по работнику за данный период
         /// </summary>
         /// <param name="o"></param>
         private void OnEmplCommandExecuted(object o)
@@ -175,10 +174,10 @@ namespace BuildingMaterialsStore.ViewModels
                 "where EmployeeID = (select EmployeeID from Employee where EmpLastName='" + SelectedEmployee.Split()[0] + "' and EmpFirstName = '" + SelectedEmployee.Split()[1] + "') " +
                 "and PurchaseDay>= '" + DateFrom + "' and PurchaseDay<= '" + DateTo + "'";
 
-            EmpReport.writeClass(DateFrom, DateTo, "reportPeople","работнику", SelectedEmployee,sql);
+            EmpReport.writeClass(DateFrom, DateTo, "reportPeople","работнику", SelectedEmployee,sql, "Название", "УПН");
         }
         /// <summary>
-        /// вывод отчета по покупателям за данный период
+        /// вывод отчета по покупателю за данный период
         /// </summary>
         /// <param name="o"></param>
         private void OnCustCommandExecuted(object o)
@@ -196,7 +195,7 @@ namespace BuildingMaterialsStore.ViewModels
                 "and PurchaseDay>= '" + DateFrom + "' and PurchaseDay<= '" + DateTo + "' ";
 
 
-            EmpReport.writeClass(DateFrom, DateTo, "reportPeople", "покупателю", SelectedFirm, sql);
+            EmpReport.writeClass(DateFrom, DateTo, "reportPeople", "покупателю", SelectedFirm, sql, "Фамилия", "Имя");
         }
         /// <summary>
         /// очищает фильтры
@@ -315,7 +314,6 @@ namespace BuildingMaterialsStore.ViewModels
         }
         private void FillListNameWithCategory()
         {
-           // MessageBox.Show("ololo");
             names.Clear();
             DataTable dt = new DataTable();
             using (con = new SqlConnection(AuthorizationSettings.connectionString))
