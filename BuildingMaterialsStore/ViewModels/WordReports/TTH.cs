@@ -102,11 +102,11 @@ namespace BuildingMaterialsStore.ViewModels.WordReports
                 wordTable.Cell(i, 1).Range.Text = ds.Tables[0].Rows[i - 3][0].ToString();
                 wordTable.Cell(i, 2).Range.Text = ds.Tables[0].Rows[i - 3][1].ToString();
                 wordTable.Cell(i, 3).Range.Text = ds.Tables[0].Rows[i - 3][2].ToString();
-                wordTable.Cell(i, 4).Range.Text = (Convert.ToDouble(ds.Tables[0].Rows[i - 3][3])- (Convert.ToDouble(ds.Tables[0].Rows[i - 3][3]) * 20 / 100)).ToString();
-                wordTable.Cell(i, 5).Range.Text = ds.Tables[0].Rows[i - 3][4].ToString();
+                wordTable.Cell(i, 4).Range.Text = (Math.Round(Convert.ToDouble(ds.Tables[0].Rows[i - 3][3])- (Convert.ToDouble(ds.Tables[0].Rows[i - 3][3]) * 20 / 100),2)).ToString();
+                wordTable.Cell(i, 5).Range.Text = Math.Round(Convert.ToDouble(ds.Tables[0].Rows[i - 3][4]),2).ToString();
                 wordTable.Cell(i, 6).Range.Text = "20%";
-                wordTable.Cell(i, 7).Range.Text = (Convert.ToDouble(ds.Tables[0].Rows[i - 3][3]) * 20 / 100).ToString();
-                wordTable.Cell(i, 8).Range.Text = ds.Tables[0].Rows[i - 3][3].ToString();
+                wordTable.Cell(i, 7).Range.Text = (Math.Round((Convert.ToDouble(ds.Tables[0].Rows[i - 3][3]) * 20 / 100),2)).ToString();
+                wordTable.Cell(i, 8).Range.Text = Math.Round(Convert.ToDouble(ds.Tables[0].Rows[i - 3][3]),2).ToString();
 
                 Price += Convert.ToDouble(ds.Tables[0].Rows[i - 3][3]);
                 

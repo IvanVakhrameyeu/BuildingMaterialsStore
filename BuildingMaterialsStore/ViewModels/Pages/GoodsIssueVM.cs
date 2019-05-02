@@ -116,7 +116,7 @@ namespace BuildingMaterialsStore.ViewModels.Pages
                         FirmID = Convert.ToInt32(dr[0]),
                         FirmName = dr[1].ToString(),
                         PurchaseDay = (Convert.ToDateTime(dr[2])),
-                        TotalPrice = Convert.ToDouble(dr[4]),
+                        TotalPrice = Math.Round(Convert.ToDouble(dr[4]),2),
                         Paid = Convert.ToBoolean(dr[3])
                     });
                 }

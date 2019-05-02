@@ -40,7 +40,7 @@
                 </DataGridTemplateColumn>
                 <DataGridTextColumn Header="Id"  Visibility="Hidden" Binding="{Binding Path='FirmID'}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Название фирмы" Binding="{Binding Path='FirmName'}" IsReadOnly="True" />
-                <DataGridTextColumn Header="Стоимость"  Binding="{Binding Path='TotalPrice'}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Стоимость"  Binding="{Binding Path='TotalPrice', StringFormat=\{0:0.00\}}" IsReadOnly="True" />
                 <DataGridTextColumn Header="Скидка"  Binding="{Binding Path='CurrentDiscountAmount'}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Оплачено"  Binding="{Binding Path='Paid'}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Дата заказа" Binding="{Binding Path='PurchaseDay',StringFormat='{}{0:dd-MM-yyyy}'}" IsReadOnly="True" />
