@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\Users\vanov\Documents\GitHub\BuildingMaterialsStore\BuildingMaterialsStore\App.xaml
-13-595970308
+15-2043939702
 
-471390682375
+51-480353061
 2262797836
-Views\AdminWindow.xaml;Views\MainWindow.xaml;Views\Pages\FirmsPage.xaml;Views\Pages\GoodsIssue.xaml;Views\Pages\MainAdminPage.xaml;Views\Pages\MainStorage.xaml;Views\Pages\ReportsPage.xaml;Views\Pages\StoragePage.xaml;Views\WindowAddCustomer.xaml;Views\WindowAddPurchase.xaml;Views\WindowAddStorage.xaml;Views\WindowAuthorization.xaml;Views\WindowCustomerPurchases.xaml;
+Views\AddWindow\AddGoods.xaml;Views\AdminWindow.xaml;Views\MainWindow.xaml;Views\Pages\FirmsPage.xaml;Views\Pages\Goods.xaml;Views\Pages\GoodsIssue.xaml;Views\Pages\MainAdminPage.xaml;Views\Pages\MainStorage.xaml;Views\Pages\ReportsPage.xaml;Views\Pages\StoragePage.xaml;Views\WindowAddCustomer.xaml;Views\WindowAddPurchase.xaml;Views\WindowAddStorage.xaml;Views\WindowAuthorization.xaml;Views\WindowCustomerPurchases.xaml;
 
-False
+True
 

@@ -177,6 +177,20 @@ go
 --update Store 
 --set Paid=0
 ----------------- ------------------------
+-------------------------------------------ÎÒÃĞÓÇÊÀ ÒÎÂÀĞÀ (èçìåíèòü)
+--drop proc AddGoods
+go
+create procedure AddGoods 
+@ID int,
+@Count int
+AS
+begin
+update Storage 
+set [Count]=[Count]+@Count
+where StorageID=@ID
+end
+go
+----------------- ------------------------
 insert Access(AccessName) 
 values
 ('High'),

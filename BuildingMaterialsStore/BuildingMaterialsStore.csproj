@@ -92,10 +92,12 @@
     <Compile Include="ViewModels\AddCustomerViewModel.cs" />
     <Compile Include="ViewModels\AddPurchaseViewModel.cs" />
     <Compile Include="ViewModels\AddStorageVM.cs" />
+    <Compile Include="ViewModels\AddWindow\GoodsW.cs" />
     <Compile Include="ViewModels\FirmsViewModel.cs" />
     <Compile Include="ViewModels\EmployeeViewModel.cs" />
     <Compile Include="ViewModels\MainAdminViewModel.cs" />
     <Compile Include="ViewModels\Pages\GoodsIssueVM.cs" />
+    <Compile Include="ViewModels\Pages\GoodsVM.cs" />
     <Compile Include="ViewModels\Pages\StorageVM.cs" />
     <Compile Include="ViewModels\PurchasesViewModel.cs" />
     <Compile Include="ViewModels\ReportViewModel.cs" />
@@ -105,11 +107,17 @@
     <Compile Include="ViewModels\WordReports\TTH.cs" />
     <Compile Include="ViewModels\WorkWithWord.cs" />
     <Compile Include="ViewModels\СуммаПрописью.cs" />
+    <Compile Include="Views\AddWindow\AddGoods.xaml.cs">
+      <DependentUpon>AddGoods.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\AdminWindow.xaml.cs">
       <DependentUpon>AdminWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Pages\FirmsPage.xaml.cs">
       <DependentUpon>FirmsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Pages\Goods.xaml.cs">
+      <DependentUpon>Goods.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Pages\GoodsIssue.xaml.cs">
       <DependentUpon>GoodsIssue.xaml</DependentUpon>
@@ -141,6 +149,10 @@
     <Compile Include="Views\WindowCustomerPurchases.xaml.cs">
       <DependentUpon>WindowCustomerPurchases.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\AddWindow\AddGoods.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\AdminWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -160,6 +172,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\Pages\FirmsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Pages\Goods.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

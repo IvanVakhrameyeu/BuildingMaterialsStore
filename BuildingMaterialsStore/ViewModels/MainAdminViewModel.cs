@@ -40,6 +40,7 @@ namespace BuildingMaterialsStore.ViewModels
         private Page CustomersPage;
         private Page EmployeePage;
         private Page RepPage;
+        private Page StorageGoodsPage;
         private Page StoragePage;
         public MainAdminViewModel()
         {
@@ -49,6 +50,7 @@ namespace BuildingMaterialsStore.ViewModels
             CustomersPage = new CustomerPage ();
             StoragePage = new StoragePage();
             RepPage = new ReportsPage ();
+            StorageGoodsPage = new Goods ();
 
             CurrentPage = EmployeePage;
             WindowStateCommand = new DelegateCommand(OnCurrentWindowState);
@@ -83,7 +85,8 @@ namespace BuildingMaterialsStore.ViewModels
                 case 0: { CurrentPage = EmployeePage; break; }
                 case 1: { CurrentPage = CustomersPage; break; }
                 case 2: { CurrentPage = StoragePage; break; }
-                case 3: { CurrentPage = RepPage; break; }
+                case 3: { CurrentPage = StorageGoodsPage; break; }
+                case 4: { CurrentPage = RepPage; break; }
                 default: { CurrentPage = null; break; }
             }
         }
