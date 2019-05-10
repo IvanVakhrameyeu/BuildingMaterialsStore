@@ -102,10 +102,12 @@
     <Compile Include="ViewModels\PurchasesViewModel.cs" />
     <Compile Include="ViewModels\ReportViewModel.cs" />
     <Compile Include="ViewModels\StorageViewModel.cs" />
+    <Compile Include="ViewModels\WordReports\EmplsRep.cs" />
     <Compile Include="ViewModels\WordReports\EmpReport.cs" />
     <Compile Include="ViewModels\WordReports\PurchasesRep.cs" />
     <Compile Include="ViewModels\WordReports\TTH.cs" />
-    <Compile Include="ViewModels\WorkWithWord.cs" />
+    <Compile Include="ViewModels\WordReports\outputInWord.cs" />
+    <Compile Include="ViewModels\WordReports\WorkWithWord.cs" />
     <Compile Include="ViewModels\СуммаПрописью.cs" />
     <Compile Include="Views\AddWindow\AddGoods.xaml.cs">
       <DependentUpon>AddGoods.xaml</DependentUpon>

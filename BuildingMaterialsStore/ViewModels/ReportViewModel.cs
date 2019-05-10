@@ -33,6 +33,7 @@ namespace BuildingMaterialsStore.ViewModels
         public ICollectionView view { get; set; }
         public ICommand PurchasesRepCommand { get; }
         public ICommand EmplRepCommand { get; }
+        public ICommand EmplsRepCommand { get; }
         public ICommand CustRepCommand { get; }
         public ICommand ClearFilterCommand { get; }
 
@@ -119,6 +120,7 @@ namespace BuildingMaterialsStore.ViewModels
             asyncMainMethod();
             PurchasesRepCommand = new DelegateCommand(OnPurchasesCommandExecuted);
             EmplRepCommand = new DelegateCommand(OnEmplCommandExecuted);
+            EmplsRepCommand = new DelegateCommand(OnEmplsCommandExecuted);
             CustRepCommand = new DelegateCommand(OnCustCommandExecuted);
             CustRepCommand = new DelegateCommand(OnCustCommandExecuted);
             ClearFilterCommand = new DelegateCommand(OnClearFilterCommandExecuted, OnClearFilterCommandCanExecuted);
@@ -174,8 +176,24 @@ namespace BuildingMaterialsStore.ViewModels
                 "where EmployeeID = (select EmployeeID from Employee where EmpLastName='" + SelectedEmployee.Split()[0] + "' and EmpFirstName = '" + SelectedEmployee.Split()[1] + "') " +
                 "and PurchaseDay>= '" + DateFrom + "' and PurchaseDay<= '" + DateTo + "'";
 
-            EmpReport.writeClass(DateFrom, DateTo, "reportPeople","работнику", SelectedEmployee,sql, "Название", "УПН");
+            (new EmpReport()).writeClass(DateFrom, DateTo, "reportPeople","работнику", SelectedEmployee,sql, "Название", "УПН");
         }
+        /// <summary>
+        /// вывод отчета по работникам за данный период
+        /// </summary>
+        /// <param name="o"></param>
+        private void OnEmplsCommandExecuted(object o)
+        {
+            if (DateFrom > DateTo) { MessageBox.Show("Проверьте формат даты"); return; }
+        
+            string sql = "select Employee.EmpFirstName, Employee.EmpLastName, sum(TotalPrice) as \"Продано на сумму\"" +
+                "from Store " +
+                "join Employee on (Store.EmployeeID = Employee.EmployeeID) " +
+                "group by Employee.EmpFirstName, Employee.EmpLastName ";// +
+             //   "PurchaseDay>= '" + DateFrom + "' and PurchaseDay<= '" + DateTo + "'";
+            (new EmplsRep()).writeClass(DateFrom, DateTo, "reportPeople", "работникам", SelectedEmployee, sql, "Фамилия", "Имя");
+        }
+
         /// <summary>
         /// вывод отчета по покупателю за данный период
         /// </summary>
@@ -195,7 +213,7 @@ namespace BuildingMaterialsStore.ViewModels
                 "and PurchaseDay>= '" + DateFrom + "' and PurchaseDay<= '" + DateTo + "' ";
 
 
-            EmpReport.writeClass(DateFrom, DateTo, "reportPeople", "покупателю", SelectedFirm, sql, "Фамилия", "Имя");
+            (new EmpReport()).writeClass(DateFrom, DateTo, "reportPeople", "покупателю", SelectedFirm, sql, "Фамилия", "Имя");
         }
         /// <summary>
         /// очищает фильтры

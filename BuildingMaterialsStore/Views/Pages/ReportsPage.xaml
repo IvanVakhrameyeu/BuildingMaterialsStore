@@ -20,7 +20,7 @@
                     Height="37"
                     VerticalAlignment="Top"
                     HorizontalAlignment="Left"
-                    Content="Отчет по продавцам"   
+                    Content="Отчет по продавцу"   
                     Command="{Binding EmplRepCommand}"
                    />
                 </DockPanel>
@@ -31,6 +31,15 @@
                     HorizontalAlignment="Left"
                     Content="Отчет по покупателям"   
                     Command="{Binding CustRepCommand}"
+                   />
+                </DockPanel>
+                <DockPanel DockPanel.Dock="Top">
+                    <Button Width="250"
+                    Height="37"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Left"
+                    Content="Отчет по продавцам"   
+                    Command="{Binding EmplsRepCommand}"
                    />
                 </DockPanel>
             </DockPanel>

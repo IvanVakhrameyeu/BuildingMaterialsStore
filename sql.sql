@@ -422,3 +422,18 @@ drop trigger insertStore
 --where Store.PurchaseDay='' and
 --Store.FirmID=''
 select FirmName, UNP, FirmLegalAddress, FirmAccountNumber,FirmBankDetails, FirmPhoneNumber from Firms where FirmID=2
+
+select EmpFirstName, EmpLastName--, sum(Store.TotalPrice)  
+                from Employee 
+              --join Firms on(Store.FirmID = Firms.FirmID) 
+                join Store on (Store.EmployeeID=Employee.EmployeeID)
+              --join Storage on(Store.StorageID= Storage.StorageID) 
+				group by EmpFirstName, 2
+
+select Store.EmployeeID, Employee.EmpFirstName, Employee.EmpLastName, sum(TotalPrice) as "Продано на сумму"
+from Store 
+join Employee on (Store.EmployeeID=Employee.EmployeeID)
+group by Store.EmployeeID, Employee.EmpFirstName, Employee.EmpLastName
+
+		
+		
