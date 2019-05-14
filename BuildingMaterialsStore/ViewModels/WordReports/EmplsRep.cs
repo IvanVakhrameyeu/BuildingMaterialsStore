@@ -6,6 +6,16 @@ namespace BuildingMaterialsStore.ViewModels.WordReports
 {
    public class EmplsRep:outputInWord
     {
+        /// <summary>
+        /// замена слов в документе
+        /// </summary>
+        /// <param name="NameReport"></param>
+        /// <param name="Name"></param>
+        /// <param name="Total"></param>
+        /// <param name="wordDocument"></param>
+        /// <param name="dateFrom"></param>
+        /// <param name="dateTo"></param>
+        /// <param name="templatePathObj"></param>
         private void wordsWhoReplase(string NameReport, string Name, string Total, Word._Document wordDocument, DateTime dateFrom, DateTime dateTo, string templatePathObj)
         {
             try
@@ -20,22 +30,25 @@ namespace BuildingMaterialsStore.ViewModels.WordReports
             }
             catch { }
         }
+        /// <summary>
+        /// создание и заполнение таблицы
+        /// </summary>
+        /// <param name="wordApplication"></param>
+        /// <param name="wordDocument"></param>
+        /// <param name="ds"></param>
+        /// <param name="Column1"></param>
+        /// <param name="Column2"></param>
         private void createTable(Word._Application wordApplication, Word._Document wordDocument, DataSet ds, string Column1, string Column2)
         {
             wordApplication.Selection.Find.Execute("{Table}");
             Word.Range wordRange = wordApplication.Selection.Range;
-
             var wordTable = wordDocument.Tables.Add(wordRange,
                ds.Tables[0].Rows.Count + 1, 3);
-
             wordTable.Borders.InsideLineStyle = Microsoft.Office.Interop.Word.WdLineStyle.wdLineStyleSingle;
             wordTable.Borders.OutsideLineStyle = Microsoft.Office.Interop.Word.WdLineStyle.wdLineStyleDouble;
-
-
             wordTable.Cell(1, 1).Range.Text = Column1;
             wordTable.Cell(1, 2).Range.Text = Column2;
             wordTable.Cell(1, 3).Range.Text = "Сумма продажи";
-
             for (int i = 2; i < ds.Tables[0].Rows.Count + 2; i++)
             {
                 for (int j = 0; j < 3; j++)
@@ -44,10 +57,20 @@ namespace BuildingMaterialsStore.ViewModels.WordReports
                 }
             }
         }
+        /// <summary>
+        /// старт класса
+        /// </summary>
+        /// <param name="dateFrom"></param>
+        /// <param name="dateTo"></param>
+        /// <param name="nameFile"></param>
+        /// <param name="NameReport"></param>
+        /// <param name="Name"></param>
+        /// <param name="sql"></param>
+        /// <param name="Column1"></param>
+        /// <param name="Column2"></param>
         public void writeClass(DateTime dateFrom, DateTime dateTo, string nameFile, string NameReport, string Name, string sql, string Column1, string Column2)
         {
             var templatePathObj = Environment.CurrentDirectory + "\\" + nameFile + ".docx";
-
             try
             {
                 wordDocument = wordApplication.Documents.Add(templatePathObj);

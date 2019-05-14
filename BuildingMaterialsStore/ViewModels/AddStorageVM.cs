@@ -167,6 +167,7 @@ namespace BuildingMaterialsStore.ViewModels
         {
             try
             {
+                if (Price<=0) { MessageBox.Show("Нельзя поставить такую цену");return; }
                 AddInDB();
                 CloseExcute(new object());
             }

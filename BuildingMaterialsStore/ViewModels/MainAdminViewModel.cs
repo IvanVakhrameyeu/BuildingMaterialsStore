@@ -13,6 +13,18 @@ namespace BuildingMaterialsStore.ViewModels
         private WindowState _currentSate;
         public ICommand HelpAplicationCommand{get;}
 
+        private bool _isChangedGoods;
+        public bool isChangedGoods { get { return _isChangedGoods; } set { _isChangedGoods = value; if (_isChangedGoods) { update();  } } }
+
+        private void update()
+        {
+            EmployeePage = new MainAdminPage();
+            CustomersPage = new CustomerPage();
+            StoragePage = new StoragePage();
+            RepPage = new ReportsPage();
+            StorageGoodsPage = new Goods();
+            
+        }
         public ICommand WindowStateCommand { get; }
         private Page _currentPage;
         public Page CurrentPage
@@ -49,12 +61,14 @@ namespace BuildingMaterialsStore.ViewModels
             EmployeePage = new MainAdminPage();
             CustomersPage = new CustomerPage ();
             StoragePage = new StoragePage();
-            RepPage = new ReportsPage ();
+            RepPage = new ReportsPage();
             StorageGoodsPage = new Goods ();
 
             CurrentPage = EmployeePage;
             WindowStateCommand = new DelegateCommand(OnCurrentWindowState);
         }
+
+
         private void OnHelpCommandExecuted(object o)
         {
             try
@@ -79,12 +93,12 @@ namespace BuildingMaterialsStore.ViewModels
         }
         private void LoadedPage(int i)
         {
-            if (AddStorageVM.isChange) { StoragePage = new StoragePage(); AddStorageVM.isChange = false; }
+            if (AddStorageVM.isChange) { StorageGoodsPage = new Goods(); CurrentPage = StorageGoodsPage; AddStorageVM.isChange = false; }
             switch (i)
             {
                 case 0: { CurrentPage = EmployeePage; break; }
                 case 1: { CurrentPage = CustomersPage; break; }
-                case 2: { CurrentPage = StoragePage; break; }
+               // case 2: { CurrentPage = StoragePage; break; }
                 case 3: { CurrentPage = StorageGoodsPage; break; }
                 case 4: { CurrentPage = RepPage; break; }
                 default: { CurrentPage = null; break; }

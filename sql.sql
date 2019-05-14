@@ -430,10 +430,12 @@ select EmpFirstName, EmpLastName--, sum(Store.TotalPrice)
               --join Storage on(Store.StorageID= Storage.StorageID) 
 				group by EmpFirstName, 2
 
-select Store.EmployeeID, Employee.EmpFirstName, Employee.EmpLastName, sum(TotalPrice) as "Продано на сумму"
+select sum(TotalPrice) from Store where EmployeeID = (select EmployeeID from Employee where EmpFirstName like '%4')
+
+select Employee.EmpFirstName, Employee.EmpLastName, sum(TotalPrice) as "Продано на сумму"
 from Store 
 join Employee on (Store.EmployeeID=Employee.EmployeeID)
-group by Store.EmployeeID, Employee.EmpFirstName, Employee.EmpLastName
+group by Employee.EmpFirstName, Employee.EmpLastName
 
 		
 		

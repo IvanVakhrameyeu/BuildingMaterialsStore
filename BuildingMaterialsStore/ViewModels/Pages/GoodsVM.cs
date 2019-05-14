@@ -1,4 +1,5 @@
 ﻿using BuildingMaterialsStore.Models;
+using BuildingMaterialsStore.Views;
 using BuildingMaterialsStore.Views.AddWindow;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,7 @@ namespace BuildingMaterialsStore.ViewModels.Pages
         //private string _section;
         //private string _selectGoods = null;
         public ICollectionView view { get; set; }
+        public ICommand AddNewGoodsCommand { get; }
         public ICommand AddCommand { get; }
         public ObservableCollection<Storage> storages { get; set; }
 
@@ -41,8 +43,13 @@ namespace BuildingMaterialsStore.ViewModels.Pages
         }
         public GoodsVM()
         {
+            AddNewGoodsCommand = new DelegateCommand(OnAddNewGoodsCommandExecuted);
             AddCommand = new DelegateCommand(OnAddCommandExecuted);
             FillList();
+        }
+        private void OnAddNewGoodsCommandExecuted(object o)
+        {
+            new WindowAddStorage().ShowDialog();
         }
         private void OnAddCommandExecuted(object o)
         {

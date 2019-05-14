@@ -9,8 +9,16 @@
       d:DesignHeight="450" d:DesignWidth="380"
       Title="Goods">
 
-    <DockPanel>     
-        <DataGrid   DockPanel.Dock="Top" 
+    <DockPanel>
+        <DockPanel DockPanel.Dock="Top">
+            <Button Width="600"
+                    Height="30"
+                    HorizontalAlignment="Left"
+                    Content="Добавление"   
+                    Command="{Binding AddNewGoodsCommand}"
+                   />
+        </DockPanel>
+            <DataGrid   DockPanel.Dock="Top" 
                     Margin="0" 
                     VerticalAlignment="Top"
                       AutoGenerateColumns="False" 
