@@ -128,21 +128,6 @@
                                                              />
                             <TextBlock Foreground="White"
                                                Margin="0,0,0,0"
-                                               TextWrapping="Wrap">Товары</TextBlock>
-                        </DockPanel >
-                    </ListViewItem>
-                    <ListViewItem HorizontalContentAlignment="Left"
-                                          FontSize="20"
-                                          Width="230"
-                                          Margin="0">
-                        <DockPanel VerticalAlignment="Center">
-                            <materialDesign:PackIcon 
-                                                             Height="25"
-                                                             VerticalAlignment="Center"
-                                                             Width="25"
-                                                             />
-                            <TextBlock Foreground="White"
-                                               Margin="0,0,0,0"
                                                TextWrapping="Wrap">Склад</TextBlock>
                         </DockPanel >
                     </ListViewItem>

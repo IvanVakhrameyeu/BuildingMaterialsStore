@@ -13,18 +13,7 @@ namespace BuildingMaterialsStore.ViewModels
         private WindowState _currentSate;
         public ICommand HelpAplicationCommand{get;}
 
-        private bool _isChangedGoods;
-        public bool isChangedGoods { get { return _isChangedGoods; } set { _isChangedGoods = value; if (_isChangedGoods) { update();  } } }
-
-        private void update()
-        {
-            EmployeePage = new MainAdminPage();
-            CustomersPage = new CustomerPage();
-            StoragePage = new StoragePage();
-            RepPage = new ReportsPage();
-            StorageGoodsPage = new Goods();
-            
-        }
+        
         public ICommand WindowStateCommand { get; }
         private Page _currentPage;
         public Page CurrentPage
@@ -53,14 +42,12 @@ namespace BuildingMaterialsStore.ViewModels
         private Page EmployeePage;
         private Page RepPage;
         private Page StorageGoodsPage;
-        private Page StoragePage;
         public MainAdminViewModel()
         {
             HelpAplicationCommand = new DelegateCommand(OnHelpCommandExecuted);
 
             EmployeePage = new MainAdminPage();
             CustomersPage = new CustomerPage ();
-            StoragePage = new StoragePage();
             RepPage = new ReportsPage();
             StorageGoodsPage = new Goods ();
 
@@ -98,9 +85,8 @@ namespace BuildingMaterialsStore.ViewModels
             {
                 case 0: { CurrentPage = EmployeePage; break; }
                 case 1: { CurrentPage = CustomersPage; break; }
-               // case 2: { CurrentPage = StoragePage; break; }
-                case 3: { CurrentPage = StorageGoodsPage; break; }
-                case 4: { CurrentPage = RepPage; break; }
+                case 2: { CurrentPage = StorageGoodsPage; break; }
+                case 3: { CurrentPage = RepPage; break; }
                 default: { CurrentPage = null; break; }
             }
         }
