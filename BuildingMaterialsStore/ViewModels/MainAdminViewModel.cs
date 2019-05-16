@@ -80,7 +80,7 @@ namespace BuildingMaterialsStore.ViewModels
         }
         private void LoadedPage(int i)
         {
-            if (AddStorageVM.isChange) { StorageGoodsPage = new Goods(); CurrentPage = StorageGoodsPage; AddStorageVM.isChange = false; }
+            if (AddStorageVM.isChange) { RepPage = new ReportsPage(); AddStorageVM.isChange = false; }
             switch (i)
             {
                 case 0: { CurrentPage = EmployeePage; break; }

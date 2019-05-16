@@ -55,6 +55,16 @@ namespace BuildingMaterialsStore.ViewModels.Pages
 
             int id = SelectItemDataGrid.FirmID;
             DateTime date = SelectItemDataGrid.PurchaseDay;
+
+            string sql = "select Storage.[Description], UnitName, Store.[Count], Store.TotalPrice, Storage.Price, Store.CurrentDiscountAmount " +
+               "from Store " +
+               "join Storage on(Store.StorageID = Storage.StorageID) " +
+               "join Unit on(Storage.UnitID = Unit.UnitID) " +
+               "where Store.PurchaseDay = '" + date + "' and " +
+               "Store.FirmID = " + id + " and " +
+               "Paid = 0";
+            (new TTH()).writeClass("TTH", sql, id, date);
+
             try
             {                
                 SqlCommand com;
@@ -86,13 +96,7 @@ namespace BuildingMaterialsStore.ViewModels.Pages
                 con.Close();
                 con.Dispose();
             }
-            string sql = "select Storage.[Description], UnitName, Store.[Count], Store.TotalPrice, Storage.Price, Store.FirmID, Store.PurchaseDay " +
-                "from Store " +
-                "join Storage on(Store.StorageID = Storage.StorageID) " +
-                "join Unit on(Storage.UnitID = Unit.UnitID) " +
-                "where Store.PurchaseDay = '" + date + "' and " +
-                "Store.FirmID = " + id + "";
-            TTH.writeClass("TTH", sql);
+           
         }
         public void FillList()
         {

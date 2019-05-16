@@ -4,7 +4,7 @@ using Word = Microsoft.Office.Interop.Word;
 
 namespace BuildingMaterialsStore.ViewModels.WordReports
 {
-   public class EmplsRep:outputInWord
+    public class EmplsRep : outputInWord
     {
         /// <summary>
         /// замена слов в документе
@@ -53,7 +53,7 @@ namespace BuildingMaterialsStore.ViewModels.WordReports
             {
                 for (int j = 0; j < 3; j++)
                 {
-                        wordTable.Cell(i, j + 1).Range.Text = ds.Tables[0].Rows[i - 2][j].ToString();
+                    wordTable.Cell(i, j + 1).Range.Text = ds.Tables[0].Rows[i - 2][j].ToString();
                 }
             }
         }
@@ -88,11 +88,11 @@ namespace BuildingMaterialsStore.ViewModels.WordReports
             }
             wordApplication.Visible = false;
             string Total = "";
-          
-                DataSet ds0;
-                outPutDataSet(out ds0, "select sum(TotalPrice) from Store ");
 
-                Total = Math.Round(Convert.ToDouble(ds0.Tables[0].Rows[0][0]), 2).ToString();
+            DataSet ds0;
+            outPutDataSet(out ds0, "select sum(TotalPrice) from Store ");
+
+            Total = Math.Round(Convert.ToDouble(ds0.Tables[0].Rows[0][0]), 2).ToString();
             wordsWhoReplase(NameReport, Name, Total, wordDocument, dateFrom, dateTo, templatePathObj);
 
             DataSet ds;

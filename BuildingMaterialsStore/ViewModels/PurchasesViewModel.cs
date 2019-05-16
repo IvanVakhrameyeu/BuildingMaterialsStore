@@ -55,6 +55,10 @@ namespace BuildingMaterialsStore.ViewModels
             }
             catch (Exception ex) { MessageBox.Show(ex.Message); }
         }
+        /// <summary>
+        /// вывод из бд необходимых данных
+        /// </summary>
+        /// <param name="o"></param>
         private void AddInDB(object o)
         {
             try
@@ -88,7 +92,7 @@ namespace BuildingMaterialsStore.ViewModels
                     Add(Purchases.idEmployee, dr.idFirm, dr.idstorage, dr.Count);
                     
                 }
-                WorkWithWord.writeClass(delList, "Invoice");
+               (new WorkWithWord()).writeClass(delList, "Invoice");
                 InTotal = 0;                
                 MainViewModel.isChange = true;
                 End();

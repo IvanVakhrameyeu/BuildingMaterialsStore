@@ -6,7 +6,7 @@
         xmlns:vm="clr-namespace:BuildingMaterialsStore.ViewModels"    
         xmlns:local="clr-namespace:BuildingMaterialsStore.Views"
         mc:Ignorable="d"
-        Title="WindowAuthorization" 
+        Title="Вход" 
         Height="160" Width="410" 
         MinHeight="160" MinWidth="410"
         MaxHeight="160" MaxWidth="410">

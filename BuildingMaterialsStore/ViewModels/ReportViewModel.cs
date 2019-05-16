@@ -157,7 +157,7 @@ namespace BuildingMaterialsStore.ViewModels
                 "where Store.StorageID = " + SelectItemDataGrid.idStorage + " " +
                 "and PurchaseDay>= '" + DateFrom + "' and PurchaseDay<= '" + DateTo + "'";
 
-            PurchasesRep.writeClass(DateFrom, DateTo, "reportHistory", "товарам", SelectItemDataGrid.Name, SelectItemDataGrid.Price, SelectItemDataGrid.NameCategory, SelectItemDataGrid.Description, SelectItemDataGrid.Count, sql);
+            (new PurchasesRep()).writeClass(DateFrom, DateTo, "reportHistory", "товарам", SelectItemDataGrid.Name, SelectItemDataGrid.Price, SelectItemDataGrid.NameCategory, SelectItemDataGrid.Description, SelectItemDataGrid.Count, sql);
         }
         /// <summary>
         /// вывод отчета по работнику за данный период

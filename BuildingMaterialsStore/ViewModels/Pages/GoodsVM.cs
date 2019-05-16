@@ -50,12 +50,15 @@ namespace BuildingMaterialsStore.ViewModels.Pages
         private void OnAddNewGoodsCommandExecuted(object o)
         {
             new WindowAddStorage().ShowDialog();
+            storages.Clear();
+            FillList();
         }
         private void OnAddCommandExecuted(object o)
         {
             (new AddGoods(SelectItemDataGrid.idStorage)).ShowDialog();
             storages.Clear();
             FillList();
+            AddStorageVM.isChange = true;
         }
         public void FillList()
         {

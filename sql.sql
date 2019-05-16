@@ -390,19 +390,19 @@ fetch next from cursorStore into @TotalPrice
 end
 close cursorStore
 
-if (@TotalTotalPrice <1000) 
+if (@TotalTotalPrice <10000) 
 begin 
 update Firms
 set FirmDiscountAmount = 1
 where FirmID = @FirmID 
 end 
-if (@TotalTotalPrice <2000) 
+if (@TotalTotalPrice <50000) 
 begin 
 update Firms
 set FirmDiscountAmount = 2
 where FirmID = @FirmID 
 end 
-if (@TotalTotalPrice <3000) 
+if (@TotalTotalPrice <100000) 
 begin 
 update Firms
 set FirmDiscountAmount = 3
@@ -438,4 +438,11 @@ join Employee on (Store.EmployeeID=Employee.EmployeeID)
 group by Employee.EmpFirstName, Employee.EmpLastName
 
 		
-		
+		select Storage.[Description], UnitName, Store.[Count], Store.TotalPrice, Storage.Price, Store.FirmID, Store.PurchaseDay 
+                from Store 
+                join Storage on(Store.StorageID = Storage.StorageID) 
+                join Unit on(Storage.UnitID = Unit.UnitID) 
+				where Store.PurchaseDay = '2019-05-16' and 
+                Store.FirmID = 1 and
+                Paid = 0
+            

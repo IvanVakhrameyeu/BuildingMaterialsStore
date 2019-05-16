@@ -110,6 +110,7 @@ namespace BuildingMaterialsStore.ViewModels
             OvenMaterialsPage = new MainStorage("Печные материалы");
             GardenPage = new MainStorage("Сад и огород");
             GoodsIssuePage = new GoodsIssue();
+            CustomersPage = new CustomerPage();
         }
         /// <summary>
         /// асинхронный запуск заполнения названий фирм
@@ -117,6 +118,8 @@ namespace BuildingMaterialsStore.ViewModels
         private void awayMethods()
         {
             FillListFirms();
+            SelectFirm = firms[0];
+            OnPropertyChanged("SelectFirm");
         }
         /// <summary>
         /// добавление названия фирм в ComboBox

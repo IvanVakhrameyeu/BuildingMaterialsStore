@@ -1,20 +1,31 @@
-﻿using BuildingMaterialsStore.Models;
-using System;
+﻿using System;
 using System.Data;
-using System.Data.SqlClient;
-using System.Linq;
 using Word = Microsoft.Office.Interop.Word;
 namespace BuildingMaterialsStore.ViewModels.WordReports
 {
-    class PurchasesRep
+    class PurchasesRep : outputInWord
     {
-        private static void ReplaceWordStub(string stubToReplace, string text, Word._Document wordDocument)
+        private void wordsWhoReplase(string NameReport, string Name, Word._Document wordDocument, DateTime dateFrom, DateTime dateTo,
+            string templatePathObj, string NameCategory, double Price, double AmountStore, string Description)
         {
-            var range = wordDocument.Content;
-            range.Find.ClearFormatting();
-            range.Find.Execute(FindText: stubToReplace, ReplaceWith: text);
+            try
+            {
+                ReplaceWordStub("{Who}", NameReport, wordDocument);
+                ReplaceWordStub("{Date}", DateTime.Now.Date.ToString("d"), wordDocument);
+                ReplaceWordStub("{DateFrom}", dateFrom.Date.ToString("d"), wordDocument);
+                ReplaceWordStub("{DateTo}", dateTo.Date.ToString("d"), wordDocument);
+                ReplaceWordStub("{NameCategory}", NameCategory, wordDocument);
+                ReplaceWordStub("{Name}", Name, wordDocument);
+                ReplaceWordStub("{Price}", Price.ToString("0.00"), wordDocument);
+                ReplaceWordStub("{AmountStore}", AmountStore.ToString(), wordDocument);
+                ReplaceWordStub("{Description}", Description, wordDocument);
+                wordDocument.SaveAs("Buf" + templatePathObj);
+                wordApplication.Visible = true;
+            }
+            catch { }
         }
-        static public void writeClass(DateTime dateFrom, DateTime dateTo, string nameFile, string NameReport, 
+
+        public void writeClass(DateTime dateFrom, DateTime dateTo, string nameFile, string NameReport,
             string Name, double Price, string NameCategory, string Description, int AmountStore, string sql)
         {
             Word._Application wordApplication = new Word.Application();
@@ -38,49 +49,18 @@ namespace BuildingMaterialsStore.ViewModels.WordReports
                 throw;
             }
             wordApplication.Visible = false;
-            try
-            {
-                ReplaceWordStub("{Who}", NameReport, wordDocument);
-                ReplaceWordStub("{Date}", DateTime.Now.Date.ToString("d"), wordDocument);
-                ReplaceWordStub("{DateFrom}", dateFrom.Date.ToString("d"), wordDocument);
-                ReplaceWordStub("{DateTo}", dateTo.Date.ToString("d"), wordDocument);
-                ReplaceWordStub("{NameCategory}", NameCategory, wordDocument);
-                ReplaceWordStub("{Name}", Name, wordDocument);
-                ReplaceWordStub("{Price}", Price.ToString("0.00"), wordDocument);
-                ReplaceWordStub("{AmountStore}", AmountStore.ToString(), wordDocument);
-                ReplaceWordStub("{Description}", Description, wordDocument);
-                wordDocument.SaveAs("Buf" + templatePathObj);
-                wordApplication.Visible = true;
-            }
-            catch { }
+
+            wordsWhoReplase(NameReport, Name, wordDocument, dateFrom, dateTo,
+           templatePathObj, NameCategory, Price, AmountStore, Description);
+
+
 
             wordApplication.Selection.Find.Execute("{Table}");
             Word.Range wordRange = wordApplication.Selection.Range;
 
-            SqlConnection con;
-            SqlCommand cmd;
-            SqlDataAdapter adapter;
             DataSet ds;
-            //try
-            //{
-            con = new SqlConnection(AuthorizationSettings.connectionString);
-            con.Open();
-            cmd = new SqlCommand(sql, con);
-            adapter = new SqlDataAdapter(cmd);
-            ds = new DataSet();
-            adapter.Fill(ds, "Storedb");
+            outPutDataSet(out ds, sql);
 
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show(ex.Message);
-            //}
-            //finally
-            //{
-            adapter.Dispose();
-            con.Close();
-            con.Dispose();
-            //}
             var wordTable = wordDocument.Tables.Add(wordRange,
                 ds.Tables[0].Rows.Count + 1, 6);
 
@@ -99,14 +79,11 @@ namespace BuildingMaterialsStore.ViewModels.WordReports
             {
                 for (int j = 0; j < 6; j++)
                 {
-                    //if(j==4)
-                    //    wordTable.Cell(i, j + 1).Range.Text = ds.Tables[0].Rows[i - 2][j].ToString("0.00");
-                    //  else
-                     if (j == 5)
+                    if (j == 5)
                         wordTable.Cell(i, j + 1).Range.Text = Convert.ToDateTime(ds.Tables[0].Rows[i - 2][j]).Date.ToString("d");
                     else
-                        if(j==4) wordTable.Cell(i, j + 1).Range.Text = Math.Round(Convert.ToDouble(ds.Tables[0].Rows[i - 2][j])).ToString();
-                        else
+                       if (j == 4) wordTable.Cell(i, j + 1).Range.Text = Math.Round(Convert.ToDouble(ds.Tables[0].Rows[i - 2][j])).ToString();
+                    else
                         wordTable.Cell(i, j + 1).Range.Text = ds.Tables[0].Rows[i - 2][j].ToString();
                 }
             }

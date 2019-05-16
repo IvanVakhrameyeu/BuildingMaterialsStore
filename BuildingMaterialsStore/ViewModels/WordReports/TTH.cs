@@ -5,15 +5,9 @@ using System.Data.SqlClient;
 using Word = Microsoft.Office.Interop.Word;
 namespace BuildingMaterialsStore.ViewModels.WordReports
 {
-    class TTH
+    class TTH: outputInWord
     {
-        private static void ReplaceWordStub(string stubToReplace, string text, Word._Document wordDocument)
-        {
-            var range = wordDocument.Content;
-            range.Find.ClearFormatting();
-            range.Find.Execute(FindText: stubToReplace, ReplaceWith: text);
-        }
-        static public void writeClass(string nameFile, string sql)
+        public void writeClass(string nameFile, string sql,int id, DateTime day)
         {
             Word._Application wordApplication = new Word.Application();
             Word._Document wordDocument = null;
@@ -34,38 +28,13 @@ namespace BuildingMaterialsStore.ViewModels.WordReports
                 throw;
             }
             wordApplication.Visible = false;
-            //try
-            //{
-            //    ReplaceWordStub("{YNH}", "d", wordDocument);
-            //    wordDocument.SaveAs("Buf" + templatePathObj);
-            //    wordApplication.Visible = true;
-            //}
-            //catch { }
 
             wordApplication.Selection.Find.Execute("{Table}");
             Word.Range wordRange = wordApplication.Selection.Range;
-
-            SqlConnection con;
-            SqlCommand cmd;
-            SqlDataAdapter adapter;
+            
             DataSet ds;
-            //try
-            //{
-            con = new SqlConnection(AuthorizationSettings.connectionString);
-            con.Open();
-            cmd = new SqlCommand(sql, con);
-            adapter = new SqlDataAdapter(cmd);
-            ds = new DataSet();
-            adapter.Fill(ds, "Storedb");
-
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show(ex.Message);
-            //}
-            //finally
-            //{
-            //}
+            outPutDataSet(out ds, sql);
+            
             int rows = ds.Tables[0].Rows.Count + 2 + 1;
             int columns = 9;
             var wordTable = wordDocument.Tables.Add(wordRange,
@@ -95,42 +64,37 @@ namespace BuildingMaterialsStore.ViewModels.WordReports
             wordTable.Cell(2, 8).Range.Text = "8";
             wordTable.Cell(2, 9).Range.Text = "9";
 
+            int Count = 0;
             double Price = 0;
+            double SumPrice = 0;
+            double SumHDSPrice = 0;
 
             for (int i = 3; i < rows; i++)
             {
+                double Discount = Convert.ToDouble(ds.Tables[0].Rows[i - 3][5])/100;
+                double CurrentPrice = Convert.ToDouble(ds.Tables[0].Rows[i - 3][4])-(Convert.ToDouble(ds.Tables[0].Rows[i - 3][4])* Discount);
                 wordTable.Cell(i, 1).Range.Text = ds.Tables[0].Rows[i - 3][0].ToString();
                 wordTable.Cell(i, 2).Range.Text = ds.Tables[0].Rows[i - 3][1].ToString();
                 wordTable.Cell(i, 3).Range.Text = ds.Tables[0].Rows[i - 3][2].ToString();
-                wordTable.Cell(i, 4).Range.Text = (Math.Round(Convert.ToDouble(ds.Tables[0].Rows[i - 3][3])- (Convert.ToDouble(ds.Tables[0].Rows[i - 3][3]) * 20 / 100),2)).ToString();
-                wordTable.Cell(i, 5).Range.Text = Math.Round(Convert.ToDouble(ds.Tables[0].Rows[i - 3][4]),2).ToString();
+                wordTable.Cell(i, 4).Range.Text = (Math.Round(CurrentPrice - (CurrentPrice * 20 / 100),2)).ToString();
+                wordTable.Cell(i, 5).Range.Text = ((Math.Round(CurrentPrice - (CurrentPrice * 20 / 100), 2))*Convert.ToInt32(ds.Tables[0].Rows[i - 3][2])).ToString();
                 wordTable.Cell(i, 6).Range.Text = "20%";
-                wordTable.Cell(i, 7).Range.Text = (Math.Round((Convert.ToDouble(ds.Tables[0].Rows[i - 3][3]) * 20 / 100),2)).ToString();
-                wordTable.Cell(i, 8).Range.Text = Math.Round(Convert.ToDouble(ds.Tables[0].Rows[i - 3][3]),2).ToString();
+                wordTable.Cell(i, 7).Range.Text = (Math.Round((CurrentPrice * 20 / 100),2)*Convert.ToInt32(ds.Tables[0].Rows[i - 3][2])).ToString();
+                wordTable.Cell(i, 8).Range.Text = Math.Round(CurrentPrice * Convert.ToInt32(ds.Tables[0].Rows[i - 3][2]), 2).ToString();
 
-                Price += Convert.ToDouble(ds.Tables[0].Rows[i - 3][3]);
-                
+                Count += Convert.ToInt32(ds.Tables[0].Rows[i - 3][2]);
+                Price += ((Math.Round(CurrentPrice - (CurrentPrice * 20 / 100), 2)) * Convert.ToInt32(ds.Tables[0].Rows[i - 3][2]));
+                SumPrice += (Math.Round((CurrentPrice * 20 / 100), 2) * Convert.ToInt32(ds.Tables[0].Rows[i - 3][2]));
+                SumHDSPrice += Math.Round(CurrentPrice * Convert.ToInt32(ds.Tables[0].Rows[i - 3][2]), 2);                
             }
             wordTable.Cell(rows, 1).Range.Text = "ИТОГО";
-            wordTable.Cell(rows, 2).Range.Text = "шт";
-            wordTable.Cell(rows, 4).Range.Text = Price.ToString();
-            wordTable.Cell(rows, 6).Range.Text = "20%";
-
-
-            int id = Convert.ToInt32(ds.Tables[0].Rows[0][5]);
-            DateTime day = Convert.ToDateTime(ds.Tables[0].Rows[0][6]);
-            adapter.Dispose();
-            con.Close();
-            con.Dispose();
+            wordTable.Cell(rows, 3).Range.Text = Count.ToString();
+            wordTable.Cell(rows, 5).Range.Text = Price.ToString();
+            wordTable.Cell(rows, 7).Range.Text = SumPrice.ToString();
+            wordTable.Cell(rows, 8).Range.Text = SumHDSPrice.ToString();
 
             sql = "select FirmName, UNP, FirmLegalAddress, FirmAccountNumber,FirmBankDetails, FirmPhoneNumber from Firms where FirmID="+id.ToString();
-            con = new SqlConnection(AuthorizationSettings.connectionString);
-            con.Open();
-            cmd = new SqlCommand(sql, con);
-            adapter = new SqlDataAdapter(cmd);
-            ds = new DataSet();
-            adapter.Fill(ds, "Storedb");
-
+            outPutDataSet(out ds, sql);
 
             try
             {
@@ -141,18 +105,14 @@ namespace BuildingMaterialsStore.ViewModels.WordReports
                 ReplaceWordStub("{MM}", day.ToString("d").Split('.')[1], wordDocument);
                 ReplaceWordStub("{YY}", day.ToString("d").Split('.')[2], wordDocument);
                 ReplaceWordStub("{adress}", ds.Tables[0].Rows[0][0].ToString()+ ds.Tables[0].Rows[0][2].ToString(), wordDocument);
-                ReplaceWordStub("{SumHdsP}", СуммаПрописью.Валюта.Рубли.Пропись((Price * 20 / 100)), wordDocument);
+                ReplaceWordStub("{SumHdsP}", СуммаПрописью.Валюта.Рубли.Пропись(SumPrice), wordDocument);
              //  ReplaceWordStub("{SumHdsC}", СуммаПрописью.Валюта.Рубли.Пропись(Price * 20 / 100).Split(' ')[1], wordDocument);
-                ReplaceWordStub("{TotalSumP}", СуммаПрописью.Валюта.Рубли.Пропись(Price), wordDocument);
+                ReplaceWordStub("{TotalSumP}", СуммаПрописью.Валюта.Рубли.Пропись(SumHDSPrice), wordDocument);
               //  ReplaceWordStub("{TotalSumC}", СуммаПрописью.Валюта.Рубли.Пропись(Price), wordDocument);
             }
             catch { }
 
             wordApplication.Visible = true;
-
-
-
         }
-
     }
 }
