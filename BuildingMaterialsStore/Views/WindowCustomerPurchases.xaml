@@ -30,7 +30,7 @@
             <DataGrid Margin="0" 
                       AutoGenerateColumns="False" 
                       CanUserAddRows="False"
-                      ItemsSource="{Binding view}"
+                      ItemsSource="{Binding purchases}"
                       FrozenColumnCount="2"
                       Background="White"
                       ColumnHeaderHeight="30" 
@@ -70,10 +70,11 @@
             </DataGrid>
         </DockPanel>
         <DockPanel DockPanel.Dock="Top">
-            <TextBlock>
-                <Run Text="Итого"></Run>
-                <Run Text="{Binding InTotal,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ></Run>
-            </TextBlock>
+            <TextBlock Text="Итого "/>
+
+            <TextBlock Text="{Binding InTotal,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+
         </DockPanel>
         <DockPanel DockPanel.Dock="Top">
             <Button HorizontalAlignment="Left"

@@ -41,6 +41,7 @@ namespace BuildingMaterialsStore.ViewModels.WordReports
                 ds = new DataSet();
                 adapter.Fill(ds, "Storedb");
             }
+            catch { ds = null; }
             finally
             {
                 adapter.Dispose();

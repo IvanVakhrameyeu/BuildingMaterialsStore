@@ -17,7 +17,7 @@ namespace BuildingMaterialsStore.ViewModels
     {
         SqlConnection con;
         private SqlCommand com;
-        public ObservableCollection<Purchases> purchases;
+        public ObservableCollection<Purchases> purchases { get; set; }
         public ICollectionView view { get; set; }
         private Purchases _selectItemDataGrid = null;
         public Purchases SelectItemDataGrid
@@ -34,23 +34,23 @@ namespace BuildingMaterialsStore.ViewModels
         public ICommand QuitAplicationCommand { get; }
         public ICommand FinishCommand { get; }
         public ICommand DeleteCommand { get; }
-        private static double _inTotal = 0;
+        private double _inTotal = 0;
         private List<Purchases> delList;
-        public static double InTotal
+        public double InTotal
         {
             get { return _inTotal; }
             set { _inTotal = value; }
         }
-        public PurchasesViewModel(List<Purchases> InputPurchases)
+        public PurchasesViewModel()
         {
             DeleteCommand = new DelegateCommand(OnDeleteCommandExecuted);
             QuitAplicationCommand = new DelegateCommand(CloseExcute);
             FinishCommand = new DelegateCommand(AddInDB);
             try
             {
-                if (InputPurchases.Count <= 0) return;
-                FillListPurchases(InputPurchases);
-                delList = InputPurchases;
+                if (StorageViewModel.purchases.Count <= 0) return;
+                FillListPurchases();
+                delList = StorageViewModel.purchases;
                 Total();
             }
             catch (Exception ex) { MessageBox.Show(ex.Message); }
@@ -153,8 +153,19 @@ namespace BuildingMaterialsStore.ViewModels
         }
         private void OnDeleteCommandExecuted(object o)
         {
+            if (SelectItemDataGrid == null)
+            {
+                MessageBox.Show("null");
+            }
+            StorageViewModel.purchases.Remove(SelectItemDataGrid);
+
+            for(int i=0;i< StorageViewModel.purchases.Count; i++)
+            {
+                if (StorageViewModel.purchases[i].idstorage == SelectItemDataGrid.idstorage) StorageViewModel.purchases.Remove(StorageViewModel.purchases[i]);
+            }
             delList.Remove(SelectItemDataGrid);
             purchases.Remove(SelectItemDataGrid);
+            
             Total();
         }
         private void Total()
@@ -166,14 +177,12 @@ namespace BuildingMaterialsStore.ViewModels
             }
             OnPropertyChanged("InTotal");
         }
-        private void FillListPurchases(List<Purchases> InputPurchases)
+        private void FillListPurchases()
         {
             try
             {
-                if (purchases == null)
                     purchases = new ObservableCollection<Purchases>();
-
-                foreach (Purchases dr in InputPurchases)
+                foreach (Purchases dr in StorageViewModel.purchases)
                 {
                     purchases.Add(new Purchases
                     {
@@ -185,7 +194,7 @@ namespace BuildingMaterialsStore.ViewModels
 
                     });
                     InTotal += dr.Total;
-                }
+                }                
                 view = CollectionViewSource.GetDefaultView(purchases);
             }
             catch (Exception ex)

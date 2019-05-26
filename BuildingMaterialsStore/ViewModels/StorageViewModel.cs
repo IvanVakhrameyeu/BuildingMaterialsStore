@@ -20,7 +20,7 @@ namespace BuildingMaterialsStore.ViewModels
         SqlCommand cmd;
         SqlDataAdapter adapter;
         DataSet ds;
-        public static List<Purchases> purchases { get; set; } = null;
+        public static List<Purchases> purchases= null;
         private string _section;
         private string _selectItem = null;
         private string _text = null;
@@ -222,7 +222,7 @@ namespace BuildingMaterialsStore.ViewModels
                         Price = Convert.ToDouble(dr[6].ToString())
                     });
                 }
-                view = CollectionViewSource.GetDefaultView(storages);
+                view = CollectionViewSource.GetDefaultView(storages); 
             }
             catch (Exception ex)
             {

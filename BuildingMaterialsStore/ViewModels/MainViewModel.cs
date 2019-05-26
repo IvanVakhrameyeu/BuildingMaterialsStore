@@ -62,7 +62,7 @@ namespace BuildingMaterialsStore.ViewModels
                 if (_selectFirm == value) return;
                 _selectFirm = value;
                 StorageViewModel.purchases = new List<Purchases>();
-                PurchasesViewModel.InTotal = 0;
+                //PurchasesViewModel.InTotal = 0;
             }
         }
         private void OnCurrentWindowState(object p)
@@ -153,7 +153,7 @@ namespace BuildingMaterialsStore.ViewModels
         /// <param name="o"></param>
         private void OnAddPurchaseCommandExecuted(object o)
         {
-            new WindowCustomerPurchases(StorageViewModel.purchases).ShowDialog();
+            new WindowCustomerPurchases().ShowDialog();
             if (isChange) { changePages(); isChange = false; CurrentPage = MainStoragePage; }
         }
         /// <summary>

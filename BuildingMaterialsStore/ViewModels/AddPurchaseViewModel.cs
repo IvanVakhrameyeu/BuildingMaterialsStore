@@ -70,7 +70,7 @@ namespace BuildingMaterialsStore.ViewModels
         public AddPurchaseViewModel(Purchases purchases, int AmountGoods)
         {
             this.CurrentSection = purchases.storage.NameCategory;
-            this.Name = purchases.storage.Name;
+            this.Name = purchases.storage.Name; 
             this.Description = purchases.storage.Description;
             this.Price = purchases.storage.Price;
             this.AmountGoods = AmountGoods;

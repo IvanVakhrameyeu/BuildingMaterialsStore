@@ -46,8 +46,8 @@ namespace BuildingMaterialsStore.ViewModels.WordReports
                ds.Tables[0].Rows.Count + 1, 3);
             wordTable.Borders.InsideLineStyle = Microsoft.Office.Interop.Word.WdLineStyle.wdLineStyleSingle;
             wordTable.Borders.OutsideLineStyle = Microsoft.Office.Interop.Word.WdLineStyle.wdLineStyleDouble;
-            wordTable.Cell(1, 1).Range.Text = Column1;
-            wordTable.Cell(1, 2).Range.Text = Column2;
+            wordTable.Cell(1, 1).Range.Text = Column2;
+            wordTable.Cell(1, 2).Range.Text = Column1;
             wordTable.Cell(1, 3).Range.Text = "Сумма продажи";
             for (int i = 2; i < ds.Tables[0].Rows.Count + 2; i++)
             {

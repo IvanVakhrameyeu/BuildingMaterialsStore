@@ -55,7 +55,7 @@
 
             <Label
                 DockPanel.Dock="Top"
-                Content="УПН"/>
+                Content="У.Н.П."/>
             <TextBox DockPanel.Dock="Top"
                      Width="200" 
                      Height="30"
