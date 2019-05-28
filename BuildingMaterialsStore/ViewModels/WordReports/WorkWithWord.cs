@@ -44,7 +44,7 @@ namespace Wpf_журнал_учащихся_школы
         /// <param name="ds">лист товаров</param>
         /// <param name="TotalSum">сумма без ндс</param>
         /// <param name="TotalSumHDS">сумма с ндс</param>
-        private void createTable(Word._Application wordApplication, Word._Document wordDocument, List<Purchases> ds, out double TotalSum, out double TotalSumHDS)
+        private void createTable(Word._Application wordApplication, Word._Document wordDocument, List<Purchases> ds, out double TotalSumHDS, out double HDS)
         {
             wordApplication.Selection.Find.Execute("{Table}");
             Word.Range wordRange = wordApplication.Selection.Range;
@@ -59,33 +59,35 @@ namespace Wpf_журнал_учащихся_школы
             wordTable.Cell(1, 3).Range.Text = "Стоимость услуг Без НДС, руб.коп.";
             wordTable.Cell(1, 4).Range.Text = "Ставка НДС, %";
             wordTable.Cell(1, 5).Range.Text = "Сумма НДС, руб.коп.";
-            wordTable.Cell(1, 6).Range.Text = "Стоимость работ с НДС, руб.коп.";
+            wordTable.Cell(1, 6).Range.Text = "Стоимость услуг с НДС, руб.коп.";
             wordTable.Cell(2, 1).Range.Text = "1";
             wordTable.Cell(2, 2).Range.Text = "2";
             wordTable.Cell(2, 3).Range.Text = "3";
             wordTable.Cell(2, 4).Range.Text = "4";
             wordTable.Cell(2, 5).Range.Text = "5";
             wordTable.Cell(2, 6).Range.Text = "6";
-            TotalSum = 0;
+            double TotalSum = 0;
             TotalSumHDS = 0;
+            HDS = 0;
             int Count = 0;
             for (int i = 3; i < ds.Count + 3; i++)
             {
                 wordTable.Cell(i, 1).Range.Text = ds[i - 3].storage.Name;
                 wordTable.Cell(i, 2).Range.Text = ds[i - 3].Count.ToString();
-                wordTable.Cell(i, 3).Range.Text = Math.Round(((ds[i - 3].Total) - (ds[i - 3].Total * 20 / 100)), 2).ToString("0.00");
+                wordTable.Cell(i, 3).Range.Text = Math.Round((ds[i - 3].Total/1.2), 2).ToString("0.00");
                 wordTable.Cell(i, 4).Range.Text = "20%";
-                wordTable.Cell(i, 5).Range.Text = Math.Round((ds[i - 3].Total * 20 / 100), 2).ToString("0.00");
+                wordTable.Cell(i, 5).Range.Text = Math.Round((ds[i - 3].Total/1.2 * 20 / 100), 2).ToString("0.00");
                 wordTable.Cell(i, 6).Range.Text = Math.Round(ds[i - 3].Total, 2).ToString("0.00");
-                TotalSum += ((ds[i - 3].Total) - (ds[i - 3].Total * 20 / 100));
+                TotalSum += Math.Round((ds[i - 3].Total/1.2),2);
+                HDS += Math.Round((ds[i - 3].Total/1.2*0.2),2);
                 TotalSumHDS += ds[i - 3].Total;
                 Count += ds[i - 3].Count;
             }
             wordTable.Cell(rows, 1).Range.Text = "Всего";
             wordTable.Cell(rows, 2).Range.Text = Count.ToString();
             wordTable.Cell(rows, 3).Range.Text = TotalSum.ToString("0.00");
-            wordTable.Cell(rows, 5).Range.Text = Math.Round((TotalSumHDS * 20 / 100), 2).ToString();
-            wordTable.Cell(rows, 6).Range.Text = Math.Round(TotalSumHDS, 2).ToString();
+            wordTable.Cell(rows, 5).Range.Text = Math.Round((TotalSum * 0.2), 2).ToString("0.00");
+            wordTable.Cell(rows, 6).Range.Text = Math.Round(TotalSumHDS, 2).ToString("0.00");
         }
 
         public void writeClass(List<Purchases> ds, string nameFile)
@@ -115,11 +117,12 @@ namespace Wpf_журнал_учащихся_школы
             wordsWhoReplase(ds, wordDocument, templatePathObj);
 
             double TotalSum = 0;
+            double HDS = 0;
             double TotalSumHDS = 0;
-            createTable(wordApplication, wordDocument, ds, out TotalSum, out TotalSumHDS);
+            createTable(wordApplication, wordDocument, ds, out TotalSumHDS, out HDS);
 
-            ReplaceWordStub("{P}", СуммаПрописью.Валюта.Рубли.Пропись(Math.Round(Convert.ToDecimal(TotalSum), 2)), wordDocument);
-            ReplaceWordStub("{HP}", СуммаПрописью.Валюта.Рубли.Пропись(Math.Round(Convert.ToDecimal(TotalSumHDS), 2)), wordDocument);
+            ReplaceWordStub("{P}", СуммаПрописью.Валюта.Рубли.Пропись(Math.Round(Convert.ToDecimal(TotalSumHDS), 2)), wordDocument);
+            ReplaceWordStub("{HP}", СуммаПрописью.Валюта.Рубли.Пропись(Math.Round(Convert.ToDecimal(HDS), 2)), wordDocument);
 
             wordApplication.Visible = true;
 

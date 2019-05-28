@@ -60,7 +60,7 @@ namespace BuildingMaterialsStore.ViewModels.Pages
                "from Store " +
                "join Storage on(Store.StorageID = Storage.StorageID) " +
                "join Unit on(Storage.UnitID = Unit.UnitID) " +
-               "where Store.PurchaseDay = '" + date + "' and " +
+               "where Store.PurchaseDay = '" + date.Date.ToString("d") + "' and " +
                "Store.FirmID = " + id + " and " +
                "Paid = 0";
             (new TTH()).writeClass("TTH", sql, id, date);

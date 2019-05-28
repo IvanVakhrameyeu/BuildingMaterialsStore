@@ -590,3 +590,10 @@ group by Employee.EmpFirstName, Employee.EmpLastName
                 Store.FirmID = 1 and
                 Paid = 0
             
+			select Storage.[Description], UnitName, Store.[Count], Store.TotalPrice, Storage.Price, Store.CurrentDiscountAmount 
+			from Store join Storage on(Store.StorageID = Storage.StorageID) join Unit on(Storage.UnitID = Unit.UnitID) 
+			where /*Store.PurchaseDay = '28.05.2019' and */Store.FirmID = 3 and Paid = 0
+
+			select Storage.[Description], UnitName, Store.[Count], Store.TotalPrice, Storage.Price, Store.CurrentDiscountAmount 
+			from Store join Storage on(Store.StorageID = Storage.StorageID) join Unit on(Storage.UnitID = Unit.UnitID) 
+			where Store.PurchaseDay = '26.05.2019 0:00:00' and Store.FirmID = 3 and Paid = 0
