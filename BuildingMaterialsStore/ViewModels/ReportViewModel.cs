@@ -23,7 +23,18 @@ namespace BuildingMaterialsStore.ViewModels
 
         public ObservableCollection<Storage> storages { get; set; }
         public List<string> employees { get; set; }
-        public List<string> firms { get; set; }
+        static private ObservableCollection<string> _firms;
+        static public ObservableCollection<string> firms
+        {
+            get
+            {
+                return _firms;
+            }
+            set
+            {
+                _firms = value;
+            }
+        }
         private ObservableCollection<string> _namesCategory;
         private ObservableCollection<string> _names;
 
@@ -414,7 +425,8 @@ namespace BuildingMaterialsStore.ViewModels
                 }
                 con.Close();
             }
-            firms = new List<string>();
+        
+            firms = new ObservableCollection<string>();
             foreach (DataRow dr in dt.Rows)
             {
                 firms.Add(dr[0].ToString());

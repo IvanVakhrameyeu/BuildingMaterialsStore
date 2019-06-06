@@ -117,7 +117,12 @@ namespace BuildingMaterialsStore.ViewModels
                         com.ExecuteNonQuery();
                     }
                     con.Close();
-                    MainViewModel.firms.Add(FirmName); // ДОБАВЛЕНИЕ ФИРМЫ В КОМБОБОКС                    
+                    
+                    if(AuthorizationSettings.Access=="Middle")
+                    MainViewModel.firms.Add(FirmName); // ДОБАВЛЕНИЕ ФИРМЫ В КОМБОБОКС         
+
+                  
+                   else ReportViewModel.firms.Add(FirmName);
                 }
             }
             catch (Exception ex)

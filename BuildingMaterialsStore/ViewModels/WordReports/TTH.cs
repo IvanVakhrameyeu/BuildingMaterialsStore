@@ -105,7 +105,7 @@ namespace BuildingMaterialsStore.ViewModels.WordReports
 
                     Count += Convert.ToInt32(ds.Tables[0].Rows[i - 3][2]);
                     Price += Math.Round(((Math.Round(CurrentPrice/1.2, 2)) * Convert.ToInt32(ds.Tables[0].Rows[i - 3][2])),2);
-                    SumPrice += (Math.Round((CurrentPrice/1.2* 0.2), 2) * Convert.ToInt32(ds.Tables[0].Rows[i - 3][2]));
+                    SumPrice += Math.Round((Math.Round((CurrentPrice/1.2* 0.2), 2) * Convert.ToInt32(ds.Tables[0].Rows[i - 3][2])),2);
                     SumHDSPrice += Math.Round(CurrentPrice * Convert.ToInt32(ds.Tables[0].Rows[i - 3][2]), 2);
                 }
                 wordTable.Cell(rows, 1).Range.Text = "ИТОГО";
@@ -127,9 +127,7 @@ namespace BuildingMaterialsStore.ViewModels.WordReports
                     ReplaceWordStub("{YY}", day.ToString("d").Split('.')[2], wordDocument);
                     ReplaceWordStub("{adress}", ds.Tables[0].Rows[0][0].ToString() + ds.Tables[0].Rows[0][2].ToString(), wordDocument);
                     ReplaceWordStub("{SumHdsP}", СуммаПрописью.Валюта.Рубли.Пропись(SumPrice), wordDocument);
-                    //  ReplaceWordStub("{SumHdsC}", СуммаПрописью.Валюта.Рубли.Пропись(Price * 20 / 100).Split(' ')[1], wordDocument);
                     ReplaceWordStub("{TotalSumP}", СуммаПрописью.Валюта.Рубли.Пропись(SumHDSPrice), wordDocument);
-                    //  ReplaceWordStub("{TotalSumC}", СуммаПрописью.Валюта.Рубли.Пропись(Price), wordDocument);
                 }
                 catch { }
             }

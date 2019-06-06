@@ -40,22 +40,26 @@ namespace BuildingMaterialsStore.ViewModels.WordReports
         /// <param name="Column2"></param>
         private void createTable(Word._Application wordApplication, Word._Document wordDocument, DataSet ds, string Column1, string Column2)
         {
-            wordApplication.Selection.Find.Execute("{Table}");
-            Word.Range wordRange = wordApplication.Selection.Range;
-            var wordTable = wordDocument.Tables.Add(wordRange,
-               ds.Tables[0].Rows.Count + 1, 3);
-            wordTable.Borders.InsideLineStyle = Microsoft.Office.Interop.Word.WdLineStyle.wdLineStyleSingle;
-            wordTable.Borders.OutsideLineStyle = Microsoft.Office.Interop.Word.WdLineStyle.wdLineStyleDouble;
-            wordTable.Cell(1, 1).Range.Text = Column2;
-            wordTable.Cell(1, 2).Range.Text = Column1;
-            wordTable.Cell(1, 3).Range.Text = "Сумма продажи";
-            for (int i = 2; i < ds.Tables[0].Rows.Count + 2; i++)
+            try
             {
-                for (int j = 0; j < 3; j++)
+                wordApplication.Selection.Find.Execute("{Table}");
+                Word.Range wordRange = wordApplication.Selection.Range;
+                var wordTable = wordDocument.Tables.Add(wordRange,
+                   ds.Tables[0].Rows.Count + 1, 3);
+                wordTable.Borders.InsideLineStyle = Microsoft.Office.Interop.Word.WdLineStyle.wdLineStyleSingle;
+                wordTable.Borders.OutsideLineStyle = Microsoft.Office.Interop.Word.WdLineStyle.wdLineStyleDouble;
+                wordTable.Cell(1, 1).Range.Text = Column2;
+                wordTable.Cell(1, 2).Range.Text = Column1;
+                wordTable.Cell(1, 3).Range.Text = "Сумма продажи";
+                for (int i = 2; i < ds.Tables[0].Rows.Count + 2; i++)
                 {
-                    wordTable.Cell(i, j + 1).Range.Text = ds.Tables[0].Rows[i - 2][j].ToString();
+                    for (int j = 0; j < 3; j++)
+                    {
+                        wordTable.Cell(i, j + 1).Range.Text = ds.Tables[0].Rows[i - 2][j].ToString();
+                    }
                 }
             }
+            catch { }
         }
         /// <summary>
         /// старт класса
@@ -88,18 +92,24 @@ namespace BuildingMaterialsStore.ViewModels.WordReports
             }
             wordApplication.Visible = false;
             string Total = "";
+            try
+            {
+                DataSet ds0;
+                outPutDataSet(out ds0, "select sum(TotalPrice) from Store ");
 
-            DataSet ds0;
-            outPutDataSet(out ds0, "select sum(TotalPrice) from Store ");
+                Total = Math.Round(Convert.ToDouble(ds0.Tables[0].Rows[0][0]), 2).ToString();
+                wordsWhoReplase(NameReport, Name, Total, wordDocument, dateFrom, dateTo, templatePathObj);
 
-            Total = Math.Round(Convert.ToDouble(ds0.Tables[0].Rows[0][0]), 2).ToString();
-            wordsWhoReplase(NameReport, Name, Total, wordDocument, dateFrom, dateTo, templatePathObj);
+                DataSet ds;
+                outPutDataSet(out ds, sql);
+                createTable(wordApplication, wordDocument, ds, Column1, Column2);
 
-            DataSet ds;
-            outPutDataSet(out ds, sql);
-            createTable(wordApplication, wordDocument, ds, Column1, Column2);
-
-            wordApplication.Visible = true;
+            }
+            catch { }
+            finally
+            {
+                wordApplication.Visible = true;
+            }
         }
     }
 }
